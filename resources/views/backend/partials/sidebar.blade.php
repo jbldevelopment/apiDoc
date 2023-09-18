@@ -255,7 +255,7 @@
                                 <span>{{ __('Counterup') }}</span></a>
                         </li>
                     @endif
-                    <li class="main_dropdown @if (request()->is([
+                    <li class="d-none main_dropdown @if (request()->is([
                             'admin-home/quote-manage/*',
                             'admin-home/package/*',
                             'admin-home/payment-logs',

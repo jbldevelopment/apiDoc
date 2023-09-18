@@ -77,6 +77,10 @@ use App\Helpers\HomePageStaticSettings;
 class FrontendController extends Controller
 {
 
+    public function code_page()
+    {
+        return view('frontend.code-page');
+    }
     public function index()
     {
         $home_page_variant = get_home_variant();
@@ -1313,8 +1317,10 @@ ITEM;
             $query->orderBy('id', 'DESC');
         }
         $all_products = $query->paginate(get_static_option('product_post_items'));
+        $dynamic_products = Page::where('status', 'publish')->get()->toArray();
 
         return view('frontend.pages.products.products')->with([
+            'dynamic_products' => $dynamic_products,
             'all_products' => $all_products,
             'all_category' => $all_category,
             'search_term' => $search_term,

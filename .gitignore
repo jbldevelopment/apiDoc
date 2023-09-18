@@ -1,3 +1,6 @@
 /storage
 /vendor
 ._htaccess
+/bootstrap
+bootstrap
+*old*.*
