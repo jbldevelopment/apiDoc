@@ -9,6 +9,7 @@
 
 @php
     $all_permission_list = array(
+        "Api Meta Manage",
         "Apis Manage",
         "Category Manage",
         "Video Gallery",

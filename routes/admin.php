@@ -26,6 +26,14 @@ Route::prefix('admin-home')->middleware(['setlang:backend'])->group(function () 
         Route::post('/update-category', 'ApiCategoryController@update_category')->name('category.update');
         Route::post('/delete-category/{id}', 'ApiCategoryController@delete_category')->name('category.delete');
     });
+    Route::prefix('apimeta')->middleware(['adminPermissionCheck:Api Meta Manage', 'moduleCheck:product_module_status'])->group(function () {
+        Route::get('/', 'ApiMetaController@index')->name('api.meta.list');
+        Route::get('/new-api-meta', 'ApiMetaController@create_api_meta')->name('api.meta.create');
+        Route::post('/add-api-meta', 'ApiMetaController@add_api_meta')->name('api.meta.add');
+        Route::get('/edit-api-meta/{slug}', 'ApiMetaController@edit_api_meta')->name('api.meta.edit');
+        Route::post('/update-api-meta', 'ApiMetaController@update_api_meta')->name('api.meta.update');
+        Route::post('/delete-api-meta/{id}', 'ApiMetaController@delete_api_meta')->name('api.meta.delete');
+    });
 
     /* --------------------------
         MAINTAINS PAGE
