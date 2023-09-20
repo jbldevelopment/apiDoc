@@ -24,6 +24,30 @@
                         </a>
                     </li>
 
+                    @if (check_page_permission_by_string('APIs Manage'))
+                        <li class="main_dropdown @if (request()->is(['admin-home/apilist/*', 'admin-home/apilist'])) active @endif">
+                            <a href="javascript:void(0)" aria-expanded="true"><i class="ti-write"></i>
+                                <span>{{ __('APIs') }}</span></a>
+                            <ul class="collapse">
+                                <li class="{{ active_menu('admin-home/apilist') }}"><a
+                                        href="{{ route('api.list') }}">{{ __('All APIs') }}</a></li>
+                                <li class="{{ active_menu('admin-home/apilist/new-api') }}"><a
+                                        href="{{ route('api.create') }}">{{ __('Add New API') }}</a></li>
+                            </ul>
+                        </li>
+                    @endif
+                    @if (check_page_permission_by_string('Category Manage'))
+                        <li class="main_dropdown @if (request()->is(['admin-home/apicategory/*', 'admin-home/apicategory'])) active @endif">
+                            <a href="javascript:void(0)" aria-expanded="true"><i class="ti-write"></i>
+                                <span>{{ __('Category') }}</span></a>
+                            <ul class="collapse">
+                                <li class="{{ active_menu('admin-home/apicategory/') }}"><a
+                                        href="{{ route('category.list') }}">{{ __('All Category') }}</a></li>
+                                <li class="{{ active_menu('admin-home/apicategory/new-api') }}"><a
+                                        href="{{ route('category.create') }}">{{ __('Add New Category') }}</a></li>
+                            </ul>
+                        </li>
+                    @endif
                     @if (check_page_permission_by_string('Pages Manage'))
                         <li class="main_dropdown @if (request()->is(['admin-home/page/*', 'admin-home/page'])) active @endif">
                             <a href="javascript:void(0)" aria-expanded="true"><i class="ti-write"></i>

@@ -1,5 +1,7 @@
 @extends('frontend.frontend-master')
-
+@section('site-title')
+    {{__($api_details->api_title)}}
+@endsection
 @section('content')
     <section class="">
         <div class="container-fluid">
@@ -8,7 +10,7 @@
                     <nav class="align-items-baseline bg-light h-100 navbar pt-lg-5">
                         <ul class="navbar-nav w-100">
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Link 1</a>
+                                <a class="nav-link" href="#overview">Overview</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="#">Link 2</a>
@@ -27,102 +29,6 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="#">Link 1</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Link 2</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Link 3</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Link 1</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Link 2</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Link 3</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Link 1</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Link 2</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Link 3</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Link 1</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Link 2</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Link 3</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Link 1</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Link 2</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Link 3</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Link 1</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Link 2</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Link 3</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Link 1</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Link 2</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Link 3</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Link 1</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Link 2</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Link 3</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Link 1</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Link 2</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Link 3</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Link 1</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Link 2</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Link 3</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Link 1</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Link 2</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Link 3</a>
                             </li>
                         </ul>
                     </nav>
@@ -130,10 +36,9 @@
                 <div class="col-lg-10 px-lg-0">
                     <div class="row h-100">
                         <div class="col-lg-7 pt-5">
-                            <div>
-                                <h2>Inroduction</h2>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
-                                <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris...</p>
+                            <div id="overview">
+                                <h2>{{$api_details->api_title}}</h2>
+                                <p>{!!$api_details->api_description!!}</p>
                             </div>
                         </div>
                         <div class="col-lg-5 bg-dark pt-lg-5">

@@ -4,3 +4,6 @@
 /bootstrap
 bootstrap
 *old*.*
+.env
+/database/migrations/New folder
+database/migrations/New folder
