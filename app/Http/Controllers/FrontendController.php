@@ -76,6 +76,7 @@ use App\Helpers\HomePageStaticSettings;
 // custom
 use App\ApiList;
 use App\ApiCategory;
+use App\ApiMeta;
 
 class FrontendController extends Controller
 {
@@ -1880,8 +1881,13 @@ class FrontendController extends Controller
         $is_exists_api_details = ApiList::where('api_slug', $slug)->exists();
         if ($is_exists_api_details) {
             $api_details = ApiList::where('api_slug', $slug)->first();
+            $api_meta_list = ApiMeta::where('api_id', $api_details->api_id)
+                ->where('api_meta_status', 1)
+                ->orderBy('api_meta_order', 'asc')
+                ->get();
             return view('frontend.code-page')->with([
                 'api_details' => $api_details,
+                'api_meta_list' => $api_meta_list,
             ]);
         }
         return redirect()->back()->with([

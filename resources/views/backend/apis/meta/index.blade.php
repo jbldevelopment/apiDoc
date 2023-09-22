@@ -15,13 +15,6 @@
             width: 60px;
             display: inline-block;
         }
-        /* .desc {
-            display: block;
-            width: 100px;
-            overflow: hidden;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-        } */
     </style>
 @endsection
 @section('content')
@@ -63,68 +56,48 @@
                                         <th>{{__('Title')}} </th>
                                         <th>{{__('Order & Type')}}</th>
                                         <th>{{__('Status')}}</th>
-                                        <th>{{__('Category & link')}}</th>
                                         <th>{{__('Created At & Updated At')}}</th>
                                         <th>{{__('Action')}}</th>
                                     </thead>
                                     <tbody>
-                                    @foreach($all_page as $key => $data)
+                                    @foreach($api_meta_list as $key => $data)
                                         <tr>
                                             <td>
                                                 <div class="bulk-checkbox-wrapper">
-                                                    <input type="checkbox" class="bulk-checkbox" name="bulk_delete[]" value="{{ $data->api_id }}">
+                                                    <input type="checkbox" class="bulk-checkbox" name="bulk_delete[]" value="{{ $data->api_meta_id }}">
                                                 </div>
                                             </td>
-                                            <td>{{ $data->api_id }}</td>
+                                            <td>{{ $data->api_meta_id }}</td>
                                             <td>
-                                                <span class="font-weight-bold">{{$data->api_title}} </span>
+                                                <span class="font-weight-bold">{{$data->api_meta_title}} </span>
                                             </td>
                                             <td>
                                                 @php
                                                     $api_type_text = 'Free API';
-                                                    if($data->api_type == 1){
+                                                    if($data->api_meta_status == 1){
                                                         $api_type_text = 'Paid API';
                                                     }
                                                 @endphp
-                                                <span class="badge badge-success">{{$data->api_order}}</span>
+                                                <span class="badge badge-success">{{$data->api_meta_order}}</span>
                                                 <span class="badge badge-success">{{$api_type_text}}</span>
                                             </td>
                                             <td>
-                                                @if($data->api_status === 1)
+                                                @if($data->api_meta_status === 1)
                                                     <span class="alert alert-success p-1">{{__('Active')}}</span>
                                                 @else
                                                     <span class="alert alert-danger p-1">{{__('Deactive')}}</span>
                                                 @endif
                                             </td>
-                                            <td> 
-                                                @php
-                                                    $category_color = 'info';
-                                                    if($data->api_category == 2){
-                                                        $category_color = 'warning';
-                                                    }elseif ($data->api_category == 3) {
-                                                        $category_color = 'success';
-                                                    }elseif ($data->api_category == 4) {
-                                                        $category_color = 'danger';
-                                                    }
-                                                @endphp
-                                                <span class="font-weight-normal">{{$data->api_category_title}}</span>
-                                                @if (isset($data->api_link) && !empty($data->api_link))
-                                                    <br>
-                                                    <a href="{{$data->api_link}}">
-                                                        Link
-                                                    </a>                                                    
-                                                @endif                                                
-                                            </td>
                                             <td>{{$data->created_at->format('d M,Y H:i A')}} <br> {{$data->updated_at->format('d M,Y H:i A')}}</td>
                                             <td>
-                                                <x-delete-popover :url="route('api.delete', $data->api_id )"/>
-                                                <a class="btn btn-xs btn-primary btn-sm mb-3 mr-1" href="{{route('api.edit',['slug' => $data->api_slug ])}}">
+                                                <x-delete-popover :url="route('api.delete', $data->api_meta_id )"/>
+                                                <a class="btn btn-xs btn-primary btn-sm mb-3 mr-1" href="{{route('api.edit',['slug' => $data->api_meta_slug ])}}">
                                                     <i class="ti-pencil"></i>
                                                 </a>
-                                                <a class="btn btn-xs btn-info btn-sm mb-3 mr-1" target="_blank" href="{{route('frontend.dynamic.doc',['slug' => $data->api_slug ])}}">
+                                                <a class="btn btn-xs btn-info btn-sm mb-3 mr-1" target="_blank" href="{{route('frontend.dynamic.doc',['slug' => $data->api_meta_slug ])}}">
                                                     <i class="ti-eye"></i>
                                                 </a>
-                                                <a class="btn btn-xs btn-success btn-sm mb-3 mr-1" target="_blank" href="{{route('api.meta.create',['slug' => $data->api_slug ])}}">
+                                                <a class="btn btn-xs btn-success btn-sm mb-3 mr-1" target="_blank" href="{{route('api.meta.create',['slug' => $data->api_meta_slug ])}}">
                                                     <i class="ti-plus"></i>
                                                 </a>
                                             </td>

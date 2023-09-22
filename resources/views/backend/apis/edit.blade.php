@@ -59,7 +59,6 @@
                                     <label>{{ __('Category') }}</label>
                                     <select id="api_category" name="api_category" class="form-control">
                                         <option>{{ __('Please Select Category') }}</option>
-                                        <option {{ ($api_details->api_category == 0) ? "selected" : "" }} value="0">{{ __('Developer APIs') }}</option>
                                         @foreach ($active_category as $item)
                                             <option {{ ($api_details->api_category == $item->api_category_id) ? "selected" : "" }} value="{{$item->api_category_id}}">{{$item->api_category_title}}</option>
                                         @endforeach

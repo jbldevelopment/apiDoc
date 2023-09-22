@@ -15,6 +15,7 @@ class ApiListController extends Controller
     {
         $this->middleware('auth:admin');
     }
+
     public function index()
     {
         $all_page = ApiList::select('api_lists.*', 'api_categories.api_category_id', 'api_categories.api_category_title',)
@@ -25,6 +26,7 @@ class ApiListController extends Controller
             'all_page' => $all_page,
         ]);
     }
+
     public function create_api()
     {
         $active_category = ApiCategory::where('api_category_status', '!=', 2)->get();
@@ -83,6 +85,7 @@ class ApiListController extends Controller
             // return sendResponse(false, $th, [], 400);
         }
     }
+
     public function edit_api($slug)
     {
         $active_category = ApiCategory::where('api_category_status', '!=', 2)->get();

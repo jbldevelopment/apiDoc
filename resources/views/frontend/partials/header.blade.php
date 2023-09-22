@@ -36,8 +36,8 @@
     <link rel="stylesheet" href="{{ asset('assets/frontend/css/dynamic-style.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/frontend/css/toastr.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/frontend/css/slick.css') }}">
-    <link href="{{ asset('assets/frontend/css/jquery.mb.YTPlayer.min.css') }}" media="all" rel="stylesheet"
-        type="text/css">
+    <link href="{{ asset('assets/frontend/css/jquery.mb.YTPlayer.min.css') }}" media="all" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="{{asset('assets/frontend/css/codeblock.css')}}">
 
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 

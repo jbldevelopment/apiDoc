@@ -36,18 +36,6 @@
                             </ul>
                         </li>
                     @endif
-                    @if (check_page_permission_by_string('Api Meta Manage'))
-                        <li class="main_dropdown @if (request()->is(['admin-home/apimeta/*', 'admin-home/apimeta'])) active @endif">
-                            <a href="javascript:void(0)" aria-expanded="true"><i class="ti-write"></i>
-                                <span>{{ __('Api Meta') }}</span></a>
-                            <ul class="collapse">
-                                <li class="{{ active_menu('admin-home/apimeta/') }}"><a
-                                        href="{{ route('api.meta.list') }}">{{ __('All Api Meta') }}</a></li>
-                                <li class="{{ active_menu('admin-home/apimeta/new-api') }}"><a
-                                        href="{{ route('api.meta.create') }}">{{ __('Add New Meta details') }}</a></li>
-                            </ul>
-                        </li>
-                    @endif
                     @if (check_page_permission_by_string('Category Manage'))
                         <li class="main_dropdown @if (request()->is(['admin-home/apicategory/*', 'admin-home/apicategory'])) active @endif">
                             <a href="javascript:void(0)" aria-expanded="true"><i class="ti-write"></i>

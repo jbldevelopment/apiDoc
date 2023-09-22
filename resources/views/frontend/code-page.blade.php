@@ -12,24 +12,11 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="#overview">Overview</a>
                             </li>
+                            @foreach ($api_meta_list as $item) 
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Link 2</a>
+                                <a class="nav-link" href="#{{$item->api_meta_slug}}">{{$item->api_meta_title}}</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Link 3</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Link 1</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Link 2</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Link 3</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Link 1</a>
-                            </li>
+                            @endforeach
                         </ul>
                     </nav>
                 </div>
@@ -40,27 +27,21 @@
                                 <h2>{{$api_details->api_title}}</h2>
                                 <p>{!!$api_details->api_description!!}</p>
                             </div>
+                            @foreach ($api_meta_list as $item) 
+                                <div id="{{$item->api_meta_slug}}">
+                                    <h2>{{$item->api_meta_title}}</h2>
+                                    <p>{!!$item->api_meta_descripetion!!}</p>
+                                </div>
+                            @endforeach
                         </div>
                         <div class="col-lg-5 bg-dark pt-lg-5">
                             <div>
-                                <h3>code block</h3>
-                                <code>curl --request POST \
-                                    --url https://control.msg91.com/api/v5/flow/ \
-                                    --header 'accept: application/json' \
-                                    --header 'authkey: Enter your MSG91 authkey' \
-                                    --header 'content-type: application/json' \
-                                    --data '
-                                    {
-                                    "template_id": "EntertemplateID",
-                                    "short_url": "1 (On) or 0 (Off)",
-                                    "recipients": [
-                                    {
-                                    "mobiles": "919XXXXXXXXX",
-                                    "VAR1": "VALUE1",
-                                    "VAR2": "VALUE2"
-                                    }
-                                    ]
-                                    }</code>
+                                @foreach ($api_meta_list as $item) 
+                                <figure class="block-code">
+                                    <figcaption>myday.class.php</figcaption>
+                                    <pre><code class="code-block" contenteditable="false" tabindex="0" spellcheck="false">{!!$item->api_meta_descripetion!!}</code></pre>
+                                </figure>
+                                @endforeach
                             </div>
                         </div>
                     </div>
