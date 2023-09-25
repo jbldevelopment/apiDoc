@@ -6,43 +6,32 @@
      }
 })();
 
-(function () {
-     //filter IE8 and earlier which don't support the generated content
-     if (typeof (window.getComputedStyle) == 'undefined') {
-          return;
-     }
+// Wait for the DOM to be fully loaded
+document.addEventListener('DOMContentLoaded', function () {
+     // Get all pre elements
+     var preElements = document.querySelectorAll('pre');
 
-     //get the collection of PRE elements
-     var pre = document.getElementsByTagName('pre');
-     //now iterate through the collection
-     for (var len = pre.length, i = 0; i < len; i++) {
-          //get the CODE or SAMP element inside it, 
-          //or just in case there isn't one, continue to the next PRE
-          var code = pre[i].getElementsByTagName('code').item(0);
-          if (!code) {
-               code = pre[i].getElementsByTagName('samp').item(0);
-               if (!code) {
-                    continue;
+     preElements.forEach(function (pre) {
+          // Find the first code or samp element within the pre element
+          var code = pre.querySelector('code, samp');
+          console.log('pre :>> ', pre);
+
+          if (code) {
+               // Create a container for line numbers
+               var column = document.createElement('div');
+               column.classList.add('numbers');
+
+               // Split the code by line breaks to count the number of lines
+               var lines = code.textContent.split(/\r\n|\r|\n/);
+
+               for (var i = 0; i < lines.length; i++) {
+                    var span = document.createElement('span');
+                    span.textContent = i + 1; // Line numbers start at 1
+                    column.appendChild(span);
                }
+
+               // Insert the line numbers column before the code element
+               pre.insertBefore(column, code);
           }
-
-          //create a containing DIV column (but don't append it yet)
-          //including aria-hidden so that ATs don't read the numbers
-          var column = document.createElement('div');
-          column.setAttribute('aria-hidden', 'true');
-          column.setAttribute('class', 'numbers');
-
-          //split the code by line-breaks to count the number of lines
-          //then for each line, add an empty span inside the column
-          for (var n = 0; n < code.innerHTML.split(/[\n\r]/g).length; n++) {
-               column.appendChild(document.createElement('span'));
-          }
-
-          //now append the populated column before the code element
-          pre[i].insertBefore(column, code);
-
-          //finally add an identifying class to the PRE to trigger the extra CSS
-          pre[i].className = 'line-numbers';
-     }
-
-})();
+     });
+});

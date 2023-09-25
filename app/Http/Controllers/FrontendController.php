@@ -77,6 +77,7 @@ use App\Helpers\HomePageStaticSettings;
 use App\ApiList;
 use App\ApiCategory;
 use App\ApiMeta;
+use App\ApiCodeMeta;
 
 class FrontendController extends Controller
 {
@@ -1885,9 +1886,15 @@ class FrontendController extends Controller
                 ->where('api_meta_status', 1)
                 ->orderBy('api_meta_order', 'asc')
                 ->get();
+            $meta_array = [];
+            foreach ($api_meta_list as $key => $value) {
+                $meta_array[] = $value->api_meta_id;
+            }
+            $api_code_meta_list = ApiCodeMeta::whereIn('api_meta_id', $meta_array)->where('api_code_status', 1)->orderBy('api_code_order')->orderBy('api_technology')->get();
             return view('frontend.code-page')->with([
                 'api_details' => $api_details,
                 'api_meta_list' => $api_meta_list,
+                'api_code_meta_list' => $api_code_meta_list,
             ]);
         }
         return redirect()->back()->with([

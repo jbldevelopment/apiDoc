@@ -1,7 +1,7 @@
 figure.block-code {
      display: block;
      margin: 1em 0;
-     width: 100%;
+     width: 95%;
      color: #9e9e9e;
      border: 1px solid #111;
      border-radius: 3px;
@@ -227,8 +227,9 @@ figure.block-code figcaption {
 .block-code .pun,
 .block-code .str,
 .block-code .kwd,
-.block-code .com {
-     font-size: 0.8rem;
+.block-code .com,
+.block-code pre * {
+     font-size: 0.9rem;
 }
 
 .block-code .pln {
@@ -249,4 +250,24 @@ figure.block-code figcaption {
 
 .block-code .str {
      color: #9ccc65 !important;
+}
+
+.block-code devsite-var {
+     color: #20c997 !important;
+}
+
+.block-code button {
+     display: none;
+}
+
+.block-code div {
+     color: #569CD6 !important;
+}
+
+.block-code pre {
+     color: #9e9e9e !important;
+}
+
+.code-block pre {
+     text-wrap: balance;
 }

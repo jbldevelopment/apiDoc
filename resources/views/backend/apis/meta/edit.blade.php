@@ -8,6 +8,14 @@
 {{ __('Edit API') }}
 @endsection
 @section('content')
+<style>
+    .numbers{
+        display: none;
+    }
+    code.code-block {
+        height: 10% !important;
+    }
+</style>
 <section class="bg-dark h-100">
     <div class="container-fluid">
         <div class="row">
@@ -32,7 +40,7 @@
                                 <div class="card my-lg-2 border-dark card_index" id="{{$item->api_meta_slug}}">
                                     <div class="card-header" id="headingOne">
                                         <h5 class="mb-0 d-lg-flex justify-content-lg-between">
-                                            <div class="btn text-white title_{{$item->api_meta_id}}">
+                                            <div class="btn text-white " id="title_{{$item->api_meta_id}}">
                                                 {{$item->api_meta_title}}
                                             </div>
                                             <div>
@@ -172,10 +180,89 @@
                         </form>
                     </div>  
                     <div class="col-lg-5 pt-lg-2 bg-dark text-white">
-                        <form action="{{ route('api.meta.add') }}" method="post" enctype="multipart/form-data" id="code_form_data">
+                        <form action="{{ route('api.code.add') }}" method="post" enctype="multipart/form-data" id="code_form_data">
                             @csrf
                             <div id="accordion-2">
-                                @foreach ($api_meta_list as $item)
+                                @foreach ($api_code_meta_list as $code)
+                                <div class="card my-lg-2 border-dark card_index" id="{{$code->api_code_slug}}">
+                                    <div class="card-header" id="headingOne">
+                                        <h5 class="mb-0 d-lg-flex justify-content-lg-between">
+                                            <div class="btn text-white" id="code_title_{{$code->api_code_id}}">
+                                                {{$code->api_code_title}}
+                                            </div>
+                                            <div>
+                                                <div class="btn btn-primary submit-code-details" data-index-id="{{$code->api_code_id}}" data-index-action="update">{{ __('Change') }}</div>
+                                                <div class="btn btn-outline-info" data-toggle="collapse" data-target="#code_meta_{{$code->api_code_id}}" aria-expanded="true" aria-controls="code_meta_{{$code->api_code_id}}">
+                                                    <i class="ti-angle-down"></i>
+                                                </div>
+                                            </div>
+                                        </h5>
+                                    </div>
+                                    <div id="code_meta_{{$code->api_code_id}}" class="collapse" aria-labelledby="headingOne" data-parent="#accordion-2">
+                                        <div class="card-body">
+                                            <div class="row py-lg-3">
+                                                <div class="col mt-lg-1-lg-6">
+                                                    <div class="form-group mb-lg-0">
+                                                        <label for="title">{{ __('Title') }}</label>
+                                                        <input type="hidden" class="form-control" id="api_code_id_{{$code->api_code_id}}" name="api_code_id[]" value="{{$code->api_code_id}}">
+                                                        <input type="text" class="form-control title-input" data-title-id="#code_title_{{$code->api_code_id}}" data-slug-id="#api_code_slug_{{$code->api_code_id}}" id="api_code_title_{{$code->api_code_id}}" name="api_code_title[]" value="{{$code->api_code_title}}" placeholder="{{ __('Title') }}">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 mt-lg-1">
+                                                    <div class="form-group mb-lg-0">
+                                                        <label for="slug">{{ __('Slug') }}</label>
+                                                        <input type="text" class="form-control" id="api_code_slug_{{$code->api_code_id}}" name="api_code_slug[]" value="{{$code->api_code_slug}}" placeholder="{{ __('slug') }}">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12 mt-lg-1">
+                                                    <div class="form-group mb-lg-2 classic-editor-wrapper">
+                                                        <label>{{ __('Code') }}</label>
+                                                        <input type="hidden" id="api_code_{{$code->api_code_id}}" name="api_code[]">
+                                                        {{-- <div class="summernote" data-content='{{$code->api_code}}'></div> --}}
+                                                        <figure class="block-code">
+                                                            <pre><code id="api_code_details_{{$code->api_code_id}}" name="api_code_details[]" class="code-block" contenteditable="true" tabindex="0" spellcheck="false"><span class="com">{!!$code->api_code!!}</span></code></pre>
+                                                        </figure>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 mt-lg-1">
+                                                    <div class="form-group mb-lg-0">
+                                                        <label>{{ __('API Meta') }}</label>
+                                                        <select id="api_code_meta_id_{{$code->api_code_id}}" name="api_code_meta_id_[]" class="form-control">
+                                                            @foreach ($api_meta_list as $items)
+                                                                <option def="{{$code->api_meta_id}}" abc="{{$items->api_meta_id}}" {{ ($code->api_meta_id == $items->api_meta_id) ? "selected" : "" }} value="{{$items->api_meta_id}}">{{$items->api_meta_title}}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 mt-lg-1">
+                                                    <div class="form-group mb-lg-0">
+                                                        <label>{{ __('Technology') }}</label>
+                                                        <select name="api_technology[]" id="api_technology_{{$code->api_code_id}}" class="form-control">
+                                                            <option {{ ($item->api_technology == 1) ? "selected" : "" }} value="1">{{ __('PHP') }}</option>
+                                                            <option {{ ($item->api_technology == 2) ? "selected" : "" }} value="2">{{ __('PYTHON') }}</option>
+                                                            <option {{ ($item->api_technology == 3) ? "selected" : "" }} value="3">{{ __('NODE') }}</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 mt-lg-1">
+                                                    <div class="form-group mb-lg-0">
+                                                        <label for="title">{{ __('Order') }}</label>
+                                                        <input type="number" class="form-control" id="api_code_order_{{$code->api_code_id}}" name="api_code_order[]" value="{{$code->api_code_order}}" placeholder="{{ __('Ex: 1,2,3..') }}">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 mt-lg-1">
+                                                    <div class="form-group mb-lg-0">
+                                                        <label>{{ __('Status') }}</label>
+                                                        <select name="api_code_status[]" id="api_code_status_{{$code->api_code_id}}" class="form-control">
+                                                            <option {{ ($item->api_code_status == 0) ? "selected" : "" }} value="0">{{ __('Deactive') }}</option>
+                                                            <option {{ ($item->api_code_status == 1) ? "selected" : "" }} value="1">{{ __('Active') }}</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 @endforeach
                                 <div class="card my-lg-2 border-dark card_index">
                                     <div class="card-header" id="headingOne">
@@ -210,13 +297,16 @@
                                                     <div class="form-group mb-lg-2 classic-editor-wrapper">
                                                         <label>{{ __('Code') }}</label>
                                                         <input type="hidden" id="api_code_0" name="api_code[]">
-                                                        <div class="summernote" ></div>
+                                                        {{-- <div class="summernote" ></div> --}}
+                                                        <figure class="block-code">
+                                                            <pre><code id="api_code_details_0" name="api_code_details[]" class="code-block" contenteditable="true" tabindex="0" spellcheck="false" class="language-plaintext" data-lang="plaintext"><span class="com">// Write code here</span></code></pre>
+                                                        </figure>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6 mt-lg-1">
                                                     <div class="form-group mb-lg-0">
                                                         <label>{{ __('API Meta') }}</label>
-                                                        <select id="api_meta_id_0" name="api_meta_id[]" class="form-control">
+                                                        <select id="api_code_meta_id_0" name="api_code_meta_id_[]" class="form-control">
                                                             <option>{{ __('Please Select Api') }}</option>
                                                             @foreach ($api_meta_list as $item)
                                                                 <option value="{{$item->api_meta_id}}">{{$item->api_meta_title}}</option>
@@ -365,8 +455,8 @@
 
         let api_code_title = $(`#api_code_title_${data_index}`).val();
         let api_code_slug = $(`#api_code_slug_${data_index}`).val();
-        let api_code = $(`#api_code_${data_index}`).val();
-        let api_meta_id = $(`#api_meta_id_${data_index}`).val();
+        let api_code = $(`#api_code_details_${data_index}`).html();
+        let api_meta_id = $(`#api_code_meta_id_${data_index}`).val();
         let api_technology = $(`#api_technology_${data_index}`).val();
         let api_code_order = $(`#api_code_order_${data_index}`).val();
         let api_code_status = $(`#api_code_status_${data_index}`).val();

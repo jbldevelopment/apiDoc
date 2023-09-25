@@ -19,7 +19,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="header-wrap d-flex justify-content-between">
-                        <h4 class="header-title">{{ __('Edit Api : ') . $api_details->api_title }}</h4>
+                        <h4 class="header-title">{{ __('Edit Api : ') }}<span id="code_title">{{ $api_details->api_title }}</span></h4>
                     </div>
                     <form action="{{ route('api.update') }}" method="post" enctype="multipart/form-data">
                         @csrf
@@ -28,7 +28,7 @@
                                 <div class="form-group">
                                     <label for="title">{{ __('Title') }}</label>
                                     <input type="hidden" name="api_id" value="{{$api_details->api_id}}">
-                                    <input type="text" class="form-control" id="api_title" value="{{$api_details->api_title}}" name="api_title" placeholder="{{ __('Title') }}">
+                                    <input type="text" class="form-control title-input" data-title-id="#code_title" data-slug-id="#api_slug" id="api_title" value="{{$api_details->api_title}}" name="api_title" placeholder="{{ __('Title') }}">
                                 </div>
                                 <div class="form-group">
                                     <label>{{__('Content')}}</label>

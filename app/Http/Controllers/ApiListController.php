@@ -72,13 +72,13 @@ class ApiListController extends Controller
                 ]);
             } else {
                 // return sendResponse(false, 'Failed to insert APi.', [], 400);
-                return redirect()->back()->with([
+                return redirect(route('api.list'))->with([
                     'msg' => __('Failed to insert API!'),
                     'type' => 'danger'
                 ]);
             }
         } catch (\ThAPiable $th) {
-            return redirect()->back()->with([
+            return redirect(route('api.list'))->with([
                 'msg' => $th,
                 'type' => 'danger'
             ]);
@@ -97,7 +97,7 @@ class ApiListController extends Controller
                 'active_category' => $active_category,
             ]);
         }
-        return redirect()->back()->with([
+        return redirect(route('api.list'))->with([
             'msg' => 'No Api Found',
             'type' => 'danger'
         ]);
@@ -135,7 +135,7 @@ class ApiListController extends Controller
                     $inserted = $api_details->update();
 
                     if ($inserted) {
-                        return redirect()->back()->with([
+                        return redirect(route('api.list'))->with([
                             'msg' => __('API updated successfully!'),
                             'type' => 'success'
                         ]);
@@ -146,18 +146,18 @@ class ApiListController extends Controller
                         ]);
                     }
                 }
-                return redirect()->back()->with([
+                return redirect(route('api.list'))->with([
                     'msg' => __('API not found!'),
                     'type' => 'danger'
                 ]);
             } catch (\ThAPiable $th) {
-                return redirect()->back()->with([
+                return redirect(route('api.list'))->with([
                     'msg' => $th,
                     'type' => 'danger'
                 ]);
             }
         }
-        return redirect()->back()->with([
+        return redirect(route('api.list'))->with([
             'msg' => __('Failed to insert API!'),
             'type' => 'danger'
         ]);
@@ -171,7 +171,7 @@ class ApiListController extends Controller
             $api_details->api_status = 2;
             $deleted = $api_details->update();
             if ($deleted) {
-                return redirect()->back()->with([
+                return redirect(route('api.list'))->with([
                     'msg' => __('API Deleted successfully!'),
                     'type' => 'success'
                 ]);
@@ -182,7 +182,7 @@ class ApiListController extends Controller
                 ]);
             }
         }
-        return redirect()->back()->with([
+        return redirect(route('api.list'))->with([
             'msg' => 'No Api Found',
             'type' => 'danger'
         ]);

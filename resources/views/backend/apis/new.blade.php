@@ -20,7 +20,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="header-wrap d-flex justify-content-between">
-                        <h4 class="header-title">{{ __('Add New API') }}</h4>
+                        <h4 class="header-title">{{ __('Add New API : ') }}<span id="code_title">TITLE</span></h4>
                     </div>
                     <form action="{{ route('api.add') }}" method="post" enctype="multipart/form-data">
                         @csrf
@@ -28,8 +28,7 @@
                             <div class="col-lg-8">
                                 <div class="form-group">
                                     <label for="title">{{ __('Title') }}</label>
-                                    <input type="text" class="form-control" id="api_title" name="api_title"
-                                        placeholder="{{ __('Title') }}">
+                                    <input type="text" class="form-control title-input" data-title-id="#code_title" data-slug-id="#api_slug" id="api_title" name="api_title" placeholder="{{ __('Title') }}">
                                 </div>
                                 <div class="form-group classic-editor-wrapper">
                                     <label>{{ __('Decription') }}</label>
@@ -40,8 +39,7 @@
                             <div class="col-lg-4">
                                 <div class="form-group">
                                     <label for="slug">{{ __('Slug') }}</label>
-                                    <input type="text" class="form-control" id="api_slug" name="api_slug"
-                                        placeholder="{{ __('slug') }}">
+                                    <input type="text" class="form-control" id="api_slug" name="api_slug" placeholder="{{ __('slug') }}">
                                 </div>
                                 <div class="form-group">
                                     <label>{{ __('Status') }}</label>
@@ -68,13 +66,11 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="title">{{ __('Order') }}</label>
-                                    <input type="number" class="form-control" id="api_order" name="api_order"
-                                        placeholder="{{ __('Ex: 1,2,3..') }}">
+                                    <input type="number" class="form-control" id="api_order" name="api_order" placeholder="{{ __('Ex: 1,2,3..') }}">
                                 </div>
                                 <div class="form-group">
                                     <label for="title">{{ __('Source Code Link') }}</label>
-                                    <input type="text" class="form-control" id="api_link" name="api_link"
-                                        placeholder="{{ __('https://github.com/') }}">
+                                    <input type="text" class="form-control" id="api_link" name="api_link" placeholder="{{ __('https://github.com/') }}">
                                 </div>
                                 <button type="submit"
                                     class="btn btn-primary mt-4 pr-4 pl-4">{{ __('Save API') }}</button>
