@@ -28,7 +28,7 @@ function active_menu_frontend($url)
 function check_image_extension($file)
 {
     $extension = strtolower($file->getClientOriginalExtension());
-    if (!in_array($extension,['jpg','jpeg','png','gif'])) {
+    if (!in_array($extension, ['jpg', 'jpeg', 'png', 'gif'])) {
         return false;
     }
     return true;
@@ -47,11 +47,11 @@ function set_static_option($key, $value)
     return false;
 }
 
-function get_static_option($key,$default = null)
+function get_static_option($key, $default = null)
 {
     global $option_name;
     $option_name = $key;
-    $value = \Illuminate\Support\Facades\Cache::remember($option_name,6400, function () {
+    $value = \Illuminate\Support\Facades\Cache::remember($option_name, 6400, function () {
         global $option_name;
         return StaticOption::where('option_name', $option_name)->first();
     });
@@ -62,10 +62,10 @@ function get_static_option($key,$default = null)
 function update_static_option($key, $value)
 {
     $static_option = null;
-    if ($static_option === null){
+    if ($static_option === null) {
         $static_option = StaticOption::query();
     }
-    $static_option->updateOrCreate(['option_name' => $key],[
+    $static_option->updateOrCreate(['option_name' => $key], [
         'option_name' => $key,
         'option_value' => $value
     ]);
@@ -128,8 +128,8 @@ function licnese_cheker()
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
     $result = curl_exec($curl);
     curl_close($curl);
-	//nulled
-	$result = '{"license_status":"verified","msg":"Valid!"}';
+    //nulled
+    $result = '{"license_status":"verified","msg":"Valid!"}';
     $result = json_decode($result);
     update_static_option('item_license_status', $result->license_status);
     $type = 'verified' == $result->license_status ? 'success' : 'danger';
@@ -154,12 +154,11 @@ function get_work_category_by_id($id, $output = 'array')
     foreach ($category_id as $key => $data) {
         $separator = $key != 0 ? ', ' : '';
         $cat_item = WorksCategory::find($data);
-        if (!empty($cat_item)){
+        if (!empty($cat_item)) {
             $cat_list[$cat_item->id] = $cat_item->name;
             $cat_list_string .= $separator . $cat_item->name;
             $cat_list_slug .= Str::slug($cat_item->name) . ' ';
         }
-
     }
     switch ($output) {
         case ("string"):
@@ -225,7 +224,7 @@ function minify_css_lines($css)
 
 function google_captcha_check($token)
 {
-    if(empty(get_static_option('site_google_captcha_status'))){
+    if (empty(get_static_option('site_google_captcha_status'))) {
         return ['success' => true];
     }
     $captha_url = 'https://www.google.com/recaptcha/api/siteverify';
@@ -254,34 +253,34 @@ function load_google_fonts()
 
     $load_body_font_family = str_replace(' ', '+', $body_font_family);
     $body_font_variant = get_static_option('body_font_variant');
-    $body_font_variant_selected_arr = !empty($body_font_variant) ? unserialize($body_font_variant,['class' => false]) : ['400'];
+    $body_font_variant_selected_arr = !empty($body_font_variant) ? unserialize($body_font_variant, ['class' => false]) : ['400'];
     $load_body_font_variant = is_array($body_font_variant_selected_arr) ? implode(';', $body_font_variant_selected_arr) : '400';
 
     $body_italic = '';
-    preg_match('/1,/',$load_body_font_variant,$match);
-    if(count($match) > 0){
+    preg_match('/1,/', $load_body_font_variant, $match);
+    if (count($match) > 0) {
         $body_italic =  'ital,';
-    }else{
-        $load_body_font_variant = str_replace('0,','',$load_body_font_variant);
+    } else {
+        $load_body_font_variant = str_replace('0,', '', $load_body_font_variant);
     }
 
-    $fonts_url .= $load_body_font_family . ':'.$body_italic.'wght@' . $load_body_font_variant;
+    $fonts_url .= $load_body_font_family . ':' . $body_italic . 'wght@' . $load_body_font_variant;
     $load_heading_font_family = str_replace(' ', '+', $heading_font_family);
     $heading_font_variant = get_static_option('heading_font_variant');
-    $heading_font_variant_selected_arr = !empty($heading_font_variant) ? unserialize($heading_font_variant,['class' => false]) : ['400'];
+    $heading_font_variant_selected_arr = !empty($heading_font_variant) ? unserialize($heading_font_variant, ['class' => false]) : ['400'];
     $load_heading_font_variant = is_array($heading_font_variant_selected_arr) ? implode(';', $heading_font_variant_selected_arr) : '400';
 
     if (!empty(get_static_option('heading_font')) && $heading_font_family != $body_font_family) {
 
         $heading_italic = '';
-        preg_match('/1,/',$load_heading_font_variant,$match);
-        if(count($match) > 0){
+        preg_match('/1,/', $load_heading_font_variant, $match);
+        if (count($match) > 0) {
             $heading_italic =  'ital,';
-        }else{
-            $load_heading_font_variant = str_replace('0,','',$load_heading_font_variant);
+        } else {
+            $load_heading_font_variant = str_replace('0,', '', $load_heading_font_variant);
         }
 
-        $fonts_url .= '&family=' . $load_heading_font_family . ':'.$heading_italic.'wght@' . $load_heading_font_variant;
+        $fonts_url .= '&family=' . $load_heading_font_family . ':' . $heading_italic . 'wght@' . $load_heading_font_variant;
     }
 
     return sprintf('<link rel="preconnect" href="https://fonts.gstatic.com"> <link href="%1$s&display=swap" rel="stylesheet">', $fonts_url);
@@ -319,36 +318,36 @@ function get_field_by_type($type, $name, $placeholder, $options = [], $requried 
     $placeholder = __($placeholder);
     $required_markup_html = 'required="required"';
     switch ($type) {
-        case('email'):
+        case ('email'):
             $required_markup = !empty($requried) ? $required_markup_html : '';
             $markup = ' <div class="form-group"> <input type="email" id="' . $name . '" name="' . $name . '" class="form-control" placeholder="' . __($placeholder) . '" ' . $required_markup . '></div>';
             break;
-        case('tel'):
+        case ('tel'):
             $required_markup = !empty($requried) ? $required_markup_html : '';
             $markup = ' <div class="form-group"> <input type="tel" id="' . $name . '" name="' . $name . '" class="form-control" placeholder="' . __($placeholder) . '" ' . $required_markup . '></div>';
             break;
-        case('date'):
+        case ('date'):
             $required_markup = !empty($requried) ? $required_markup_html : '';
             $markup = ' <div class="form-group"> <input type="date" id="' . $name . '" name="' . $name . '" class="form-control" placeholder="' . __($placeholder) . '" ' . $required_markup . '></div>';
             break;
-        case('url'):
+        case ('url'):
             $required_markup = !empty($requried) ? $required_markup_html : '';
             $markup = ' <div class="form-group"> <input type="url" id="' . $name . '" name="' . $name . '" class="form-control" placeholder="' . __($placeholder) . '" ' . $required_markup . '></div>';
             break;
-        case('textarea'):
+        case ('textarea'):
             $required_markup = !empty($requried) ? $required_markup_html : '';
             $markup = ' <div class="form-group textarea"><textarea name="' . $name . '" id="' . $name . '" cols="30" rows="10" class="form-control" placeholder="' . __($placeholder) . '" ' . $required_markup . '></textarea></div>';
             break;
-        case('file'):
+        case ('file'):
             $required_markup = !empty($requried) ? $required_markup_html : '';
             $mimes_type_markup = str_replace('mimes:', __('Accept File Type:') . ' ', $mimes);
             $markup = ' <div class="form-group file"> <label for="' . $name . '">' . __($placeholder) . '</label> <input type="file" id="' . $name . '" name="' . $name . '" ' . $required_markup . ' class="form-control" > <span class="help-info">' . $mimes_type_markup . '</span></div>';
             break;
-        case('checkbox'):
+        case ('checkbox'):
             $required_markup = !empty($requried) ? $required_markup_html : '';
             $markup = ' <div class="form-group checkbox">  <input type="checkbox" id="' . $name . '" name="' . $name . '" class="form-control" ' . $required_markup . '> <label for="' . $name . '">' . __($placeholder) . '</label></div>';
             break;
-        case('select'):
+        case ('select'):
             $option_markup = '';
             $required_markup = !empty($requried) ? $required_markup_html : '';
             foreach ($options as $opt) {
@@ -371,24 +370,23 @@ function check_page_permission($page)
         $id = auth()->user()->id;
         $role_id = \App\Admin::where('id', $id)->first();
         $user_role = \App\AdminRole::where('id', $role_id->role)->first();
-        if ($user_role){
+        if ($user_role) {
             $all_permission = json_decode($user_role->permission);
             if (in_array($page, $all_permission)) {
                 return true;
             }
         }
-
     }
     return false;
 }
 function check_page_permission_by_string($page)
 {
-    $page = strtolower(str_replace(' ','_',$page));
+    $page = strtolower(str_replace(' ', '_', $page));
     if (Auth::check()) {
         $id = auth()->user()->id;
         $role_id = \App\Admin::where('id', $id)->first();
         $user_role = \App\AdminRole::where('id', $role_id->role)->first();
-        if ($user_role){
+        if ($user_role) {
             $all_permission = json_decode($user_role->permission);
             if (in_array($page, $all_permission)) {
                 return true;
@@ -401,8 +399,12 @@ function check_page_permission_by_string($page)
 
 function get_user_role_name_by_id($id)
 {
-    $name = \App\AdminRole::where('id', $id)->first();
-    return $name->name;
+    try {
+        $name = \App\AdminRole::where('id', $id)->first();
+        return $name->name;
+    } catch (\Throwable $th) {
+        throw $th;
+    }
 }
 
 function get_topic_name_by_id($id)
@@ -439,7 +441,6 @@ function chmod_r($path)
         foreach ($files as $file) {
             chmod($file, 0777);
         }
-
     } elseif (is_file($path)) {
         chmod($path, 0777);
     }
@@ -487,7 +488,6 @@ function copy_dir_with_files($src, $dst)
                 // Recursively calling custom copy function
                 // for sub directory
                 custom_copy($src . '/' . $file, $dst . '/' . $file);
-
             } else {
                 copy($src . '/' . $file, $dst . '/' . $file);
             }
@@ -545,19 +545,19 @@ function render_ratings($ratings)
 {
     $return_val = '';
     switch ($ratings) {
-        case(1):
+        case (1):
             $return_val = '<i class="fas fa-star"></i>';
             break;
-        case(2):
+        case (2):
             $return_val = '<i class="fas fa-star"></i><i class="fas fa-star"></i>';
             break;
-        case(3):
+        case (3):
             $return_val = '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>';
             break;
-        case(4):
+        case (4):
             $return_val = '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>';
             break;
-        case(5):
+        case (5):
             $return_val = '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>';
             break;
         default:
@@ -611,7 +611,7 @@ function setEnvValue(array $values)
     return true;
 }
 
- function course_discounted_amount($price, $coupon)
+function course_discounted_amount($price, $coupon)
 {
     //have to write code for get discounted price
     $return_val = $price;
@@ -667,7 +667,7 @@ function render_image_markup_by_attachment_id($id, $class = null, $size = 'full'
     $image_details = get_attachment_image_by_id($id, $size);
     if (!empty($image_details)) {
         $class_list = !empty($class) ? 'class="' . $class . '"' : '';
-        $output = '<img src="' . $image_details['img_url'] . '" ' . $class_list . ' alt="'.$image_details['img_alt'].'"/>';
+        $output = '<img src="' . $image_details['img_url'] . '" ' . $class_list . ' alt="' . $image_details['img_alt'] . '"/>';
     }
     return $output;
 }
@@ -732,7 +732,6 @@ function render_drag_drop_form_builder_markup($content = '')
             if ($ftype == 'file') {
                 $mime_type = (object) $form_fields->mimes_type;
                 $args['mimes_type'] = isset($mime_type->$key) ? $mime_type->$key : '';
-
             }
             $output .= render_drag_drop_form_builder_field_markup($key, $ftype, $form_fields->field_name[$key], $form_fields->field_placeholder[$key], $required_field, $args);
         }
@@ -939,17 +938,17 @@ function render_cart_table()
             $output .= '<td><div class="thumbnail">' . render_image_markup_by_attachment_id($single_product->image, '', 'thumb') . '</div></td>';
             $output .= '<td><h4 class="product-title"><a href="' . route('frontend.products.single', $single_product->slug) . '">' . $single_product->title . '</a></h4>';
             $price_with_variant = 0;
-            if (!empty($item['variant'])){
-                foreach(json_decode($item['variant']) as $variants){
+            if (!empty($item['variant'])) {
+                foreach (json_decode($item['variant']) as $variants) {
                     $variant = get_product_variant_list_by_id($variants->variantID);
-                    if(!empty($variant)){
-                        $index = array_search($variants->term,(array) json_decode($variant->terms));
+                    if (!empty($variant)) {
+                        $index = array_search($variants->term, (array) json_decode($variant->terms));
                         $prices = json_decode($variant->price) ?? [];
                         $terms = json_decode($variant->terms) ?? [];
-                        $output .= '<div class="product-variant-list-wrapper"><h5 class="title">'.$variant->title.'</h5><ul class="product-variant-list">';
-                        $output .= '<li>'.$terms[$index] ?? '' ;
-                        if (isset($prices[$index]) && !empty($prices[$index])){
-                            $output .= '<small> +'. amount_with_currency_symbol($prices[$index]) .'</small>';
+                        $output .= '<div class="product-variant-list-wrapper"><h5 class="title">' . $variant->title . '</h5><ul class="product-variant-list">';
+                        $output .= '<li>' . $terms[$index] ?? '';
+                        if (isset($prices[$index]) && !empty($prices[$index])) {
+                            $output .= '<small> +' . amount_with_currency_symbol($prices[$index]) . '</small>';
                             $price_with_variant = $prices[$index];
                         }
 
@@ -963,15 +962,15 @@ function render_cart_table()
             $output .= '<td><input type="number" name="product_quantity[]" class="quantity" value="' . $item['quantity'] . '"></td>';
             $output .= '<td class="unit_price">' . amount_with_currency_symbol($single_product->sale_price + $price_with_variant) . '</td>';
             $tax_amount = 0;
-                $final_price = !empty($price_with_variant) ? $price_with_variant + $single_product->sale_price : $single_product->sale_price ;
+            $final_price = !empty($price_with_variant) ? $price_with_variant + $single_product->sale_price : $single_product->sale_price;
             if (is_tax_enable() && get_static_option('product_tax_type') == 'individual') {
                 $tax_amount = ($final_price / 100) * $single_product->tax_percentage;
                 $output .= '<td class="tax_amount">' . amount_with_currency_symbol($tax_amount) . '(' . $single_product->tax_percentage . '%)</td>';
                 $colspan = 8;
             }
-//            dd($final_price * $item['quantity'] + $tax_amount );
+            //            dd($final_price * $item['quantity'] + $tax_amount );
             $subtotal = (get_static_option('product_tax_type') == 'individual') ? $final_price * $item['quantity']  + $tax_amount : $final_price * $item['quantity'];
-//            dd($subtotal);
+            //            dd($subtotal);
             $output .= '<td>' . amount_with_currency_symbol($subtotal) . '</td>';
             $output .= '<td><div class="cart-action-wrap"><a href="#" class="btn btn-sm btn-danger ajax_remove_cart_item"  data-product_id="' . $single_product->id . '"><i class="fas fa-trash-alt"></i></a>' . $ajax_preloader . '</div></td>';
             $output .= '</tr>';
@@ -1006,11 +1005,12 @@ function cart_total_items()
     $return_val = session()->get('cart_item');
     return !empty($return_val) ? array_sum(array_column($return_val, 'quantity')) : 0;
 }
-function is_shipping_available(){
+function is_shipping_available()
+{
     $all_cart_item = session()->get('cart_item');
     $return_val = true;
-    $cart_item_type = !empty($all_cart_item) ? array_unique(array_column($all_cart_item,'type')) : [];
-    if (count($cart_item_type)  == 1 && in_array('digital',$cart_item_type)){
+    $cart_item_type = !empty($all_cart_item) ? array_unique(array_column($all_cart_item, 'type')) : [];
+    if (count($cart_item_type)  == 1 && in_array('digital', $cart_item_type)) {
         $return_val = false;
     }
 
@@ -1050,7 +1050,6 @@ function get_cart_tax()
             $all_individual_tax[] = $tax_percentage;
         }
         $tax_amount = array_sum($all_individual_tax);
-
     }
 
     return $tax_amount;
@@ -1100,7 +1099,7 @@ function get_cart_subtotal($currency_symbol = true)
     return $return_val;
 }
 
-function get_cart_coupon_discount_by_code( $code,$symbol = true)
+function get_cart_coupon_discount_by_code($code, $symbol = true)
 {
     $return_val = $symbol ? amount_with_currency_symbol(0) : 0;
     if (!empty($code)) {
@@ -1196,23 +1195,23 @@ function ratings_markup($ratings, $type = '')
     $markup = '';
     $markup_frontend = '';
     switch ($ratings) {
-        case('1'):
+        case ('1'):
             $markup = '<i class="fas fa-star"></i>';
             $markup_frontend = '<li><i class="fas fa-star"></i></li>';
             break;
-        case('2'):
+        case ('2'):
             $markup = '<i class="fas fa-star"></i><i class="fas fa-star"></i>';
             $markup_frontend = '<li><i class="fas fa-star"></i></li><li><i class="fas fa-star"></i></li>';
             break;
-        case('3'):
+        case ('3'):
             $markup = '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>';
             $markup_frontend = '<li><i class="fas fa-star"></i></li><li><i class="fas fa-star"></i></li><li><i class="fas fa-star"></i></li>';
             break;
-        case('4'):
+        case ('4'):
             $markup = '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>';
             $markup_frontend = '<li><i class="fas fa-star"></i></li><li><i class="fas fa-star"></i></li><li><i class="fas fa-star"></i></li><li><i class="fas fa-star"></i></li>';
             break;
-        case('5'):
+        case ('5'):
             $markup = '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>';
             $markup_frontend = '<li><i class="fas fa-star"></i></li><li><i class="fas fa-star"></i></li><li><i class="fas fa-star"></i></li><li><i class="fas fa-star"></i></li><li><i class="fas fa-star"></i></li>';
             break;
@@ -1228,30 +1227,30 @@ function get_mega_menu_cat_name_by_id($type, $cat_id)
     $return_val = '';
 
     switch ($type) {
-        case('service_mega_menu'):
+        case ('service_mega_menu'):
             $cat_details = \App\ServiceCategory::find($cat_id);
             $return_val = !empty($cat_details) ? $cat_details->name : '';
             break;
-        case('work_mega_menu'):
+        case ('work_mega_menu'):
             $cat_details = WorksCategory::find($cat_id);
             $return_val = !empty($cat_details) ? $cat_details->name : '';
             break;
-        case('event_mega_menu'):
+        case ('event_mega_menu'):
             $cat_details = \App\EventsCategory::find($cat_id);
             $return_val = !empty($cat_details) ? $cat_details->title : '';
             break;
-        case('product_mega_menu'):
+        case ('product_mega_menu'):
             $cat_details = \App\ProductCategory::find($cat_id);
             $return_val = !empty($cat_details) ? $cat_details->title : '';
             break;
-        case('donation_mega_menu'):
+        case ('donation_mega_menu'):
             $return_val = '';
             break;
-        case('blog_mega_menu'):
+        case ('blog_mega_menu'):
             $cat_details = \App\BlogCategory::find($cat_id);
             $return_val = !empty($cat_details) ? $cat_details->name : '';
             break;
-        case('job_mega_menu'):
+        case ('job_mega_menu'):
             $cat_details = \App\JobsCategory::find($cat_id);
             $return_val = !empty($cat_details) ? $cat_details->title : '';
             break;
@@ -1267,26 +1266,26 @@ function get_mege_menu_item_url($type, $slug)
     $return_val = '';
 
     switch ($type) {
-        case('service_mega_menu'):
-            $return_val = route('frontend.services.single',$slug);
+        case ('service_mega_menu'):
+            $return_val = route('frontend.services.single', $slug);
             break;
-        case('work_mega_menu'):
-            $return_val = route('frontend.work.single',$slug);
+        case ('work_mega_menu'):
+            $return_val = route('frontend.work.single', $slug);
             break;
-        case('event_mega_menu'):
-            $return_val =  route('frontend.events.single',$slug);
+        case ('event_mega_menu'):
+            $return_val =  route('frontend.events.single', $slug);
             break;
-        case('product_mega_menu'):
-            $return_val =  route('frontend.products.single',$slug);
+        case ('product_mega_menu'):
+            $return_val =  route('frontend.products.single', $slug);
             break;
-        case('donation_mega_menu'):
-            $return_val = route('frontend.donations.single',$slug);
+        case ('donation_mega_menu'):
+            $return_val = route('frontend.donations.single', $slug);
             break;
-        case('blog_mega_menu'):
-            $return_val =  route('frontend.blog.single',$slug);
+        case ('blog_mega_menu'):
+            $return_val =  route('frontend.blog.single', $slug);
             break;
-        case('job_mega_menu'):
-            $return_val =  route('frontend.jobs.single',$slug);
+        case ('job_mega_menu'):
+            $return_val =  route('frontend.jobs.single', $slug);
             break;
         default:
             break;
@@ -1296,112 +1295,120 @@ function get_mege_menu_item_url($type, $slug)
 }
 
 
-function getVisIpAddr() {
+function getVisIpAddr()
+{
 
     if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
         return $_SERVER['HTTP_CLIENT_IP'];
-    }
-    else if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+    } else if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
         return $_SERVER['HTTP_X_FORWARDED_FOR'];
-    }
-    else {
+    } else {
         return $_SERVER['REMOTE_ADDR'];
     }
 }
 
-function get_visitor_country(){
+function get_visitor_country()
+{
     $return_val = 'NG';
     $ip = getVisIpAddr();
     $ipdat = @json_decode(file_get_contents(
-        "http://www.geoplugin.net/json.gp?ip=" . $ip));
-       
+        "http://www.geoplugin.net/json.gp?ip=" . $ip
+    ));
+
     $ipdat = (array) $ipdat;
     $return_val = isset($ipdat['geoplugin_countryCode']) ? $ipdat['geoplugin_countryCode'] : $return_val;
 
     return $return_val;
 }
 
-function get_blog_category_by_id($id,$type = '',$class = ''){
+function get_blog_category_by_id($id, $type = '', $class = '')
+{
     $return_val = __('uncategorized');
     $blog_cat = \App\BlogCategory::find($id);
-    if (!empty($blog_cat)){
+    if (!empty($blog_cat)) {
         $return_val = $blog_cat->name;
-        if ($type == 'link' ){
-            $return_val = '<a class="'.$class.'" href="'.route('frontend.blog.category',['id' => $blog_cat->id,'any' => Str::slug($blog_cat->name) ]).'">'.$blog_cat->name.'</a>';
+        if ($type == 'link') {
+            $return_val = '<a class="' . $class . '" href="' . route('frontend.blog.category', ['id' => $blog_cat->id, 'any' => Str::slug($blog_cat->name)]) . '">' . $blog_cat->name . '</a>';
         }
     }
 
     return $return_val;
 }
-function get_jobs_category_by_id($id,$type = ''){
+function get_jobs_category_by_id($id, $type = '')
+{
     $return_val = __('uncategorized');
     $blog_cat = \App\JobsCategory::find($id);
-    if (!empty($blog_cat)){
+    if (!empty($blog_cat)) {
         $return_val = $blog_cat->title;
-        if ($type == 'link' ){
-            $return_val = '<a href="'.route('frontend.jobs.category',['id' => $blog_cat->id,'any' => Str::slug($blog_cat->title) ]).'">'.$blog_cat->title.'</a>';
+        if ($type == 'link') {
+            $return_val = '<a href="' . route('frontend.jobs.category', ['id' => $blog_cat->id, 'any' => Str::slug($blog_cat->title)]) . '">' . $blog_cat->title . '</a>';
         }
     }
 
     return $return_val;
 }
 
-function get_events_category_by_id($id,$type = ''){
+function get_events_category_by_id($id, $type = '')
+{
     $return_val = __('uncategorized');
     $blog_cat = \App\EventsCategory::find($id);
-    if (!empty($blog_cat)){
+    if (!empty($blog_cat)) {
         $return_val = $blog_cat->title;
-        if ($type == 'link' ){
-            $return_val = '<a href="'.route('frontend.events.category',['id' => $blog_cat->id,'any' => Str::slug($blog_cat->title) ]).'">'.$blog_cat->title.'</a>';
+        if ($type == 'link') {
+            $return_val = '<a href="' . route('frontend.events.category', ['id' => $blog_cat->id, 'any' => Str::slug($blog_cat->title)]) . '">' . $blog_cat->title . '</a>';
         }
     }
 
     return $return_val;
 }
-function get_product_category_by_id($id,$type = ''){
+function get_product_category_by_id($id, $type = '')
+{
     $return_val = __('uncategorized');
     $blog_cat = \App\ProductCategory::find($id);
-    if (!empty($blog_cat)){
+    if (!empty($blog_cat)) {
         $return_val = $blog_cat->title;
-        if ($type == 'link' ){
-            $return_val = '<a href="'.route('frontend.products.category',['id' => $blog_cat->id,'any' => Str::slug($blog_cat->title) ]).'">'.$blog_cat->title.'</a>';
+        if ($type == 'link') {
+            $return_val = '<a href="' . route('frontend.products.category', ['id' => $blog_cat->id, 'any' => Str::slug($blog_cat->title)]) . '">' . $blog_cat->title . '</a>';
         }
     }
 
     return $return_val;
 }
-function get_product_subcategory_by_id($id,$type = ''){
+function get_product_subcategory_by_id($id, $type = '')
+{
     $return_val = __('uncategorized');
     $blog_cat = \App\ProductSubCategory::find($id);
-    if (!empty($blog_cat)){
+    if (!empty($blog_cat)) {
         $return_val = $blog_cat->title;
-        if ($type == 'link' ){
-            $return_val = '<a href="'.route('frontend.products.subcategory',['id' => $blog_cat->id,'any' => \Illuminate\Support\Str::slug($blog_cat->title) ]).'">'.$blog_cat->title.'</a>';
+        if ($type == 'link') {
+            $return_val = '<a href="' . route('frontend.products.subcategory', ['id' => $blog_cat->id, 'any' => \Illuminate\Support\Str::slug($blog_cat->title)]) . '">' . $blog_cat->title . '</a>';
         }
     }
 
     return $return_val;
 }
 
-function get_service_category_by_id($id,$type = ''){
+function get_service_category_by_id($id, $type = '')
+{
     $return_val = __('uncategorized');
     $blog_cat = \App\ServiceCategory::find($id);
-    if (!empty($blog_cat)){
+    if (!empty($blog_cat)) {
         $return_val = $blog_cat->name;
-        if ($type == 'link' ){
-            $return_val = '<a href="'.route('frontend.services.category',['id' => $blog_cat->id,'any' => Str::slug($blog_cat->name) ]).'">'.$blog_cat->name.'</a>';
+        if ($type == 'link') {
+            $return_val = '<a href="' . route('frontend.services.category', ['id' => $blog_cat->id, 'any' => Str::slug($blog_cat->name)]) . '">' . $blog_cat->name . '</a>';
         }
     }
 
     return $return_val;
 }
 
-function get_price_plan_category_by_id($id,$type = ''){
+function get_price_plan_category_by_id($id, $type = '')
+{
 
     $return_val = __('uncategorized');
     $blog_cat = \App\PricePlanCategory::find($id);
 
-    if (!empty($blog_cat)){
+    if (!empty($blog_cat)) {
         $return_val = $blog_cat->name;
     }
 
@@ -1409,7 +1416,7 @@ function get_price_plan_category_by_id($id,$type = ''){
 }
 function amount_with_currency_symbol($amount, $text = false)
 {
-    $amount = number_format((float) $amount,2,'.',',');
+    $amount = number_format((float) $amount, 2, '.', ',');
     $position = get_static_option('site_currency_symbol_position');
     $symbol = site_currency_symbol($text);
     $return_val = $symbol . $amount;
@@ -1443,8 +1450,8 @@ function render_payment_gateway_for_form($cash_on_delivery = false)
 
     $output .= '<input type="hidden" name="selected_payment_gateway" value="' . get_static_option('site_default_payment_gateway') . '">';
     $all_gateway = [
-        'paypal', 'paytm', 'mollie','stripe','manual_payment', 'razorpay', 'flutterwave', 'paystack','midtrans',
-        'payfast','cashfree','instamojo','marcadopago','squareup','cinetpay','paytabs','billplz','zitopay', 'toyyibpay', 'pagalipay','authorizenet'
+        'paypal', 'paytm', 'mollie', 'stripe', 'manual_payment', 'razorpay', 'flutterwave', 'paystack', 'midtrans',
+        'payfast', 'cashfree', 'instamojo', 'marcadopago', 'squareup', 'cinetpay', 'paytabs', 'billplz', 'zitopay', 'toyyibpay', 'pagalipay', 'authorizenet'
     ];
     $output .= '<ul>';
     if ($cash_on_delivery && !empty(get_static_option('cash_on_delivery_gateway'))) {
@@ -1454,7 +1461,7 @@ function render_payment_gateway_for_form($cash_on_delivery = false)
     }
 
     foreach ($all_gateway as $gateway) {
-        if (!empty(get_static_option($gateway . '_gateway'))):
+        if (!empty(get_static_option($gateway . '_gateway'))) :
             $class = (get_static_option('site_default_payment_gateway') == $gateway) ? 'class="selected"' : '';
 
             $output .= '<li data-gateway="' . $gateway . '" ' . $class . '><div class="img-select">';
@@ -1696,17 +1703,20 @@ function get_language_name_by_slug($slug)
     return $data->name;
 }
 
-function get_default_language_direction(){
-    $default_lang = Language::where('default',1)->first();
+function get_default_language_direction()
+{
+    $default_lang = Language::where('default', 1)->first();
     return !empty($default_lang) ? $default_lang->direction : 'ltr';
 }
 
-function custom_number_format ($amount){
-   return number_format((float)$amount, 2, '.', '');
+function custom_number_format($amount)
+{
+    return number_format((float)$amount, 2, '.', '');
 }
 
-function get_footer_copyright_text(){
-    $footer_copyright_text = get_static_option('site_'.get_user_lang().'_footer_copyright');
+function get_footer_copyright_text()
+{
+    $footer_copyright_text = get_static_option('site_' . get_user_lang() . '_footer_copyright');
     $footer_copyright_text = str_replace(array('{copy}', '{year}'), array('&copy;', date('Y')), $footer_copyright_text);
     return $footer_copyright_text;
 }
@@ -1745,7 +1755,6 @@ function cart_tax_for_mail_template($cart_items = [])
             $all_individual_tax[] = $tax_percentage;
         }
         $tax_amount = array_sum($all_individual_tax);
-
     }
 
     return $tax_amount;
@@ -1756,103 +1765,106 @@ function get_shipping_name_by_id($id)
     $shipping_details = \App\ProductShipping::find($id);
     return !empty($shipping_details) ? $shipping_details->title : "Undefined";
 }
-function get_image_category_name_by_id($id){
+function get_image_category_name_by_id($id)
+{
     $return_val = __('uncategorized');
 
     $category_details = \App\ImageGalleryCategory::find($id);
-    if (!empty($category_details)){
-            $return_val = $category_details->title;
+    if (!empty($category_details)) {
+        $return_val = $category_details->title;
     }
 
     return $return_val;
 }
 
-function get_home_variant(){
+function get_home_variant()
+{
     return get_static_option('home_page_variant');
 }
 
-function get_static_option_arr($home){
+function get_static_option_arr($home)
+{
     $default_lang = Language::where('default', 1)->first();
     $lang = !empty(session()->get('lang')) ? session()->get('lang') : $default_lang->slug;
     $home_09 = [
         'home_page_07_topbar_section_info_item_icon',
-        'home_page_07_'.$lang.'_topbar_section_info_item_title',
-        'home_page_07_'.$lang.'_topbar_section_info_item_details',
+        'home_page_07_' . $lang . '_topbar_section_info_item_title',
+        'home_page_07_' . $lang . '_topbar_section_info_item_details',
         'language_select_option',
         'navbar_button',
         'navbar_button_custom_url_status',
-        'navbar_'.$lang.'_button_text',
+        'navbar_' . $lang . '_button_text',
         'site_white_logo',
-        'site_'.$lang.'_title',
+        'site_' . $lang . '_title',
         'product_module_status',
         'construction_header_section_bg_image',
-        'construction_header_section_'.$lang.'_title',
-        'construction_header_section_'.$lang.'_description',
-        'construction_header_section_'.$lang.'_button_one_text',
+        'construction_header_section_' . $lang . '_title',
+        'construction_header_section_' . $lang . '_description',
+        'construction_header_section_' . $lang . '_button_one_text',
         'construction_header_section_button_one_icon',
         'construction_header_section_button_one_url',
         'home_page_about_us_section_status',
         'construction_about_section_left_image',
         'construction_about_section_video_url',
         'construction_about_section_experience_year',
-        'construction_about_section_'.$lang.'_experience_year_title',
-        'construction_about_section_'.$lang.'_subtitle',
-        'construction_about_section_'.$lang.'_title',
-        'construction_about_section_'.$lang.'_description',
-        'construction_about_section_'.$lang.'_button_one_text',
+        'construction_about_section_' . $lang . '_experience_year_title',
+        'construction_about_section_' . $lang . '_subtitle',
+        'construction_about_section_' . $lang . '_title',
+        'construction_about_section_' . $lang . '_description',
+        'construction_about_section_' . $lang . '_button_one_text',
         'construction_about_section_button_one_icon',
         'construction_about_section_button_one_url',
         'home_page_counterup_section_status',
         'home_page_service_section_status',
-        'construction_what_we_offer_section_'.$lang.'_subtitle',
-        'construction_what_we_offer_section_'.$lang.'_title',
-        'construction_what_we_offer_section_'.$lang.'_button_text',
+        'construction_what_we_offer_section_' . $lang . '_subtitle',
+        'construction_what_we_offer_section_' . $lang . '_title',
+        'construction_what_we_offer_section_' . $lang . '_button_text',
         'home_page_quote_faq_section_status',
         'construction_quote_section_bg_image',
         'construction_quote_section_right_image',
-        'construction_quote_section_'.$lang.'_subtitle',
-        'construction_quote_section_'.$lang.'_title',
-        'construction_quote_section_'.$lang.'_button_text',
+        'construction_quote_section_' . $lang . '_subtitle',
+        'construction_quote_section_' . $lang . '_title',
+        'construction_quote_section_' . $lang . '_button_text',
         'construction_quote_section__button_icon',
         'quote_page_form_fields',
         'home_page_case_study_section_status',
-        'construction_project_section_'.$lang.'_subtitle',
-        'construction_project_section_'.$lang.'_title',
+        'construction_project_section_' . $lang . '_subtitle',
+        'construction_project_section_' . $lang . '_title',
         'home_page_team_member_section_status',
-        'construction_team_member_section_'.$lang.'_subtitle',
-        'construction_team_member_section_'.$lang.'_title',
+        'construction_team_member_section_' . $lang . '_subtitle',
+        'construction_team_member_section_' . $lang . '_title',
         'home_page_testimonial_section_status',
-        'construction_testimonial_section_'.$lang.'_subtitle',
-        'construction_testimonial_section_'.$lang.'_title',
+        'construction_testimonial_section_' . $lang . '_subtitle',
+        'construction_testimonial_section_' . $lang . '_title',
         'home_page_latest_news_section_status',
-        'construction_news_area_section_'.$lang.'_title',
-        'construction_news_area_section_'.$lang.'_subtitle',
-        'portfolio_news_section_'.$lang.'_button_text',
+        'construction_news_area_section_' . $lang . '_title',
+        'construction_news_area_section_' . $lang . '_subtitle',
+        'portfolio_news_section_' . $lang . '_button_text',
     ];
 
     $home_01 = [
-        'home_page_01_'.$lang.'_about_us_title',
-        'home_page_01_'.$lang.'_service_area_title',
-        'home_page_01_'.$lang.'_service_area_description',
-        'home_page_01_'.$lang.'_about_us_video_url',
-        'home_page_01_'.$lang.'_latest_news_title',
-        'home_page_01_'.$lang.'_latest_news_description',
-        'home_page_01_'.$lang.'_latest_news_description',
-        'home_page_01_'.$lang.'_contact_area_button_text',
-        'home_page_01_'.$lang.'_contact_area_title',
-        'home_page_01_'.$lang.'_quality_area_title',
-        'home_page_01_'.$lang.'_quality_area_description',
-        'home_page_01_'.$lang.'_quality_area_button_status',
-        'home_page_01_'.$lang.'_quality_area_button_url',
-        'home_page_01_'.$lang.'_quality_area_button_title',
-        'home_page_01_'.$lang.'_case_study_title',
-        'home_page_01_'.$lang.'_case_study_description',
-        'home_page_01_'.$lang.'_read_more_text',
-        'home_page_01_'.$lang.'_testimonial_section_title',
-        'home_page_01_'.$lang.'_price_plan_section_title',
-        'home_page_01_'.$lang.'_price_plan_section_description',
-        'site_'.$lang.'_title',
-        'case_study_'.$lang.'_read_more_text',
+        'home_page_01_' . $lang . '_about_us_title',
+        'home_page_01_' . $lang . '_service_area_title',
+        'home_page_01_' . $lang . '_service_area_description',
+        'home_page_01_' . $lang . '_about_us_video_url',
+        'home_page_01_' . $lang . '_latest_news_title',
+        'home_page_01_' . $lang . '_latest_news_description',
+        'home_page_01_' . $lang . '_latest_news_description',
+        'home_page_01_' . $lang . '_contact_area_button_text',
+        'home_page_01_' . $lang . '_contact_area_title',
+        'home_page_01_' . $lang . '_quality_area_title',
+        'home_page_01_' . $lang . '_quality_area_description',
+        'home_page_01_' . $lang . '_quality_area_button_status',
+        'home_page_01_' . $lang . '_quality_area_button_url',
+        'home_page_01_' . $lang . '_quality_area_button_title',
+        'home_page_01_' . $lang . '_case_study_title',
+        'home_page_01_' . $lang . '_case_study_description',
+        'home_page_01_' . $lang . '_read_more_text',
+        'home_page_01_' . $lang . '_testimonial_section_title',
+        'home_page_01_' . $lang . '_price_plan_section_title',
+        'home_page_01_' . $lang . '_price_plan_section_description',
+        'site_' . $lang . '_title',
+        'case_study_' . $lang . '_read_more_text',
         'home_page_key_feature_section_status',
         'home_page_about_us_section_status',
         'home_page_01_about_us_video_background_image',
@@ -1897,31 +1909,31 @@ function get_static_option_arr($home){
         'home_page_01_contact_area_map_location',
         'get_in_touch_form_fields',
         'home_page_contact_section_status',
-        'site_'.$lang.'_title',
-        'home_page_01_'.$lang.'_service_area_title',
-        'home_page_01_'.$lang.'_service_area_description',
-        'home_page_01_'.$lang.'_quality_area_title',
-        'home_page_01_'.$lang.'_quality_area_description',
-        'home_page_01_'.$lang.'_quality_area_button_status',
-        'home_page_01_'.$lang.'_quality_area_button_url',
-        'home_page_01_'.$lang.'_quality_area_button_title',
-        'home_page_01_'.$lang.'_about_us_video_url',
-        'home_page_01_'.$lang.'_about_us_title',
-        'home_page_01_'.$lang.'_about_us_description',
-        'home_page_01_'.$lang.'_about_us_quote_text',
-        'home_page_01_'.$lang.'_testimonial_section_title',
-        'home_page_01_'.$lang.'_about_us_quote_text',
-        'home_page_01_'.$lang.'_brand_logo_area_title',
-        'home_page_01_'.$lang.'_price_plan_section_title',
-        'home_page_01_'.$lang.'_price_plan_section_description',
-        'home_page_01_'.$lang.'_case_study_title',
-        'home_page_01_'.$lang.'_case_study_description',
-        'home_page_01_'.$lang.'_team_member_section_title',
-        'home_page_01_'.$lang.'_team_member_section_description',
-        'home_page_01_'.$lang.'_latest_news_title',
-        'home_page_01_'.$lang.'_latest_news_description',
-        'home_page_01_'.$lang.'_contact_area_title',
-        'home_page_01_'.$lang.'_contact_area_button_text',
+        'site_' . $lang . '_title',
+        'home_page_01_' . $lang . '_service_area_title',
+        'home_page_01_' . $lang . '_service_area_description',
+        'home_page_01_' . $lang . '_quality_area_title',
+        'home_page_01_' . $lang . '_quality_area_description',
+        'home_page_01_' . $lang . '_quality_area_button_status',
+        'home_page_01_' . $lang . '_quality_area_button_url',
+        'home_page_01_' . $lang . '_quality_area_button_title',
+        'home_page_01_' . $lang . '_about_us_video_url',
+        'home_page_01_' . $lang . '_about_us_title',
+        'home_page_01_' . $lang . '_about_us_description',
+        'home_page_01_' . $lang . '_about_us_quote_text',
+        'home_page_01_' . $lang . '_testimonial_section_title',
+        'home_page_01_' . $lang . '_about_us_quote_text',
+        'home_page_01_' . $lang . '_brand_logo_area_title',
+        'home_page_01_' . $lang . '_price_plan_section_title',
+        'home_page_01_' . $lang . '_price_plan_section_description',
+        'home_page_01_' . $lang . '_case_study_title',
+        'home_page_01_' . $lang . '_case_study_description',
+        'home_page_01_' . $lang . '_team_member_section_title',
+        'home_page_01_' . $lang . '_team_member_section_description',
+        'home_page_01_' . $lang . '_latest_news_title',
+        'home_page_01_' . $lang . '_latest_news_description',
+        'home_page_01_' . $lang . '_contact_area_title',
+        'home_page_01_' . $lang . '_contact_area_button_text',
     ];
 
     $home_03 = [
@@ -1947,23 +1959,23 @@ function get_static_option_arr($home){
         'home_page_01_price_plan_background_image',
         'home_page_latest_news_section_status',
         'home_page_brand_logo_section_status',
-        'site_'.$lang.'_title',
-        'home_page_01_'.$lang.'_contact_area_title',
-        'home_page_01_'.$lang.'_contact_area_button_text',
-        'home_page_01_'.$lang.'_about_us_title',
-        'home_page_01_'.$lang.'_about_us_description',
-        'home_page_01_'.$lang.'_about_us_quote_text',
-        'home_page_01_'.$lang.'_service_area_title',
-        'home_page_01_'.$lang.'_service_area_description',
-        'home_page_01_'.$lang.'_cta_area_title',
-        'home_page_01_'.$lang.'_cta_area_button_title',
-        'home_page_01_'.$lang.'_case_study_title',
-        'home_page_01_'.$lang.'_case_study_description',
-        'home_page_01_'.$lang.'_price_plan_section_title',
-        'home_page_01_'.$lang.'_price_plan_section_description',
-        'home_page_01_'.$lang.'_latest_news_title',
-        'home_page_01_'.$lang.'_latest_news_description',
-        'home_page_01_'.$lang.'_brand_logo_area_title',
+        'site_' . $lang . '_title',
+        'home_page_01_' . $lang . '_contact_area_title',
+        'home_page_01_' . $lang . '_contact_area_button_text',
+        'home_page_01_' . $lang . '_about_us_title',
+        'home_page_01_' . $lang . '_about_us_description',
+        'home_page_01_' . $lang . '_about_us_quote_text',
+        'home_page_01_' . $lang . '_service_area_title',
+        'home_page_01_' . $lang . '_service_area_description',
+        'home_page_01_' . $lang . '_cta_area_title',
+        'home_page_01_' . $lang . '_cta_area_button_title',
+        'home_page_01_' . $lang . '_case_study_title',
+        'home_page_01_' . $lang . '_case_study_description',
+        'home_page_01_' . $lang . '_price_plan_section_title',
+        'home_page_01_' . $lang . '_price_plan_section_description',
+        'home_page_01_' . $lang . '_latest_news_title',
+        'home_page_01_' . $lang . '_latest_news_description',
+        'home_page_01_' . $lang . '_brand_logo_area_title',
     ];
 
     $home_04 = [
@@ -1988,26 +2000,26 @@ function get_static_option_arr($home){
         'home_page_price_plan_section_status',
         'home_page_counterup_section_status',
         'home_page_latest_news_section_status',
-        'site_'.$lang.'_title',
-        'home_page_01_'.$lang.'_contact_area_title',
-        'home_page_01_'.$lang.'_contact_area_button_text',
-        'home_page_01_'.$lang.'_about_us_title',
-        'home_page_01_'.$lang.'_about_us_description',
-        'home_page_01_'.$lang.'_about_us_our_mission_title',
-        'home_page_01_'.$lang.'_about_us_our_mission_description',
-        'home_page_01_'.$lang.'_about_us_our_vision_title',
-        'home_page_01_'.$lang.'_about_us_our_vision_description',
-        'home_page_01_'.$lang.'_quality_area_title',
-        'home_page_01_'.$lang.'_quality_area_description',
-        'home_page_01_'.$lang.'_service_area_title',
-        'home_page_01_'.$lang.'_service_area_description',
-        'home_page_01_'.$lang.'_case_study_title',
-        'home_page_01_'.$lang.'_case_study_description',
-        'home_page_01_'.$lang.'_testimonial_section_title',
-        'home_page_01_'.$lang.'_price_plan_section_title',
-        'home_page_01_'.$lang.'_price_plan_section_description',
-        'home_page_01_'.$lang.'_latest_news_title',
-        'home_page_01_'.$lang.'_latest_news_description',
+        'site_' . $lang . '_title',
+        'home_page_01_' . $lang . '_contact_area_title',
+        'home_page_01_' . $lang . '_contact_area_button_text',
+        'home_page_01_' . $lang . '_about_us_title',
+        'home_page_01_' . $lang . '_about_us_description',
+        'home_page_01_' . $lang . '_about_us_our_mission_title',
+        'home_page_01_' . $lang . '_about_us_our_mission_description',
+        'home_page_01_' . $lang . '_about_us_our_vision_title',
+        'home_page_01_' . $lang . '_about_us_our_vision_description',
+        'home_page_01_' . $lang . '_quality_area_title',
+        'home_page_01_' . $lang . '_quality_area_description',
+        'home_page_01_' . $lang . '_service_area_title',
+        'home_page_01_' . $lang . '_service_area_description',
+        'home_page_01_' . $lang . '_case_study_title',
+        'home_page_01_' . $lang . '_case_study_description',
+        'home_page_01_' . $lang . '_testimonial_section_title',
+        'home_page_01_' . $lang . '_price_plan_section_title',
+        'home_page_01_' . $lang . '_price_plan_section_description',
+        'home_page_01_' . $lang . '_latest_news_title',
+        'home_page_01_' . $lang . '_latest_news_description',
     ];
     $home_05 = [
         'home_page_variant',
@@ -2036,37 +2048,37 @@ function get_static_option_arr($home){
         'portfolio_cta_section_right_image',
         'home_page_testimonial_section_status',
         'home_page_latest_news_section_status',
-        'site_'.$lang.'_title',
-        'portfolio_home_page_'.$lang.'_subtitle',
-        'portfolio_home_page_'.$lang.'_title',
-        'portfolio_home_page_'.$lang.'_profession',
-        'portfolio_home_page_'.$lang.'_description',
-        'portfolio_home_page_'.$lang.'_button_text',
-        'portfolio_about_section_'.$lang.'_subtitle',
-        'portfolio_about_section_'.$lang.'_title',
-        'portfolio_about_section_'.$lang.'_description',
-        'home_page_05_'.$lang.'_about_section_icon_box_title',
-        'portfolio_about_section_'.$lang.'_button_one_text',
-        'portfolio_about_section_'.$lang.'_button_two_text',
-        'portfolio_expertice_section_'.$lang.'_subtitle',
-        'portfolio_expertice_section_'.$lang.'_title',
-        'home_page_05_'.$lang.'_experties_section_skill_box_title',
-        'home_page_05_'.$lang.'_experties_section_skill_box_subtitle',
-        'home_page_05_'.$lang.'_experties_section_skill_box_subtitle',
-        'portfolio_what_we_offer_section_'.$lang.'_subtitle',
-        'portfolio_what_we_offer_section_'.$lang.'_title',
-        'portfolio_recent_work_section_'.$lang.'_subtitle',
-        'portfolio_recent_work_section_'.$lang.'_title',
-        'portfolio_recent_work_section_'.$lang.'_button_text',
-        'portfolio_cta_section_'.$lang.'_title',
-        'portfolio_cta_section_'.$lang.'_description',
-        'portfolio_cta_section_'.$lang.'_description',
-        'portfolio_cta_section_'.$lang.'_button_text',
-        'portfolio_testimonial_section_'.$lang.'_subtitle',
-        'portfolio_testimonial_section_'.$lang.'_title',
-        'portfolio_news_section_'.$lang.'_subtitle',
-        'portfolio_news_section_'.$lang.'_title',
-        'portfolio_news_section_'.$lang.'_button_text',
+        'site_' . $lang . '_title',
+        'portfolio_home_page_' . $lang . '_subtitle',
+        'portfolio_home_page_' . $lang . '_title',
+        'portfolio_home_page_' . $lang . '_profession',
+        'portfolio_home_page_' . $lang . '_description',
+        'portfolio_home_page_' . $lang . '_button_text',
+        'portfolio_about_section_' . $lang . '_subtitle',
+        'portfolio_about_section_' . $lang . '_title',
+        'portfolio_about_section_' . $lang . '_description',
+        'home_page_05_' . $lang . '_about_section_icon_box_title',
+        'portfolio_about_section_' . $lang . '_button_one_text',
+        'portfolio_about_section_' . $lang . '_button_two_text',
+        'portfolio_expertice_section_' . $lang . '_subtitle',
+        'portfolio_expertice_section_' . $lang . '_title',
+        'home_page_05_' . $lang . '_experties_section_skill_box_title',
+        'home_page_05_' . $lang . '_experties_section_skill_box_subtitle',
+        'home_page_05_' . $lang . '_experties_section_skill_box_subtitle',
+        'portfolio_what_we_offer_section_' . $lang . '_subtitle',
+        'portfolio_what_we_offer_section_' . $lang . '_title',
+        'portfolio_recent_work_section_' . $lang . '_subtitle',
+        'portfolio_recent_work_section_' . $lang . '_title',
+        'portfolio_recent_work_section_' . $lang . '_button_text',
+        'portfolio_cta_section_' . $lang . '_title',
+        'portfolio_cta_section_' . $lang . '_description',
+        'portfolio_cta_section_' . $lang . '_description',
+        'portfolio_cta_section_' . $lang . '_button_text',
+        'portfolio_testimonial_section_' . $lang . '_subtitle',
+        'portfolio_testimonial_section_' . $lang . '_title',
+        'portfolio_news_section_' . $lang . '_subtitle',
+        'portfolio_news_section_' . $lang . '_title',
+        'portfolio_news_section_' . $lang . '_button_text',
     ];
     $home_06 = [
         'site_white_logo',
@@ -2090,30 +2102,30 @@ function get_static_option_arr($home){
         'quote_page_form_fields',
         'home_page_testimonial_section_status',
         'home_page_latest_news_section_status',
-        'site_'.$lang.'_title',
-        'home_page_01_'.$lang.'_contact_area_title',
-        'home_page_01_'.$lang.'_contact_area_button_text',
-        'home_page_06_'.$lang.'_header_section_description',
-        'home_page_06_'.$lang.'_header_section_button_one_text',
-        'home_page_06_'.$lang.'_header_section_button_two_text',
-        'home_page_06_'.$lang.'_header_section_title',
-        'logistic_what_we_offer_section_'.$lang.'_subtitle',
-        'logistic_what_we_offer_section_'.$lang.'_title',
-        'logistic_what_we_offer_section_'.$lang.'_button_text',
-        'logistic_project_section_'.$lang.'_subtitle',
-        'logistic_project_section_'.$lang.'_title',
-        'logistic_quote_section_'.$lang.'_subtitle',
-        'logistic_quote_section_'.$lang.'_title',
-        'logistic_quote_section_'.$lang.'_button_text',
-        'logistic_faq_section_'.$lang.'_subtitle',
-        'logistic_faq_section_'.$lang.'_title',
-        'home_page_06_'.$lang.'_faq_item_title',
-        'home_page_06_'.$lang.'_faq_item_description',
-        'logistic_testimonial_section_'.$lang.'_subtitle',
-        'logistic_testimonial_section_'.$lang.'_title',
-        'portfolio_news_section_'.$lang.'_button_text',
-        'logistic_news_section_'.$lang.'_title',
-        'logistic_news_section_'.$lang.'_subtitle',
+        'site_' . $lang . '_title',
+        'home_page_01_' . $lang . '_contact_area_title',
+        'home_page_01_' . $lang . '_contact_area_button_text',
+        'home_page_06_' . $lang . '_header_section_description',
+        'home_page_06_' . $lang . '_header_section_button_one_text',
+        'home_page_06_' . $lang . '_header_section_button_two_text',
+        'home_page_06_' . $lang . '_header_section_title',
+        'logistic_what_we_offer_section_' . $lang . '_subtitle',
+        'logistic_what_we_offer_section_' . $lang . '_title',
+        'logistic_what_we_offer_section_' . $lang . '_button_text',
+        'logistic_project_section_' . $lang . '_subtitle',
+        'logistic_project_section_' . $lang . '_title',
+        'logistic_quote_section_' . $lang . '_subtitle',
+        'logistic_quote_section_' . $lang . '_title',
+        'logistic_quote_section_' . $lang . '_button_text',
+        'logistic_faq_section_' . $lang . '_subtitle',
+        'logistic_faq_section_' . $lang . '_title',
+        'home_page_06_' . $lang . '_faq_item_title',
+        'home_page_06_' . $lang . '_faq_item_description',
+        'logistic_testimonial_section_' . $lang . '_subtitle',
+        'logistic_testimonial_section_' . $lang . '_title',
+        'portfolio_news_section_' . $lang . '_button_text',
+        'logistic_news_section_' . $lang . '_title',
+        'logistic_news_section_' . $lang . '_subtitle',
     ];
     $home_07 = [
         'site_logo',
@@ -2143,32 +2155,32 @@ function get_static_option_arr($home){
         'home_page_testimonial_section_status',
         'home_page_latest_news_section_status',
         'home_page_brand_logo_section_status',
-        'site_'.$lang.'_title',
-        'home_page_01_'.$lang.'_contact_area_title',
-        'home_page_01_'.$lang.'_contact_area_button_text',
-        'home_page_07_'.$lang.'_topbar_section_info_item_title',
-        'home_page_07_'.$lang.'_topbar_section_info_item_details',
-        'home_page_07_'.$lang.'_header_section_description',
-        'home_page_07_'.$lang.'_header_section_button_one_text',
-        'home_page_07_'.$lang.'_header_section_title',
-        'industry_about_section_'.$lang.'_experience_year_title',
-        'industry_about_section_'.$lang.'_title',
-        'industry_about_section_'.$lang.'_subtitle',
-        'industry_about_section_'.$lang.'_description',
-        'industry_about_section_'.$lang.'_button_one_text',
-        'industry_what_we_offer_section_'.$lang.'_subtitle',
-        'industry_what_we_offer_section_'.$lang.'_title',
-        'industry_what_we_offer_section_'.$lang.'_readmore_text',
-        'logistic_what_we_offer_section_'.$lang.'_button_text',
-        'industry_project_section_'.$lang.'_subtitle',
-        'industry_project_section_'.$lang.'_title',
-        'industry_team_member_section_'.$lang.'_subtitle',
-        'industry_team_member_section_'.$lang.'_title',
-        'industry_testimonial_section_'.$lang.'_subtitle',
-        'industry_testimonial_section_'.$lang.'_title',
-        'industry_news_area_section_'.$lang.'_subtitle',
-        'industry_news_area_section_'.$lang.'_title',
-        'portfolio_news_section_'.$lang.'_button_text',
+        'site_' . $lang . '_title',
+        'home_page_01_' . $lang . '_contact_area_title',
+        'home_page_01_' . $lang . '_contact_area_button_text',
+        'home_page_07_' . $lang . '_topbar_section_info_item_title',
+        'home_page_07_' . $lang . '_topbar_section_info_item_details',
+        'home_page_07_' . $lang . '_header_section_description',
+        'home_page_07_' . $lang . '_header_section_button_one_text',
+        'home_page_07_' . $lang . '_header_section_title',
+        'industry_about_section_' . $lang . '_experience_year_title',
+        'industry_about_section_' . $lang . '_title',
+        'industry_about_section_' . $lang . '_subtitle',
+        'industry_about_section_' . $lang . '_description',
+        'industry_about_section_' . $lang . '_button_one_text',
+        'industry_what_we_offer_section_' . $lang . '_subtitle',
+        'industry_what_we_offer_section_' . $lang . '_title',
+        'industry_what_we_offer_section_' . $lang . '_readmore_text',
+        'logistic_what_we_offer_section_' . $lang . '_button_text',
+        'industry_project_section_' . $lang . '_subtitle',
+        'industry_project_section_' . $lang . '_title',
+        'industry_team_member_section_' . $lang . '_subtitle',
+        'industry_team_member_section_' . $lang . '_title',
+        'industry_testimonial_section_' . $lang . '_subtitle',
+        'industry_testimonial_section_' . $lang . '_title',
+        'industry_news_area_section_' . $lang . '_subtitle',
+        'industry_news_area_section_' . $lang . '_title',
+        'portfolio_news_section_' . $lang . '_button_text',
     ];
     $home_08 = [
         'creative_agency_video_section_video_url',
@@ -2194,32 +2206,32 @@ function get_static_option_arr($home){
         'cagency_cta_section_button_icon',
         'home_page_testimonial_section_status',
         'home_page_latest_news_section_status',
-        'site_'.$lang.'_title',
-        'home_page_01_'.$lang.'_contact_area_title',
-        'home_page_01_'.$lang.'_contact_area_button_text',
-        'cagency_header_section_'.$lang.'_title',
-        'cagency_header_section_'.$lang.'_description',
-        'cagency_header_section_'.$lang.'_button_one_text',
-        'cagency_what_we_offer_section_'.$lang.'_subtitle',
-        'cagency_what_we_offer_section_'.$lang.'_title',
-        'logistic_what_we_offer_section_'.$lang.'_button_text',
-        'cagency_work_process_section_'.$lang.'_subtitle',
-        'cagency_work_process_section_'.$lang.'_title',
-        'cagency_work_process_section_item_'.$lang.'_title',
-        'cagency_our_portfolio_section_'.$lang.'_subtitle',
-        'cagency_our_portfolio_section_'.$lang.'_title',
-        'cagency_cta_section_'.$lang.'_title',
-        'cagency_cta_section_'.$lang.'_description',
-        'cagency_cta_section_'.$lang.'_button_text',
-        'cagency_testimonial_section_'.$lang.'_subtitle',
-        'cagency_testimonial_section_'.$lang.'_title',
-        'cagency_news_area_section_'.$lang.'_subtitle',
-        'cagency_news_area_section_'.$lang.'_title',
-        'portfolio_news_section_'.$lang.'_button_text',
+        'site_' . $lang . '_title',
+        'home_page_01_' . $lang . '_contact_area_title',
+        'home_page_01_' . $lang . '_contact_area_button_text',
+        'cagency_header_section_' . $lang . '_title',
+        'cagency_header_section_' . $lang . '_description',
+        'cagency_header_section_' . $lang . '_button_one_text',
+        'cagency_what_we_offer_section_' . $lang . '_subtitle',
+        'cagency_what_we_offer_section_' . $lang . '_title',
+        'logistic_what_we_offer_section_' . $lang . '_button_text',
+        'cagency_work_process_section_' . $lang . '_subtitle',
+        'cagency_work_process_section_' . $lang . '_title',
+        'cagency_work_process_section_item_' . $lang . '_title',
+        'cagency_our_portfolio_section_' . $lang . '_subtitle',
+        'cagency_our_portfolio_section_' . $lang . '_title',
+        'cagency_cta_section_' . $lang . '_title',
+        'cagency_cta_section_' . $lang . '_description',
+        'cagency_cta_section_' . $lang . '_button_text',
+        'cagency_testimonial_section_' . $lang . '_subtitle',
+        'cagency_testimonial_section_' . $lang . '_title',
+        'cagency_news_area_section_' . $lang . '_subtitle',
+        'cagency_news_area_section_' . $lang . '_title',
+        'portfolio_news_section_' . $lang . '_button_text',
     ];
 
     $home_10 = [
-        'site_'.$lang.'_title',
+        'site_' . $lang . '_title',
         'home_page_variant',
         'site_white_logo',
         'home_page_about_us_section_status',
@@ -2244,39 +2256,39 @@ function get_static_option_arr($home){
         'home_10_counterup_section_background_image',
         'home_page_10_cta_area_background_image',
         'home_page_10_cta_area_button_url',
-        'home_page_10_'.$lang.'_header_section_description',
-        'home_page_10_'.$lang.'_header_section_button_one_text',
-        'home_page_10_'.$lang.'_header_section_button_two_text',
-        'home_page_10_'.$lang.'_header_section_title',
-        'home_page_10_'.$lang.'_header_section_subtitle',
-        'home_page_10_'.$lang.'_key_feeatures_item_description',
-        'home_page_10_'.$lang.'_key_features_item_title',
-        'lawyer_about_section_'.$lang.'_subtitle',
-        'lawyer_about_section_'.$lang.'_title',
-        'lawyer_about_section_'.$lang.'_description',
-        'lawyer_about_section_'.$lang.'_button_text',
-        'home_page_10_'.$lang.'_service_area_title',
-        'home_page_10_'.$lang.'_service_area_subtitle',
-        'home_page_10_'.$lang.'_service_area_readmore_text',
-        'home_page_10_'.$lang.'_team_member_section_subtitle',
-        'home_page_10_'.$lang.'_team_member_section_title',
-        'home_page_10_'.$lang.'_testimonial_section_title',
-        'home_page_10_'.$lang.'_testimonial_section_subtitle',
-        'home_page_10_'.$lang.'_new_area_subtitle',
-        'home_page_10_'.$lang.'_new_area_title',
-        'home_page_10_'.$lang.'_cta_area_title',
-        'home_page_10_'.$lang.'_cta_area_description',
-        'home_page_10_'.$lang.'_cta_area_button_status',
-        'home_page_10_'.$lang.'_cta_area_button_title',
-        'home_page_10_'.$lang.'_contact_area_title',
-        'home_page_10_'.$lang.'_contact_area_button_title',
+        'home_page_10_' . $lang . '_header_section_description',
+        'home_page_10_' . $lang . '_header_section_button_one_text',
+        'home_page_10_' . $lang . '_header_section_button_two_text',
+        'home_page_10_' . $lang . '_header_section_title',
+        'home_page_10_' . $lang . '_header_section_subtitle',
+        'home_page_10_' . $lang . '_key_feeatures_item_description',
+        'home_page_10_' . $lang . '_key_features_item_title',
+        'lawyer_about_section_' . $lang . '_subtitle',
+        'lawyer_about_section_' . $lang . '_title',
+        'lawyer_about_section_' . $lang . '_description',
+        'lawyer_about_section_' . $lang . '_button_text',
+        'home_page_10_' . $lang . '_service_area_title',
+        'home_page_10_' . $lang . '_service_area_subtitle',
+        'home_page_10_' . $lang . '_service_area_readmore_text',
+        'home_page_10_' . $lang . '_team_member_section_subtitle',
+        'home_page_10_' . $lang . '_team_member_section_title',
+        'home_page_10_' . $lang . '_testimonial_section_title',
+        'home_page_10_' . $lang . '_testimonial_section_subtitle',
+        'home_page_10_' . $lang . '_new_area_subtitle',
+        'home_page_10_' . $lang . '_new_area_title',
+        'home_page_10_' . $lang . '_cta_area_title',
+        'home_page_10_' . $lang . '_cta_area_description',
+        'home_page_10_' . $lang . '_cta_area_button_status',
+        'home_page_10_' . $lang . '_cta_area_button_title',
+        'home_page_10_' . $lang . '_contact_area_title',
+        'home_page_10_' . $lang . '_contact_area_button_title',
         'home_page_appointment_section_status',
-        'home_page_10_'.$lang.'_appointment_section_subtitle',
-        'home_page_10_'.$lang.'_appointment_section_title',
+        'home_page_10_' . $lang . '_appointment_section_subtitle',
+        'home_page_10_' . $lang . '_appointment_section_title',
     ];
 
     $home_11 = [
-        'site_'.$lang.'_title',
+        'site_' . $lang . '_title',
         'home_page_variant',
         'site_logo',
         'site_white_logo',
@@ -2290,113 +2302,113 @@ function get_static_option_arr($home){
         'home_page_latest_news_section_status',
         'home_page_service_section_status',
         'home_page_11_key_features_section_icon',
-        'political_home_page_header_'.$lang.'_title',
-        'political_home_page_header_'.$lang.'_description',
-        'political_home_page_header_'.$lang.'_button_text',
-        'home_page_11_'.$lang.'_key_features_item_title',
-        'political_home_page_header_button_url' ,
+        'political_home_page_header_' . $lang . '_title',
+        'political_home_page_header_' . $lang . '_description',
+        'political_home_page_header_' . $lang . '_button_text',
+        'home_page_11_' . $lang . '_key_features_item_title',
+        'political_home_page_header_button_url',
         'political_home_page_header_left_image',
         'political_home_page_header_background_image',
         'political_about_section_button_url',
         'political_about_section_right_image',
-        'political_about_section_'.$lang.'_subtitle',
-        'political_about_section_'.$lang.'_title',
-        'political_about_section_'.$lang.'_description',
-        'political_about_section_'.$lang.'_button_text',
+        'political_about_section_' . $lang . '_subtitle',
+        'political_about_section_' . $lang . '_title',
+        'political_about_section_' . $lang . '_description',
+        'political_about_section_' . $lang . '_button_text',
         'home_page_11_video_area_video_url',
         'home_page_11_video_area_background_image',
         'home_page_11_cta_area_button_url',
         'home_11_counterup_section_background_image',
         'home_page_11_cta_area_background_image',
         'home_page_01_event_area_items',
-        'home_page_11_'.$lang.'_cta_area_subtitle',
-        'home_page_11_'.$lang.'_cta_area_title',
-        'home_page_11_'.$lang.'_cta_area_description',
-        'home_page_11_'.$lang.'_cta_area_button_status',
-        'home_page_11_'.$lang.'_cta_area_button_title',
-        'home_page_11_'.$lang.'_service_area_subtitle',
-        'home_page_11_'.$lang.'_service_area_title',
-        'home_page_11_'.$lang.'_service_area_readmore_text',
-        'home_page_11_'.$lang.'_event_area_subtitle',
-        'home_page_11_'.$lang.'_event_area_title',
+        'home_page_11_' . $lang . '_cta_area_subtitle',
+        'home_page_11_' . $lang . '_cta_area_title',
+        'home_page_11_' . $lang . '_cta_area_description',
+        'home_page_11_' . $lang . '_cta_area_button_status',
+        'home_page_11_' . $lang . '_cta_area_button_title',
+        'home_page_11_' . $lang . '_service_area_subtitle',
+        'home_page_11_' . $lang . '_service_area_title',
+        'home_page_11_' . $lang . '_service_area_readmore_text',
+        'home_page_11_' . $lang . '_event_area_subtitle',
+        'home_page_11_' . $lang . '_event_area_title',
         'home_page_11_testimonial_area_background_image',
-        'home_page_11_'.$lang.'_testimonial_section_subtitle',
-        'home_page_11_'.$lang.'_testimonial_section_title',
-        'home_page_11_'.$lang.'_new_area_subtitle',
-        'home_page_11_'.$lang.'_new_area_title',
-        'home_page_11_'.$lang.'_new_area_button_text',
-        ];
+        'home_page_11_' . $lang . '_testimonial_section_subtitle',
+        'home_page_11_' . $lang . '_testimonial_section_title',
+        'home_page_11_' . $lang . '_new_area_subtitle',
+        'home_page_11_' . $lang . '_new_area_title',
+        'home_page_11_' . $lang . '_new_area_button_text',
+    ];
 
-        $home_12 = [
-            'site_'.$lang.'_title',
-            'home_page_appointment_section_status',
-            'home_page_variant',
-            'site_logo',
-            'site_white_logo',
-            'product_module_status',
-            'home_page_about_us_section_status',
-            'home_page_call_to_action_section_status',
-            'home_page_service_section_status',
-            'medical_home_page_header_button_two_url' ,
-            'medical_home_page_header_button_url' ,
-            'medical_home_page_header_right_image',
-            'medical_home_page_header_background_image',
-            'medical_about_section_button_url',
-            'medical_about_section_right_image',
-            'medical_about_section_right_bottom_image',
-            'medical_home_page_header_'.$lang.'_title',
-            'medical_home_page_header_'.$lang.'_description',
-            'medical_home_page_header_'.$lang.'_button_text',
-            'medical_home_page_header_'.$lang.'_button_two_text',
-            'medical_about_section_'.$lang.'_subtitle',
-            'medical_about_section_'.$lang.'_title',
-            'medical_about_section_'.$lang.'_description',
-            'medical_about_section_'.$lang.'_button_text',
-            'home_page_12_'.$lang.'_service_area_subtitle',
-            'home_page_12_'.$lang.'_service_area_title',
-            'home_page_counterup_section_status',
-            'appointment_form_fields',
-            'home_page_team_member_section_status',
-            'home_page_case_study_section_status',
-            'home_page_testimonial_section_status',
-            'home_page_latest_news_section_status',
-            'home_page_brand_logo_section_status',
-            'medical_appointment_section_'.$lang.'_subtitle',
-            'medical_appointment_section_'.$lang.'_title',
-            'medical_appointment_section_'.$lang.'_description',
-            'medical_appointment_section_'.$lang.'_hotline',
-            'medical_appointment_section_'.$lang.'_button_text',
-            'home_page_11_'.$lang.'_team_member_section_title',
-            'home_page_11_'.$lang.'_team_member_section_subtitle',
-            'home_page_12_'.$lang.'_case_study_section_title',
-            'home_page_12_'.$lang.'_case_study_section_subtitle',
-            'home_page_12_'.$lang.'_testimonial_section_title',
-            'home_page_12_'.$lang.'_testimonial_section_subtitle',
-            'home_page_12_'.$lang.'_news_section_subtitle',
-            'home_page_12_'.$lang.'_news_section_title',
-            'home_page_12_'.$lang.'_news_section_readmore_text',
-            'home_page_12_about_section_video_url',
-            'medical_cta_area_section_'.$lang.'_subtitle',
-            'medical_cta_area_section_'.$lang.'_title',
-            'medical_cta_area_section_'.$lang.'_description',
-            'medical_cta_area_section_'.$lang.'_hotline',
-            'medical_cta_area_section_'.$lang.'_button_text',
-            'home_page_12_'.$lang.'_appointment_section_subtitle',
-            'home_page_12_'.$lang.'_appointment_section_title',
-            ];
-
-    $home_13 = [
-        'site_'.$lang.'_title',
+    $home_12 = [
+        'site_' . $lang . '_title',
+        'home_page_appointment_section_status',
         'home_page_variant',
         'site_logo',
         'site_white_logo',
         'product_module_status',
         'home_page_about_us_section_status',
-        'home_page_13_'.$lang.'_header_section_subtitle',
-        'home_page_13_'.$lang.'_header_section_title' ,
-        'home_page_13_'.$lang.'_header_section_description',
-        'home_page_13_'.$lang.'_header_section_button_one_text',
-        'home_page_13_header_section_button_one_url' ,
+        'home_page_call_to_action_section_status',
+        'home_page_service_section_status',
+        'medical_home_page_header_button_two_url',
+        'medical_home_page_header_button_url',
+        'medical_home_page_header_right_image',
+        'medical_home_page_header_background_image',
+        'medical_about_section_button_url',
+        'medical_about_section_right_image',
+        'medical_about_section_right_bottom_image',
+        'medical_home_page_header_' . $lang . '_title',
+        'medical_home_page_header_' . $lang . '_description',
+        'medical_home_page_header_' . $lang . '_button_text',
+        'medical_home_page_header_' . $lang . '_button_two_text',
+        'medical_about_section_' . $lang . '_subtitle',
+        'medical_about_section_' . $lang . '_title',
+        'medical_about_section_' . $lang . '_description',
+        'medical_about_section_' . $lang . '_button_text',
+        'home_page_12_' . $lang . '_service_area_subtitle',
+        'home_page_12_' . $lang . '_service_area_title',
+        'home_page_counterup_section_status',
+        'appointment_form_fields',
+        'home_page_team_member_section_status',
+        'home_page_case_study_section_status',
+        'home_page_testimonial_section_status',
+        'home_page_latest_news_section_status',
+        'home_page_brand_logo_section_status',
+        'medical_appointment_section_' . $lang . '_subtitle',
+        'medical_appointment_section_' . $lang . '_title',
+        'medical_appointment_section_' . $lang . '_description',
+        'medical_appointment_section_' . $lang . '_hotline',
+        'medical_appointment_section_' . $lang . '_button_text',
+        'home_page_11_' . $lang . '_team_member_section_title',
+        'home_page_11_' . $lang . '_team_member_section_subtitle',
+        'home_page_12_' . $lang . '_case_study_section_title',
+        'home_page_12_' . $lang . '_case_study_section_subtitle',
+        'home_page_12_' . $lang . '_testimonial_section_title',
+        'home_page_12_' . $lang . '_testimonial_section_subtitle',
+        'home_page_12_' . $lang . '_news_section_subtitle',
+        'home_page_12_' . $lang . '_news_section_title',
+        'home_page_12_' . $lang . '_news_section_readmore_text',
+        'home_page_12_about_section_video_url',
+        'medical_cta_area_section_' . $lang . '_subtitle',
+        'medical_cta_area_section_' . $lang . '_title',
+        'medical_cta_area_section_' . $lang . '_description',
+        'medical_cta_area_section_' . $lang . '_hotline',
+        'medical_cta_area_section_' . $lang . '_button_text',
+        'home_page_12_' . $lang . '_appointment_section_subtitle',
+        'home_page_12_' . $lang . '_appointment_section_title',
+    ];
+
+    $home_13 = [
+        'site_' . $lang . '_title',
+        'home_page_variant',
+        'site_logo',
+        'site_white_logo',
+        'product_module_status',
+        'home_page_about_us_section_status',
+        'home_page_13_' . $lang . '_header_section_subtitle',
+        'home_page_13_' . $lang . '_header_section_title',
+        'home_page_13_' . $lang . '_header_section_description',
+        'home_page_13_' . $lang . '_header_section_button_one_text',
+        'home_page_13_header_section_button_one_url',
         'home_page_13_header_section_button_one_icon',
         'home_page_13_header_section_bg_image',
         'home_page_13_about_section_button_url',
@@ -2407,19 +2419,19 @@ function get_static_option_arr($home){
         'home_page_call_to_action_section_status',
         'home_page_team_member_section_status',
         'home_page_13_popular_cause_popular_cause_background_image',
-        'home_page_13_'.$lang.'_about_section_subtitle',
-        'home_page_13_'.$lang.'_about_section_title',
-        'home_page_13_'.$lang.'_about_section_description',
-        'home_page_13_'.$lang.'_about_section_button_text',
-        'home_page_13_'.$lang.'_popular_cause_subtitle',
-        'home_page_13_'.$lang.'_popular_cause_title',
-        'home_page_13_'.$lang.'_popular_cause_goal_text',
-        'home_page_13_'.$lang.'_popular_cause_rise_text',
-        'home_page_13_'.$lang.'_team_member_section_title',
-        'home_page_13_'.$lang.'_team_member_section_subtitle',
-        'home_page_13_'.$lang.'_cta_area_title',
-        'home_page_13_'.$lang.'_cta_area_button_title',
-        'home_page_13_'.$lang.'_cta_area_button_status',
+        'home_page_13_' . $lang . '_about_section_subtitle',
+        'home_page_13_' . $lang . '_about_section_title',
+        'home_page_13_' . $lang . '_about_section_description',
+        'home_page_13_' . $lang . '_about_section_button_text',
+        'home_page_13_' . $lang . '_popular_cause_subtitle',
+        'home_page_13_' . $lang . '_popular_cause_title',
+        'home_page_13_' . $lang . '_popular_cause_goal_text',
+        'home_page_13_' . $lang . '_popular_cause_rise_text',
+        'home_page_13_' . $lang . '_team_member_section_title',
+        'home_page_13_' . $lang . '_team_member_section_subtitle',
+        'home_page_13_' . $lang . '_cta_area_title',
+        'home_page_13_' . $lang . '_cta_area_button_title',
+        'home_page_13_' . $lang . '_cta_area_button_status',
         'home_page_13_cta_area_button_url',
         'home_page_13_cta_area_background_image',
         'home_page_13_cta_section_button_icon',
@@ -2429,22 +2441,22 @@ function get_static_option_arr($home){
         'home_page_latest_news_section_status',
         'home_page_brand_logo_section_status',
         'home_page_13_testimonial_section_background_image',
-        'home_page_13_'.$lang.'_event_area_subtitle',
-        'home_page_13_'.$lang.'_event_area_title',
-        'home_page_13_'.$lang.'_testimonial_section_subtitle',
-        'home_page_13_'.$lang.'_testimonial_section_title',
-        'home_page_13_'.$lang.'_cta_two_area_title',
-        'home_page_13_'.$lang.'_cta_two_area_button_title',
-        'home_page_13_'.$lang.'_cta_two_area_button_status',
+        'home_page_13_' . $lang . '_event_area_subtitle',
+        'home_page_13_' . $lang . '_event_area_title',
+        'home_page_13_' . $lang . '_testimonial_section_subtitle',
+        'home_page_13_' . $lang . '_testimonial_section_title',
+        'home_page_13_' . $lang . '_cta_two_area_title',
+        'home_page_13_' . $lang . '_cta_two_area_button_title',
+        'home_page_13_' . $lang . '_cta_two_area_button_status',
         'home_page_13_cta_two_section_button_icon',
         'home_page_13_cta_two_area_button_url',
-        'home_page_13_'.$lang.'_new_area_subtitle',
-        'home_page_13_'.$lang.'_new_area_title',
-        'home_page_13_'.$lang.'_new_area_button_text'
+        'home_page_13_' . $lang . '_new_area_subtitle',
+        'home_page_13_' . $lang . '_new_area_title',
+        'home_page_13_' . $lang . '_new_area_button_text'
     ];
 
     $home_14 = [
-        'site_'.$lang.'_title',
+        'site_' . $lang . '_title',
         'home_page_variant',
         'site_logo',
         'site_white_logo',
@@ -2464,85 +2476,85 @@ function get_static_option_arr($home){
         'home_page_14_header_right_image',
         'home_page_14_header_area_button_one_icon',
         'home_page_14_header_area_button_one_url',
-        'home_page_14_'.$lang.'_header_area_title',
-        'home_page_14_'.$lang.'_header_area_description',
-        'home_page_14_'.$lang.'_header_area_button_one_text',
-        'home_page_14_'.$lang.'_service_area_subtitle',
-        'home_page_14_'.$lang.'_service_area_title',
-        'home_page_14_'.$lang.'_project_area_title',
-        'home_page_14_'.$lang.'_project_area_subtitle',
+        'home_page_14_' . $lang . '_header_area_title',
+        'home_page_14_' . $lang . '_header_area_description',
+        'home_page_14_' . $lang . '_header_area_button_one_text',
+        'home_page_14_' . $lang . '_service_area_subtitle',
+        'home_page_14_' . $lang . '_service_area_title',
+        'home_page_14_' . $lang . '_project_area_title',
+        'home_page_14_' . $lang . '_project_area_subtitle',
         'home_page_14_cta_section_button_icon',
         'home_page_14_cta_area_button_url',
         'home_page_14_cta_area_right_image',
-        'home_page_14_'.$lang.'_cta_area_button_title',
-        'home_page_14_'.$lang.'_cta_area_button_status',
-        'home_page_14_'.$lang.'_cta_area_description',
-        'home_page_14_'.$lang.'_cta_area_title',
-        'home_page_14_work_process_section_'.$lang.'_subtitle',
-        'home_page_14_work_process_section_'.$lang.'_title',
-        'home_page_14_work_process_section_item_'.$lang.'_title',
+        'home_page_14_' . $lang . '_cta_area_button_title',
+        'home_page_14_' . $lang . '_cta_area_button_status',
+        'home_page_14_' . $lang . '_cta_area_description',
+        'home_page_14_' . $lang . '_cta_area_title',
+        'home_page_14_work_process_section_' . $lang . '_subtitle',
+        'home_page_14_work_process_section_' . $lang . '_title',
+        'home_page_14_work_process_section_item_' . $lang . '_title',
         'home_page_14_work_process_section_item_number',
-        'home_page_14_'.$lang.'_testimonial_section_subtitle',
-        'home_page_14_'.$lang.'_testimonial_section_title',
-        'home_page_14_'.$lang.'_news_area_section_subtitle',
-        'home_page_14_'.$lang.'_news_area_section_title',
-        'home_page_14_'.$lang.'_contact_area_subtitle',
-        'home_page_14_'.$lang.'_contact_area_title',
-        'home_page_14_'.$lang.'_contact_area_button_text',
+        'home_page_14_' . $lang . '_testimonial_section_subtitle',
+        'home_page_14_' . $lang . '_testimonial_section_title',
+        'home_page_14_' . $lang . '_news_area_section_subtitle',
+        'home_page_14_' . $lang . '_news_area_section_title',
+        'home_page_14_' . $lang . '_contact_area_subtitle',
+        'home_page_14_' . $lang . '_contact_area_title',
+        'home_page_14_' . $lang . '_contact_area_button_text',
         'home_page_14_contact_area_button_icon',
-        ];
+    ];
 
     $home_15 = [
-        'site_'.$lang.'_title',
+        'site_' . $lang . '_title',
         'home_page_variant',
         'site_logo',
         'site_white_logo',
         'product_module_status',
-        'home_page_15_'.$lang.'_header_area_title',
-        'home_page_15_'.$lang.'_header_area_description',
-        'home_page_15_'.$lang.'_header_area_button_text',
+        'home_page_15_' . $lang . '_header_area_title',
+        'home_page_15_' . $lang . '_header_area_description',
+        'home_page_15_' . $lang . '_header_area_button_text',
         'home_page_15_header_area_button_url',
         'home_page_15_header_area_button_icon',
         'home_page_15_header_area_background_image',
         'home_page_15_header_area_bottom_image',
-        'home_page_15_'.$lang.'_offer_item_title',
-        'home_page_15_'.$lang.'_offer_item_short_description',
-        'home_page_15_'.$lang.'_offer_item_button_text',
+        'home_page_15_' . $lang . '_offer_item_title',
+        'home_page_15_' . $lang . '_offer_item_short_description',
+        'home_page_15_' . $lang . '_offer_item_button_text',
         'home_page_15_offer_item_button_url',
         'home_page_15_offer_item_image',
-        'home_page_15_'.$lang.'_featured_product_area_subtitle',
-        'home_page_15_'.$lang.'_featured_product_area_title',
-        'home_page_15_'.$lang.'_featured_product_area_items',
+        'home_page_15_' . $lang . '_featured_product_area_subtitle',
+        'home_page_15_' . $lang . '_featured_product_area_title',
+        'home_page_15_' . $lang . '_featured_product_area_items',
         'home_page_15_process_area_background_image',
         'home_page_15_process_area_right_image',
         'home_page_15_process_area_left_image',
-        'home_page_15_'.$lang.'_process_area_item_title',
-        'home_page_15_'.$lang.'_process_area_item_description',
+        'home_page_15_' . $lang . '_process_area_item_title',
+        'home_page_15_' . $lang . '_process_area_item_description',
         'home_page_15_process_area_item_icon',
         'home_page_15_process_area_item_number',
-        'home_page_15_'.$lang.'_product_section_subtitle',
-        'home_page_15_'.$lang.'_product_section_title',
+        'home_page_15_' . $lang . '_product_section_subtitle',
+        'home_page_15_' . $lang . '_product_section_title',
         'home_page_products_area_items',
         'home_page_testimonial_section_status',
-        'home_page_15_'.$lang.'_testimonial_area_title',
-        'home_page_15_'.$lang.'_testimonial_area_subtitle',
+        'home_page_15_' . $lang . '_testimonial_area_title',
+        'home_page_15_' . $lang . '_testimonial_area_subtitle',
         'home_page_15_testimonial_area_background_image',
         'home_page_15_testimonial_area_right_image',
         'home_page_15_testimonial_area_left_image',
         'home_page_15_top_selling_product_area_items',
         'home_page_15_top_selling_product_area_left_image',
         'home_page_15_top_selling_product_area_right_image',
-        'home_page_15_'.$lang.'_top_selling_product_area_title',
-        'home_page_15_'.$lang.'_top_selling_product_area_subtitle',
+        'home_page_15_' . $lang . '_top_selling_product_area_title',
+        'home_page_15_' . $lang . '_top_selling_product_area_subtitle',
         'home_page_brand_logo_section_status',
         'home_page_top_selling_section_status',
         'home_page_online_store_section_status',
         'home_page_process_section_status',
         'home_page_offer_section_status',
         'home_page_featured_fruit_section_status',
-        ];
+    ];
     $home_16 = [
-        'site_'.$lang.'_title',
+        'site_' . $lang . '_title',
         'home_page_variant',
         'site_logo',
         'site_white_logo',
@@ -2550,44 +2562,44 @@ function get_static_option_arr($home){
         'home_page_16_header_area_button_url',
         'home_page_16_header_area_background_image',
         'home_page_16_header_area_right_image',
-        'home_page_16_'.$lang.'_header_area_title',
-        'home_page_16_'.$lang.'_header_area_description',
-        'home_page_16_'.$lang.'_header_area_button_text',
+        'home_page_16_' . $lang . '_header_area_title',
+        'home_page_16_' . $lang . '_header_area_description',
+        'home_page_16_' . $lang . '_header_area_button_text',
         'home_page_about_us_section_status',
-        'home_page_16_'.$lang.'_about_section_button_text',
-        'home_page_16_'.$lang.'_about_section_description',
-        'home_page_16_'.$lang.'_about_section_title',
-        'home_page_16_'.$lang.'_about_section_subtitle',
+        'home_page_16_' . $lang . '_about_section_button_text',
+        'home_page_16_' . $lang . '_about_section_description',
+        'home_page_16_' . $lang . '_about_section_title',
+        'home_page_16_' . $lang . '_about_section_subtitle',
         'home_page_16_about_section_left_image',
         'home_page_16_about_section_button_url',
-        'home_page_16_'.$lang.'_service_area_title',
-        'home_page_16_'.$lang.'_service_area_subtitle',
+        'home_page_16_' . $lang . '_service_area_title',
+        'home_page_16_' . $lang . '_service_area_subtitle',
         'home_page_01_service_area_items',
         'home_page_service_section_status',
-        'home_page_16_'.$lang.'_estimate_area_form_button_text',
-        'home_page_16_'.$lang.'_estimate_area_form_title',
-        'home_page_16_'.$lang.'_estimate_area_title',
+        'home_page_16_' . $lang . '_estimate_area_form_button_text',
+        'home_page_16_' . $lang . '_estimate_area_form_title',
+        'home_page_16_' . $lang . '_estimate_area_title',
         'home_page_brand_logo_section_status',
         'estimate_form_fields',
         'home_page_case_study_section_status',
         'home_page_latest_news_section_status',
         'home_page_counterup_section_status',
         'home_page_testimonial_section_status',
-        'home_page_16_'.$lang.'_work_section_title',
-        'home_page_16_'.$lang.'_work_section_subtitle',
-        'home_page_16_'.$lang.'_testimonial_area_subtitle',
-        'home_page_16_'.$lang.'_testimonial_area_title',
-        'home_page_16_'.$lang.'_new_area_subtitle',
-        'home_page_16_'.$lang.'_new_area_title',
-        'home_page_16_'.$lang.'_new_area_button_text',
+        'home_page_16_' . $lang . '_work_section_title',
+        'home_page_16_' . $lang . '_work_section_subtitle',
+        'home_page_16_' . $lang . '_testimonial_area_subtitle',
+        'home_page_16_' . $lang . '_testimonial_area_title',
+        'home_page_16_' . $lang . '_new_area_subtitle',
+        'home_page_16_' . $lang . '_new_area_title',
+        'home_page_16_' . $lang . '_new_area_button_text',
         'home_page_quote_faq_section_status',
         'home_page_appointment_section_status',
-        'home_page_16_'.$lang.'_appointment_section_subtitle',
-        'home_page_16_'.$lang.'_appointment_section_title',
-        ];
+        'home_page_16_' . $lang . '_appointment_section_subtitle',
+        'home_page_16_' . $lang . '_appointment_section_title',
+    ];
 
     $home_17 = [
-        'site_'.$lang.'_title',
+        'site_' . $lang . '_title',
         'home_page_variant',
         'site_logo',
         'site_white_logo',
@@ -2596,39 +2608,39 @@ function get_static_option_arr($home){
         'home_page_17_header_area_button_icon',
         'home_page_17_header_area_background_image',
         'home_page_17_header_area_right_image',
-        'home_page_17_'.$lang.'_header_area_title',
-        'home_page_17_'.$lang.'_header_area_description',
-        'home_page_17_'.$lang.'_header_area_button_text',
-        'course_home_page_'.$lang.'_specialities_area_title',
+        'home_page_17_' . $lang . '_header_area_title',
+        'home_page_17_' . $lang . '_header_area_description',
+        'home_page_17_' . $lang . '_header_area_button_text',
+        'course_home_page_' . $lang . '_specialities_area_title',
         'course_home_page_specialities_item_icon',
         'course_home_page_specialities_item_icon',
-        'course_home_page_'.$lang.'_specialities_item_title',
-        'course_home_page_'.$lang.'_specialities_item_description',
+        'course_home_page_' . $lang . '_specialities_item_title',
+        'course_home_page_' . $lang . '_specialities_item_description',
         'course_home_page_specialities_item_url',
-        'course_home_page_'.$lang.'_featured_course_area_title',
+        'course_home_page_' . $lang . '_featured_course_area_title',
         'home_page_testimonial_section_status',
         'home_page_video_section_status',
         'home_page_counterup_section_status',
         'course_home_page_video_section_background_image',
         'course_home_page_video_section_video_url',
-        'course_home_page_'.$lang.'_all_course_area_title',
-        'course_home_page_'.$lang.'_all_course_area_button_text',
-        'course_home_page_'.$lang.'_testimonial_area_title',
+        'course_home_page_' . $lang . '_all_course_area_title',
+        'course_home_page_' . $lang . '_all_course_area_button_text',
+        'course_home_page_' . $lang . '_testimonial_area_title',
         'home_page_event_section_status',
-        'course_home_page_'.$lang.'_event_area_title',
+        'course_home_page_' . $lang . '_event_area_title',
         'home_page_call_to_action_section_status',
         'course_home_page_cta_section_button_icon',
         'course_home_page_cta_area_button_url',
-        'course_home_page_'.$lang.'_cta_area_title',
-        'course_home_page_'.$lang.'_cta_area_button_status',
-        'course_home_page_'.$lang.'_cta_area_button_title',
+        'course_home_page_' . $lang . '_cta_area_title',
+        'course_home_page_' . $lang . '_cta_area_button_status',
+        'course_home_page_' . $lang . '_cta_area_button_title',
         'home_page_all_courses_section_status',
         'home_page_featured_courses_section_status',
         'home_page_course_category_section_status',
         'home_page_our_speciality_section_status',
-        ];
+    ];
     $home_18 = [
-        'site_'.$lang.'_title',
+        'site_' . $lang . '_title',
         'home_page_variant',
         'site_logo',
         'site_white_logo',
@@ -2637,125 +2649,144 @@ function get_static_option_arr($home){
         'home_page_17_header_area_button_icon',
         'home_page_17_header_area_background_image',
         'home_page_17_header_area_right_image',
-        'grocery_home_page_'.$lang.'_header_section_subtitle',
-        'grocery_home_page_'.$lang.'_header_section_title' ,
-        'grocery_home_page_'.$lang.'_header_section_description',
-        'grocery_home_page_'.$lang.'_header_section_button_one_text',
-        'grocery_home_page_header_section_button_one_url' ,
+        'grocery_home_page_' . $lang . '_header_section_subtitle',
+        'grocery_home_page_' . $lang . '_header_section_title',
+        'grocery_home_page_' . $lang . '_header_section_description',
+        'grocery_home_page_' . $lang . '_header_section_button_one_text',
+        'grocery_home_page_header_section_button_one_url',
         'grocery_home_page_header_section_button_one_icon',
         'grocery_home_page_header_section_bg_image',
-        'grocery_home_page_'.$lang.'_product_category_area_title',
+        'grocery_home_page_' . $lang . '_product_category_area_title',
         'home_page_offer_section_status',
         'home_page_featured_fruit_section_status',
-        'grocery_home_page_'.$lang.'_featured_product_area_subtitle',
-        'grocery_home_page_'.$lang.'_featured_product_area_title',
+        'grocery_home_page_' . $lang . '_featured_product_area_subtitle',
+        'grocery_home_page_' . $lang . '_featured_product_area_title',
         'home_page_process_section_status',
         'grocery_home_page_process_area_background_image',
         'grocery_home_page_process_area_right_image',
         'grocery_home_page_process_area_left_image',
-        'grocery_home_page_'.$lang.'_process_area_item_title',
-        'grocery_home_page_'.$lang.'_process_area_item_description',
+        'grocery_home_page_' . $lang . '_process_area_item_title',
+        'grocery_home_page_' . $lang . '_process_area_item_description',
         'grocery_home_page_process_area_item_icon',
         'grocery_home_page_process_area_item_number',
         'home_page_online_store_section_status',
         'home_page_brand_logo_section_status',
         'home_page_testimonial_section_status',
         'home_page_product_category_section_status',
-        'grocery_home_page_'.$lang.'_product_section_subtitle',
-        'grocery_home_page_'.$lang.'_product_section_title',
-        'grocery_home_page_'.$lang.'_product_section_button_text',
-        'grocery_home_page_'.$lang.'_testimonial_area_title',
-        'grocery_home_page_'.$lang.'_testimonial_area_subtitle'
+        'grocery_home_page_' . $lang . '_product_section_subtitle',
+        'grocery_home_page_' . $lang . '_product_section_title',
+        'grocery_home_page_' . $lang . '_product_section_button_text',
+        'grocery_home_page_' . $lang . '_testimonial_area_title',
+        'grocery_home_page_' . $lang . '_testimonial_area_subtitle'
     ];
 
-    $var_name = 'home_'.$home;
+    $var_name = 'home_' . $home;
     return $$var_name ?? abort(404);
 }
 
-function filter_static_option_value(string $index , array $array = []){
+function filter_static_option_value(string $index, array $array = [])
+{
     return $array[$index] ?? '';
 }
 
-function get_attachment_url_by_id($id,$size=null){
-   $return_val =  get_attachment_image_by_id($id,$size);
-   return $return_val['image_id'] ?? '';
+function get_attachment_url_by_id($id, $size = null)
+{
+    $return_val =  get_attachment_image_by_id($id, $size);
+    return $return_val['image_id'] ?? '';
 }
-function paypal_gateway(){
+function paypal_gateway()
+{
     return \App\PaymentGateway\PaymentGatewaySetup::paypal();
 }
-function paytm_gateway(){
+function paytm_gateway()
+{
     return \App\PaymentGateway\PaymentGatewaySetup::paytm();
 }
 
-function paystack_gateway(){
+function paystack_gateway()
+{
     return \App\PaymentGateway\PaymentGatewaySetup::paystack();
 }
 
-function stripe_gateway(){
+function stripe_gateway()
+{
     return \App\PaymentGateway\PaymentGatewaySetup::stripe();
 }
-function flutterwaverave_gateway(){
+function flutterwaverave_gateway()
+{
     return \App\PaymentGateway\PaymentGatewaySetup::flutterwaverev();
 }
 
-function mollie_gateway(){
+function mollie_gateway()
+{
     return \App\PaymentGateway\PaymentGatewaySetup::mollie();
 }
-function razorpay_gateway(){
+function razorpay_gateway()
+{
     return \App\PaymentGateway\PaymentGatewaySetup::razorpay();
 }
-function script_currency_list(){
+function script_currency_list()
+{
     return \App\PaymentGateway\GlobalCurrency::script_currency_list();
 }
 
 
-function purify_html($html){
+function purify_html($html)
+{
     return strip_tags(\Mews\Purifier\Facades\Purifier::clean($html));
 }
 
-function purify_html_raw($html){
+function purify_html_raw($html)
+{
     return \Mews\Purifier\Facades\Purifier::clean($html);
 }
 
-function render_pages_list($lang = null){
+function render_pages_list($lang = null)
+{
     $instance = new \App\MenuBuilder\MenuBuilderHelpers();
     return $instance->get_static_pages_list($lang);
 }
-function render_dynamic_pages_list($lang = null){
+function render_dynamic_pages_list($lang = null)
+{
     $instance = new \App\MenuBuilder\MenuBuilderHelpers();
     return $instance->get_post_type_page_list($lang);
 }
-function render_mega_menu_list($lang = null){
+function render_mega_menu_list($lang = null)
+{
     $instance = new \App\MenuBuilder\MegaMenuBuilderSetup();
     return $instance->render_mega_menu_list($lang);
 }
 
-function render_draggable_menu($id){
+function render_draggable_menu($id)
+{
     $instance = new \App\MenuBuilder\MenuBuilderAdminRender();
     return $instance->render_admin_panel_menu($id);
 }
-function render_frontend_menu($id){
+function render_frontend_menu($id)
+{
     $instance = new \App\MenuBuilder\MenuBuilderFrontendRender();
     return $instance->render_frrontend_panel_menu($id);
 }
 
-function get_product_variant_list_by_id($id){
+function get_product_variant_list_by_id($id)
+{
     $varitnt = \App\ProductVariant::find($id);
-    if (empty($varitnt)){
+    if (empty($varitnt)) {
         return '';
     }
     return $varitnt;
 }
 
-function ratingMarkup($rating_avg, $rating_count, $include_count = true) {
+function ratingMarkup($rating_avg, $rating_count, $include_count = true)
+{
     $width = round($rating_avg * 20);
-    $width_data = '<span class="show-rating" style="width: '.$width.'%"></span>';
+    $width_data = '<span class="show-rating" style="width: ' . $width . '%"></span>';
     $rate = '';
     if ($include_count) {
-        $rate .= '<p><span class="total-ratings">('.$rating_count.')</span></p>';
+        $rate .= '<p><span class="total-ratings">(' . $rating_count . ')</span></p>';
     }
 
-return <<<HTML
+    return <<<HTML
        <div class="rating-wrap">
         <div class="ratings">
             <span class="hide-rating"></span>
@@ -2764,23 +2795,33 @@ return <<<HTML
        {$rate}
     </div>
 HTML;
-
-
 }
 
 
-function array_flatten($array) { 
-    if (!is_array($array)) { 
-        return FALSE; 
-      } 
-      $result = array(); 
-    foreach ($array as $key => $value) { 
-        if (is_array($value)) { 
-          $result = array_merge($result, array_flatten($value)); 
-        } 
-        else { 
-          $result[] = $value; 
-        } 
-    } 
-  return $result; 
-} 
+function array_flatten($array)
+{
+    if (!is_array($array)) {
+        return FALSE;
+    }
+    $result = array();
+    foreach ($array as $key => $value) {
+        if (is_array($value)) {
+            $result = array_merge($result, array_flatten($value));
+        } else {
+            $result[] = $value;
+        }
+    }
+    return $result;
+}
+
+function sendResponse($status = true, $message, $data, $staus_code)
+{
+    return response()->json(
+        [
+            'success' => $status,
+            'message' => $message,
+            'data' => $data,
+            'staus_code' => $staus_code,
+        ]
+    );
+}

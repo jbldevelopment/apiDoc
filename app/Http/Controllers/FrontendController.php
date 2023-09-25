@@ -73,10 +73,20 @@ use Illuminate\Support\Str;
 use Svg\Tag\Image;
 use Symfony\Component\Process\Process;
 use App\Helpers\HomePageStaticSettings;
+// custom
+use App\ApiList;
+use App\ApiCategory;
+use App\ApiMeta;
+use App\ApiCodeMeta;
+use App\Technologies;
 
 class FrontendController extends Controller
 {
 
+    public function code_page()
+    {
+        return view('frontend.code-page');
+    }
     public function index()
     {
         $home_page_variant = get_home_variant();
@@ -325,18 +335,18 @@ class FrontendController extends Controller
     {
         $google_adsense_publisher_id = get_static_option('google_adsense_publisher_id');
         return <<<HTML
-            <div>
-            <ins class="adsbygoogle"
-                 style="display:block"
-                 data-ad-client="{$google_adsense_publisher_id}"
-                 data-ad-slot="{$slot}"
-                 data-ad-format="auto"
-                 data-full-width-responsive="true"></ins>
-            <script>
-                (adsbygoogle = window.adsbygoogle || []).push({});
-            </script>
-            </div>
-    HTML;
+                <div>
+                <ins class="adsbygoogle"
+                    style="display:block"
+                    data-ad-client="{$google_adsense_publisher_id}"
+                    data-ad-slot="{$slot}"
+                    data-ad-format="auto"
+                    data-full-width-responsive="true"></ins>
+                <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+                </div>
+        HTML;
     }
 
     public function popular_item_by_category(Request $request)
@@ -416,61 +426,61 @@ class FrontendController extends Controller
 
             $output .= <<<ITEM
 
- <div class="col-lg-3 col-sm-6 mt-4 grid-item np1 np2 np3">
-    <div class="global-card-item style-02 center-text radius-10">
-        <div class="global-card-thumb radius-10">
-            <a href="{$single_route}">
-               {$image}
-              </a>
-            <div class="thumb-top-contents right-side">
-              {$badge_markup}
-            </div>
-            <ul class="global-thumb-icons">
-               <li class="lists" data-bs-toggle="tooltip" data-bs-placement="top" title="add to cart">
-                  {$cart_markup_condition}
-               </li>
-                <li class="lists" data-bs-toggle="tooltip" data-bs-placement="top" title="add to Wishlist">
-                    <a class="icon cart-loading ajax_add_to_wishlist_with_icon"
-                     data-product_id="{$pro_id}"
-                     href="javascript:void(0)"> <i class="fas fa-heart"></i> </a>
-                </li>
-                <li class="lists" data-bs-toggle="tooltip" data-bs-placement="top" title="Product Details">
-                    <a class="icon store_quick_view"
-                       data-toggle="modal"
-                       data-target="#quick_view"
-                       data-id="{$pro_id}"
-                       data-title="{$title}"
-                       data-short_description="{$short_description}"
-                       data-regular_price="{$regular_price}"
-                       data-sale_price="{$sale_price}"
-                       data-in_stock="$stock"
-                       data-category="{$category}"
-                       data-subcategory="{$subcategory}"
-                       data-image="{$img_url}"
-                       data-attribute='{$view}'>
-                        <i class="fas fa-search-plus"></i>
-                       </a>
-                </li>
-            </ul>
-        </div>
-        <div class="global-card-contents">
-          {$rating_function}
-            <h5 class="common-title-two hover-color-three mt-2"> <a href="{$single_route}"> {$title}</a> </h5>
-            <div class="global-card-flex-contents">
-                <div class="single-global-card">
-                    <div class="global-card-left">
-                        <div class="price-update-through">
-                            <span class="fs-20 fw-500 ff-rubik flash-prices color-three"> {$sale_price} </span>
-                            {$regular_price_markup}
+                        <div class="col-lg-3 col-sm-6 mt-4 grid-item np1 np2 np3">
+                            <div class="global-card-item style-02 center-text radius-10">
+                                <div class="global-card-thumb radius-10">
+                                    <a href="{$single_route}">
+                                    {$image}
+                                    </a>
+                                    <div class="thumb-top-contents right-side">
+                                    {$badge_markup}
+                                    </div>
+                                    <ul class="global-thumb-icons">
+                                    <li class="lists" data-bs-toggle="tooltip" data-bs-placement="top" title="add to cart">
+                                        {$cart_markup_condition}
+                                    </li>
+                                        <li class="lists" data-bs-toggle="tooltip" data-bs-placement="top" title="add to Wishlist">
+                                            <a class="icon cart-loading ajax_add_to_wishlist_with_icon"
+                                            data-product_id="{$pro_id}"
+                                            href="javascript:void(0)"> <i class="fas fa-heart"></i> </a>
+                                        </li>
+                                        <li class="lists" data-bs-toggle="tooltip" data-bs-placement="top" title="Product Details">
+                                            <a class="icon store_quick_view"
+                                            data-toggle="modal"
+                                            data-target="#quick_view"
+                                            data-id="{$pro_id}"
+                                            data-title="{$title}"
+                                            data-short_description="{$short_description}"
+                                            data-regular_price="{$regular_price}"
+                                            data-sale_price="{$sale_price}"
+                                            data-in_stock="$stock"
+                                            data-category="{$category}"
+                                            data-subcategory="{$subcategory}"
+                                            data-image="{$img_url}"
+                                            data-attribute='{$view}'>
+                                                <i class="fas fa-search-plus"></i>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="global-card-contents">
+                                {$rating_function}
+                                    <h5 class="common-title-two hover-color-three mt-2"> <a href="{$single_route}"> {$title}</a> </h5>
+                                    <div class="global-card-flex-contents">
+                                        <div class="single-global-card">
+                                            <div class="global-card-left">
+                                                <div class="price-update-through">
+                                                    <span class="fs-20 fw-500 ff-rubik flash-prices color-three"> {$sale_price} </span>
+                                                    {$regular_price_markup}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
-ITEM;
+            ITEM;
         }
 
         return $output;
@@ -1313,8 +1323,10 @@ ITEM;
             $query->orderBy('id', 'DESC');
         }
         $all_products = $query->paginate(get_static_option('product_post_items'));
+        $dynamic_products = Page::where('status', 'publish')->get()->toArray();
 
         return view('frontend.pages.products.products')->with([
+            'dynamic_products' => $dynamic_products,
             'all_products' => $all_products,
             'all_category' => $all_category,
             'search_term' => $search_term,
@@ -1865,5 +1877,46 @@ ITEM;
     {
         Advertisement::where('id', $request->id)->increment('impression');
         return response()->json('success');
+    }
+    public function dynamic_doc_page($slug)
+    {
+        $is_exists_api_details = ApiList::where('api_slug', $slug)->exists();
+        if ($is_exists_api_details) {
+            $api_details = ApiList::where('api_slug', $slug)->first();
+            $technlogies = Technologies::where('technolgy_status', 1)->orderBy('technolgy_order')->get();
+            $api_meta_list = ApiMeta::where('api_id', $api_details->api_id)
+                ->where('api_meta_status', 1)
+                ->orderBy('api_meta_order', 'asc')
+                ->get();
+            $meta_array = [];
+            foreach ($api_meta_list as $key => $value) {
+                $meta_array[] = $value->api_meta_id;
+            }
+            $api_code_meta_list = ApiCodeMeta::whereIn('api_meta_id', $meta_array)->where('api_code_status', 1)->orderBy('api_code_order')->orderBy('api_technology')->get();
+            return view('frontend.code-page')->with([
+                'api_details' => $api_details,
+                'api_meta_list' => $api_meta_list,
+                'api_code_meta_list' => $api_code_meta_list,
+                'technlogies' => $technlogies,
+            ]);
+        }
+        return redirect()->back()->with([
+            'msg' => 'No Api Found',
+            'type' => 'danger'
+        ]);
+    }
+    public function dynamic_cat_page($slug)
+    {
+        $is_exists_api_details = ApiCategory::where('api_category_slug', $slug)->exists();
+        if ($is_exists_api_details) {
+            $api_details = ApiCategory::where('api_category_slug', $slug)->first();
+            return view('frontend.code-page')->with([
+                'api_details' => $api_details,
+            ]);
+        }
+        return redirect()->back()->with([
+            'msg' => 'No Api Found',
+            'type' => 'danger'
+        ]);
     }
 }//end class

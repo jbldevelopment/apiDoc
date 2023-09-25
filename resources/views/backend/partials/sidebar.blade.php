@@ -24,15 +24,42 @@
                         </a>
                     </li>
 
+                    @if (check_page_permission_by_string('APIs Manage'))
+                        <li class="main_dropdown @if (request()->is(['admin-home/apilist/*', 'admin-home/apilist'])) active @endif">
+                            <a href="javascript:void(0)" aria-expanded="true"><i class="ti-write"></i>
+                                <span>{{ __('APIs') }}</span></a>
+                            <ul class="collapse">
+                                <li class="{{ active_menu('admin-home/apilist') }}"><a href="{{ route('api.list') }}">{{ __('All APIs') }}</a></li>
+                                <li class="{{ active_menu('admin-home/apilist/new-api') }}"><a href="{{ route('api.create') }}">{{ __('Add New API') }}</a></li>
+                            </ul>
+                        </li>
+                    @endif
+                    @if (check_page_permission_by_string('Category Manage'))
+                        <li class="main_dropdown @if (request()->is(['admin-home/apicategory/*', 'admin-home/apicategory'])) active @endif">
+                            <a href="javascript:void(0)" aria-expanded="true"><i class="ti-write"></i>
+                                <span>{{ __('Category') }}</span></a>
+                            <ul class="collapse">
+                                <li class="{{ active_menu('admin-home/apicategory/') }}"><a href="{{ route('category.list') }}">{{ __('All Category') }}</a></li>
+                                <li class="{{ active_menu('admin-home/apicategory/new-api') }}"><a href="{{ route('category.create') }}">{{ __('Add New Category') }}</a></li>
+                            </ul>
+                        </li>
+                    @endif
+                    @if (check_page_permission_by_string('Technology Manage'))
+                        <li class="main_dropdown @if (request()->is(['admin-home/apitechnology/*', 'admin-home/apitechnology'])) active @endif">
+                            <a href="javascript:void(0)" aria-expanded="true"><i class="ti-write"></i>
+                                <span>{{ __('Technolgy') }}</span></a>
+                            <ul class="collapse">
+                                <li class="{{ active_menu('admin-home/apitechnology/') }}"><a href="{{ route('techonlogy.list') }}">{{ __('All Technolgy') }}</a></li>
+                            </ul>
+                        </li>
+                    @endif
                     @if (check_page_permission_by_string('Pages Manage'))
                         <li class="main_dropdown @if (request()->is(['admin-home/page/*', 'admin-home/page'])) active @endif">
                             <a href="javascript:void(0)" aria-expanded="true"><i class="ti-write"></i>
                                 <span>{{ __('Pages') }}</span></a>
                             <ul class="collapse">
-                                <li class="{{ active_menu('admin-home/page') }}"><a
-                                        href="{{ route('admin.page') }}">{{ __('All Pages') }}</a></li>
-                                <li class="{{ active_menu('admin-home/page/new') }}"><a
-                                        href="{{ route('admin.page.new') }}">{{ __('Add New Page') }}</a></li>
+                                <li class="{{ active_menu('admin-home/page') }}"><a href="{{ route('admin.page') }}">{{ __('All Pages') }}</a></li>
+                                <li class="{{ active_menu('admin-home/page/new') }}"><a href="{{ route('admin.page.new') }}">{{ __('Add New Page') }}</a></li>
                             </ul>
                         </li>
                     @endif
@@ -42,17 +69,12 @@
                             <a href="javascript:void(0)" aria-expanded="true"><i class="ti-write"></i>
                                 <span>{{ __('Blogs') }}</span></a>
                             <ul class="collapse">
-                                <li class="{{ active_menu('admin-home/blog') }}"><a
-                                        href="{{ route('admin.blog') }}">{{ __('All Blog') }}</a></li>
-                                <li class="{{ active_menu('admin-home/blog/category') }}"><a
-                                        href="{{ route('admin.blog.category') }}">{{ __('Category') }}</a></li>
-                                <li class="{{ active_menu('admin-home/blog/new') }}"><a
-                                        href="{{ route('admin.blog.new') }}">{{ __('Add New Post') }}</a></li>
-                                <li class="{{ active_menu('admin-home/blog/page-settings') }}"><a
-                                        href="{{ route('admin.blog.page.settings') }}">{{ __('Blog Page Settings') }}</a>
+                                <li class="{{ active_menu('admin-home/blog') }}"><a href="{{ route('admin.blog') }}">{{ __('All Blog') }}</a></li>
+                                <li class="{{ active_menu('admin-home/blog/category') }}"><a href="{{ route('admin.blog.category') }}">{{ __('Category') }}</a></li>
+                                <li class="{{ active_menu('admin-home/blog/new') }}"><a href="{{ route('admin.blog.new') }}">{{ __('Add New Post') }}</a></li>
+                                <li class="{{ active_menu('admin-home/blog/page-settings') }}"><a href="{{ route('admin.blog.page.settings') }}">{{ __('Blog Page Settings') }}</a>
                                 </li>
-                                <li class="{{ active_menu('admin-home/blog/single-settings') }}"><a
-                                        href="{{ route('admin.blog.single.settings') }}">{{ __('Blog Single Settings') }}</a>
+                                <li class="{{ active_menu('admin-home/blog/single-settings') }}"><a href="{{ route('admin.blog.single.settings') }}">{{ __('Blog Single Settings') }}</a>
                                 </li>
                             </ul>
                         </li>
@@ -65,14 +87,10 @@
                                 <span>{{ __('Services') }}</span>
                             </a>
                             <ul class="collapse">
-                                <li class="{{ active_menu('admin-home/services') }}"><a
-                                        href="{{ route('admin.services') }}">{{ __('All Services') }}</a></li>
-                                <li class="{{ active_menu('admin-home/services/new') }}"><a
-                                        href="{{ route('admin.services.new') }}">{{ __('New Service') }}</a></li>
-                                <li class="{{ active_menu('admin-home/services/category') }}"><a
-                                        href="{{ route('admin.service.category') }}">{{ __('Category') }}</a></li>
-                                <li class="{{ active_menu('admin-home/services/page-settings') }}"><a
-                                        href="{{ route('admin.services.page.settings') }}">{{ __('Service Page') }}</a>
+                                <li class="{{ active_menu('admin-home/services') }}"><a href="{{ route('admin.services') }}">{{ __('All Services') }}</a></li>
+                                <li class="{{ active_menu('admin-home/services/new') }}"><a href="{{ route('admin.services.new') }}">{{ __('New Service') }}</a></li>
+                                <li class="{{ active_menu('admin-home/services/category') }}"><a href="{{ route('admin.service.category') }}">{{ __('Category') }}</a></li>
+                                <li class="{{ active_menu('admin-home/services/page-settings') }}"><a href="{{ route('admin.services.page.settings') }}">{{ __('Service Page') }}</a>
                                 </li>
                             </ul>
                         </li>
@@ -83,10 +101,8 @@
                             <a href="javascript:void(0)" aria-expanded="true"><i class="ti-email"></i>
                                 <span>{{ __('Newsletter Manage') }}</span></a>
                             <ul class="collapse">
-                                <li class="{{ active_menu('admin-home/newsletter') }}"><a
-                                        href="{{ route('admin.newsletter') }}">{{ __('All Subscriber') }}</a></li>
-                                <li class="{{ active_menu('admin-home/newsletter/all') }}"><a
-                                        href="{{ route('admin.newsletter.mail') }}">{{ __('Send Mail To All') }}</a>
+                                <li class="{{ active_menu('admin-home/newsletter') }}"><a href="{{ route('admin.newsletter') }}">{{ __('All Subscriber') }}</a></li>
+                                <li class="{{ active_menu('admin-home/newsletter/all') }}"><a href="{{ route('admin.newsletter.mail') }}">{{ __('Send Mail To All') }}</a>
                                 </li>
                             </ul>
                         </li>
@@ -115,14 +131,10 @@
                                 <span>{{ __('Case Study') }}</span>
                             </a>
                             <ul class="collapse">
-                                <li class="{{ active_menu('admin-home/works') }}"><a
-                                        href="{{ route('admin.work') }}">{{ __('All Case Study') }}</a></li>
-                                <li class="{{ active_menu('admin-home/works/new') }}"><a
-                                        href="{{ route('admin.work.new') }}">{{ __('New Case Study') }}</a></li>
-                                <li class="{{ active_menu('admin-home/works/category') }}"><a
-                                        href="{{ route('admin.work.category') }}">{{ __('Category') }}</a></li>
-                                <li class="{{ active_menu('admin-home/works/single-page/settings') }}"><a
-                                        href="{{ route('admin.work.single.page.settings') }}">{{ __('Case Single Page Settings') }}</a>
+                                <li class="{{ active_menu('admin-home/works') }}"><a href="{{ route('admin.work') }}">{{ __('All Case Study') }}</a></li>
+                                <li class="{{ active_menu('admin-home/works/new') }}"><a href="{{ route('admin.work.new') }}">{{ __('New Case Study') }}</a></li>
+                                <li class="{{ active_menu('admin-home/works/category') }}"><a href="{{ route('admin.work.category') }}">{{ __('Category') }}</a></li>
+                                <li class="{{ active_menu('admin-home/works/single-page/settings') }}"><a href="{{ route('admin.work.single.page.settings') }}">{{ __('Case Single Page Settings') }}</a>
                                 </li>
                             </ul>
                         </li>
@@ -163,8 +175,7 @@
                                     <a href="{{ route('admin.video.gallery.all') }}">{{ __('Video Gallery') }}</a>
                                 </li>
                                 <li class="{{ active_menu('admin-home/video-gallery/page-settings') }}">
-                                    <a
-                                        href="{{ route('admin.video.gallery.page.settings') }}">{{ __('Page Settings') }}</a>
+                                    <a href="{{ route('admin.video.gallery.page.settings') }}">{{ __('Page Settings') }}</a>
                                 </li>
                             </ul>
                         </li>
@@ -196,12 +207,9 @@
                             <a href="javascript:void(0)" aria-expanded="true"><i class="ti-user"></i>
                                 <span>{{ __('Admin Manage') }}</span></a>
                             <ul class="collapse">
-                                <li class="{{ active_menu('admin-home/admin/all') }}"><a
-                                        href="{{ route('admin.all.user') }}">{{ __('All Admin') }}</a></li>
-                                <li class="{{ active_menu('admin-home/admin/new') }}"><a
-                                        href="{{ route('admin.new.user') }}">{{ __('Add New Admin') }}</a></li>
-                                <li class="{{ active_menu('admin-home/admin/all/role') }}"><a
-                                        href="{{ route('admin.all.user.role') }}">{{ __('All Admin Role') }}</a>
+                                <li class="{{ active_menu('admin-home/admin/all') }}"><a href="{{ route('admin.all.user') }}">{{ __('All Admin') }}</a></li>
+                                <li class="{{ active_menu('admin-home/admin/new') }}"><a href="{{ route('admin.new.user') }}">{{ __('Add New Admin') }}</a></li>
+                                <li class="{{ active_menu('admin-home/admin/all/role') }}"><a href="{{ route('admin.all.user.role') }}">{{ __('All Admin Role') }}</a>
                                 </li>
                             </ul>
                         </li>
@@ -211,11 +219,9 @@
                             <a href="javascript:void(0)" aria-expanded="true"><i class="ti-user"></i>
                                 <span>{{ __('Users Manage') }}</span></a>
                             <ul class="collapse">
-                                <li class="{{ active_menu('admin-home/frontend/user/all') }}"><a
-                                        href="{{ route('admin.all.frontend.user') }}">{{ __('All Users') }}</a>
+                                <li class="{{ active_menu('admin-home/frontend/user/all') }}"><a href="{{ route('admin.all.frontend.user') }}">{{ __('All Users') }}</a>
                                 </li>
-                                <li class="{{ active_menu('admin-home/frontend/user/new') }}"><a
-                                        href="{{ route('admin.frontend.new.user') }}">{{ __('Add New User') }}</a>
+                                <li class="{{ active_menu('admin-home/frontend/user/new') }}"><a href="{{ route('admin.frontend.new.user') }}">{{ __('Add New User') }}</a>
                                 </li>
                             </ul>
                         </li>
@@ -255,7 +261,7 @@
                                 <span>{{ __('Counterup') }}</span></a>
                         </li>
                     @endif
-                    <li class="main_dropdown @if (request()->is([
+                    <li class="d-none main_dropdown @if (request()->is([
                             'admin-home/quote-manage/*',
                             'admin-home/package/*',
                             'admin-home/payment-logs',
@@ -1815,78 +1821,57 @@
                             <a href="javascript:void(0)" aria-expanded="true"><i class="ti-settings"></i>
                                 <span>{{ __('General Settings') }}</span></a>
                             <ul class="collapse ">
-                                <li class="{{ active_menu('admin-home/general-settings/site-identity') }}"><a
-                                        href="{{ route('admin.general.site.identity') }}">{{ __('Site Identity') }}</a>
+                                <li class="{{ active_menu('admin-home/general-settings/site-identity') }}"><a href="{{ route('admin.general.site.identity') }}">{{ __('Site Identity') }}</a>
                                 </li>
-                                <li class="{{ active_menu('admin-home/general-settings/basic-settings') }}"><a
-                                        href="{{ route('admin.general.basic.settings') }}">{{ __('Basic Settings') }}</a>
+                                <li class="{{ active_menu('admin-home/general-settings/basic-settings') }}"><a href="{{ route('admin.general.basic.settings') }}">{{ __('Basic Settings') }}</a>
                                 </li>
-                                <li class="{{ active_menu('admin-home/general-settings/color-settings') }}"><a
-                                        href="{{ route('admin.general.color.settings') }}">{{ __('Color Settings') }}</a>
+                                <li class="{{ active_menu('admin-home/general-settings/color-settings') }}"><a href="{{ route('admin.general.color.settings') }}">{{ __('Color Settings') }}</a>
                                 </li>
-                                <li class="{{ active_menu('admin-home/general-settings/typography-settings') }}"><a
-                                        href="{{ route('admin.general.typography.settings') }}">{{ __('Typography Settings') }}</a>
+                                <li class="{{ active_menu('admin-home/general-settings/typography-settings') }}"><a href="{{ route('admin.general.typography.settings') }}">{{ __('Typography Settings') }}</a>
                                 </li>
-                                <li class="{{ active_menu('admin-home/general-settings/seo-settings') }}"><a
-                                        href="{{ route('admin.general.seo.settings') }}">{{ __('SEO Settings') }}</a>
+                                <li class="{{ active_menu('admin-home/general-settings/seo-settings') }}"><a href="{{ route('admin.general.seo.settings') }}">{{ __('SEO Settings') }}</a>
                                 </li>
-                                <li class="{{ active_menu('admin-home/general-settings/scripts') }}"><a
-                                        href="{{ route('admin.general.scripts.settings') }}">{{ __('Third Party Scripts') }}</a>
+                                <li class="{{ active_menu('admin-home/general-settings/scripts') }}"><a href="{{ route('admin.general.scripts.settings') }}">{{ __('Third Party Scripts') }}</a>
                                 </li>
-                                <li class="{{ active_menu('admin-home/general-settings/email-template') }}"><a
-                                        href="{{ route('admin.general.email.template') }}">{{ __('Email Template') }}</a>
+                                <li class="{{ active_menu('admin-home/general-settings/email-template') }}"><a href="{{ route('admin.general.email.template') }}">{{ __('Email Template') }}</a>
                                 </li>
-                                <li class="{{ active_menu('admin-home/general-settings/email-settings') }}"><a
-                                        href="{{ route('admin.general.email.settings') }}">{{ __('Email Messages Settings') }}</a>
+                                <li class="{{ active_menu('admin-home/general-settings/email-settings') }}"><a href="{{ route('admin.general.email.settings') }}">{{ __('Email Messages Settings') }}</a>
                                 </li>
-                                <li class="{{ active_menu('admin-home/general-settings/smtp-settings') }}"><a
-                                        href="{{ route('admin.general.smtp.settings') }}">{{ __('SMTP Settings') }}</a>
+                                <li class="{{ active_menu('admin-home/general-settings/smtp-settings') }}"><a href="{{ route('admin.general.smtp.settings') }}">{{ __('SMTP Settings') }}</a>
                                 </li>
                                 {{--                            <li class="{{active_menu('admin-home/general-settings/regenerate-image')}}"><a --}}
                                 {{--                                        href="{{route('admin.general.regenerate.thumbnail')}}">{{__('Regenerate Media Image')}}</a> --}}
                                 {{--                            </li> --}}
-                                <li class="{{ active_menu('admin-home/general-settings/page-settings') }}"><a
-                                        href="{{ route('admin.general.page.settings') }}">{{ __('Page Settings') }}</a>
+                                <li class="{{ active_menu('admin-home/general-settings/page-settings') }}"><a href="{{ route('admin.general.page.settings') }}">{{ __('Page Settings') }}</a>
                                 </li>
                                 @if (!empty(get_static_option('site_payment_gateway')))
                                     <li class="{{ active_menu('admin-home/general-settings/payment-settings') }}"><a
                                             href="{{ route('admin.general.payment.settings') }}">{{ __('Payment Gateway Settings') }}</a>
                                     </li>
                                 @endif
-                                <li class="{{ active_menu('admin-home/general-settings/custom-css') }}"><a
-                                        href="{{ route('admin.general.custom.css') }}">{{ __('Custom CSS') }}</a>
+                                <li class="{{ active_menu('admin-home/general-settings/custom-css') }}"><a href="{{ route('admin.general.custom.css') }}">{{ __('Custom CSS') }}</a>
                                 </li>
-                                <li class="{{ active_menu('admin-home/general-settings/custom-js') }}"><a
-                                        href="{{ route('admin.general.custom.js') }}">{{ __('Custom JS') }}</a>
+                                <li class="{{ active_menu('admin-home/general-settings/custom-js') }}"><a href="{{ route('admin.general.custom.js') }}">{{ __('Custom JS') }}</a>
                                 </li>
 
-                                <li class="{{ active_menu('admin-home/general-settings/cache-settings') }}"><a
-                                        href="{{ route('admin.general.cache.settings') }}">{{ __('Cache Settings') }}</a>
+                                <li class="{{ active_menu('admin-home/general-settings/cache-settings') }}"><a href="{{ route('admin.general.cache.settings') }}">{{ __('Cache Settings') }}</a>
                                 </li>
-                                <li class="{{ active_menu('admin-home/general-settings/gdpr-settings') }}"><a
-                                        href="{{ route('admin.general.gdpr.settings') }}">{{ __('GDPR Compliant Cookies Settings') }}</a>
+                                <li class="{{ active_menu('admin-home/general-settings/gdpr-settings') }}"><a href="{{ route('admin.general.gdpr.settings') }}">{{ __('GDPR Compliant Cookies Settings') }}</a>
                                 </li>
-                                <li class="{{ active_menu('admin-home/general-settings/preloader-settings') }}"><a
-                                        href="{{ route('admin.general.preloader.settings') }}">{{ __('Preloader Settings') }}</a>
+                                <li class="{{ active_menu('admin-home/general-settings/preloader-settings') }}"><a href="{{ route('admin.general.preloader.settings') }}">{{ __('Preloader Settings') }}</a>
                                 </li>
-                                <li class="{{ active_menu('admin-home/general-settings/popup-settings') }}"><a
-                                        href="{{ route('admin.general.popup.settings') }}">{{ __('Popup Settings') }}</a>
+                                <li class="{{ active_menu('admin-home/general-settings/popup-settings') }}"><a href="{{ route('admin.general.popup.settings') }}">{{ __('Popup Settings') }}</a>
                                 </li>
-                                <li class="{{ active_menu('admin-home/general-settings/sitemap-settings') }}"><a
-                                        href="{{ route('admin.general.sitemap.settings') }}">{{ __('Sitemap Settings') }}</a>
+                                <li class="{{ active_menu('admin-home/general-settings/sitemap-settings') }}"><a href="{{ route('admin.general.sitemap.settings') }}">{{ __('Sitemap Settings') }}</a>
                                 </li>
-                                <li class="{{ active_menu('admin-home/general-settings/rss-settings') }}"><a
-                                        href="{{ route('admin.general.rss.feed.settings') }}">{{ __('RSS Feed Settings') }}</a>
+                                <li class="{{ active_menu('admin-home/general-settings/rss-settings') }}"><a href="{{ route('admin.general.rss.feed.settings') }}">{{ __('RSS Feed Settings') }}</a>
                                 </li>
 
-                                <li class="{{ active_menu('admin-home/general-settings/module-settings') }}"><a
-                                        href="{{ route('admin.general.module.settings') }}">{{ __('Module Settings') }}</a>
+                                <li class="{{ active_menu('admin-home/general-settings/module-settings') }}"><a href="{{ route('admin.general.module.settings') }}">{{ __('Module Settings') }}</a>
                                 </li>
-                                <li class="{{ active_menu('admin-home/general-settings/database-upgrade') }}"><a
-                                        href="{{ route('admin.general.database.upgrade') }}">{{ __('Database Upgrade') }}</a>
+                                <li class="{{ active_menu('admin-home/general-settings/database-upgrade') }}"><a href="{{ route('admin.general.database.upgrade') }}">{{ __('Database Upgrade') }}</a>
                                 </li>
-                                <li class="{{ active_menu('admin-home/general-settings/license-setting') }}"><a
-                                        href="{{ route('admin.general.license.settings') }}">{{ __('Licence Settings') }}</a>
+                                <li class="{{ active_menu('admin-home/general-settings/license-setting') }}"><a href="{{ route('admin.general.license.settings') }}">{{ __('Licence Settings') }}</a>
                                 </li>
                             </ul>
                         </li>

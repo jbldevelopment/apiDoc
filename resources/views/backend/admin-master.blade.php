@@ -13,6 +13,7 @@
         @endif
     </title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     @php
         $site_favicon = get_attachment_image_by_id(get_static_option('site_favicon'),"full",false);
     @endphp
@@ -35,30 +36,29 @@
     <link rel="stylesheet" href="{{asset('assets/frontend/css/nexicon.css')}}">
     <link rel="stylesheet" href="{{asset('assets/backend/css/custom-style.css')}}">
     <link rel="stylesheet" href="{{asset('assets/backend/css/bootstrap-datepicker.min.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/frontend/css/codeblock.css')}}">
     @yield('style')
+    
     @if(!empty(get_static_option('site_admin_dark_mode')))
-    <link rel="stylesheet" href="{{asset('assets/backend/css/dark-mode.css')}}">
+        <link rel="stylesheet" href="{{asset('assets/backend/css/dark-mode.css')}}">
     @endif
     @if( get_default_language_direction() === 'rtl')
         <link rel="stylesheet" href="{{asset('assets/backend/css/rtl.css')}}">
     @endif
+    
     <script>var siteurl = "{{url('/')}}"</script>
-    <!-- modernizr css -->
     <script src="{{asset('assets/common/vendor/modernizr-2.8.3.min.js')}}"></script>
+    <script type="module" src="https://unpkg.com/@deckdeckgo/highlight-code@latest/dist/deckdeckgo-highlight-code/deckdeckgo-highlight-code.esm.js"></script>
 </head>
 
 <body>
-
-<!--[if lt IE 8]>
-<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-<![endif]-->
 @if(!empty(get_static_option('disable_backend_preloader')))
 <div id="preloader">
     <div class="loader"></div>
 </div>
 @endif
-<div class="page-container">
-    @include('backend/partials/sidebar')
+<div class="page-container @if (request()->is(['admin-home/apimeta/new-api-meta/*', 'admin-home/apimeta/new-api-meta'])) sbar_collapsed @endif">
+        @include('backend/partials/sidebar')
     <div class="main-content">
         <!-- header area start -->
         <div class="header-area">
@@ -144,6 +144,7 @@
 @yield('script')
 <script src="{{asset('assets/backend/js/plugins.js')}}"></script>
 <script src="{{asset('assets/backend/js/scripts.js')}}"></script>
+<script src="{{asset('assets/frontend/js/codeblock.js')}}"></script>
 @if(!empty(get_static_option('site_admin_panel_nav_sticky')))
 <script>
     (function($){
@@ -225,6 +226,21 @@
                 });
             });
         
+        });
+
+        
+        $('body').on('keyup','.title-input', function(e) {
+            let title = $(this).val();
+            let title_id = $(this).data('title-id');
+            if(typeof title_id !== 'undefined'){
+                $(title_id).text(title);
+            }
+            
+            let slug_id = $(this).data('slug-id');
+            if(typeof slug_id !== 'undefined'){
+                let slug = title.toLowerCase().replace(/[^a-zA-Z0-9]+/g, '-');
+                $(slug_id).val(slug);
+            }
         });
 
     })(jQuery);

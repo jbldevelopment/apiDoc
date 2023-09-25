@@ -8,6 +8,38 @@ Route::prefix('admin-home')->middleware(['setlang:backend'])->group(function () 
     Route::get('/', 'AdminDashboardController@adminIndex')->name('admin.home');
 
     /* --------------------------
+        APIs MANAGE
+    -------------------------- */
+    Route::prefix('apilist')->middleware(['adminPermissionCheck:Apis Manage', 'moduleCheck:product_module_status'])->group(function () {
+        Route::get('/', 'ApiListController@index')->name('api.list');
+        Route::get('/new-api', 'ApiListController@create_api')->name('api.create');
+        Route::post('/add-api', 'ApiListController@add_api')->name('api.add');
+        Route::get('/edit-api/{slug}', 'ApiListController@edit_api')->name('api.edit');
+        Route::post('/update-api', 'ApiListController@update_api')->name('api.update');
+        Route::post('/delete-api/{id}', 'ApiListController@delete_api')->name('api.delete');
+    });
+    Route::prefix('apicategory')->middleware(['adminPermissionCheck:Category Manage', 'moduleCheck:product_module_status'])->group(function () {
+        Route::get('/', 'ApiCategoryController@index')->name('category.list');
+        Route::get('/new-category', 'ApiCategoryController@create_category')->name('category.create');
+        Route::post('/add-category', 'ApiCategoryController@add_category')->name('category.add');
+        Route::get('/edit-category/{slug}', 'ApiCategoryController@edit_category')->name('category.edit');
+        Route::post('/update-category', 'ApiCategoryController@update_category')->name('category.update');
+        Route::post('/delete-category/{id}', 'ApiCategoryController@delete_category')->name('category.delete');
+    });
+    Route::prefix('apimeta')->middleware(['adminPermissionCheck:Api Meta Manage', 'moduleCheck:product_module_status'])->group(function () {
+        Route::get('/new-api-meta/{slug}', 'ApiMetaController@create_api_meta')->name('api.meta.create');
+        Route::post('/add-api-meta', 'ApiMetaController@add_api_meta')->name('api.meta.add');
+    });
+    Route::prefix('apicode')->middleware(['adminPermissionCheck:Api Meta Manage', 'moduleCheck:product_module_status'])->group(function () {
+        Route::post('/add-api-code', 'ApiCodeMetaController@add_api_code')->name('api.code.add');
+    });
+    Route::prefix('apitechnology')->middleware(['adminPermissionCheck:Category Manage', 'moduleCheck:product_module_status'])->group(function () {
+        Route::get('/', 'TechnologiesController@index')->name('techonlogy.list');
+        Route::post('/add-techonlogy', 'TechnologiesController@add_techonlogy')->name('techonlogy.add');
+        Route::post('/edit-techonlogy', 'TechnologiesController@edit_techonlogy')->name('techonlogy.edit');
+    });
+
+    /* --------------------------
         MAINTAINS PAGE
     -------------------------- */
     Route::get('/maintains-page/settings', 'MaintainsPageController@maintains_page_settings')->name('admin.maintains.page.settings');
@@ -31,7 +63,7 @@ Route::prefix('admin-home')->middleware(['setlang:backend'])->group(function () 
     /*------------------------------------------
         ADMIN ROUTES: PRODUCTS MODULES
     ------------------------------------------*/
-    Route::prefix('products')->middleware(['adminPermissionCheck:Products Manage', 'moduleCheck:product_module_status' ])->group(function () {
+    Route::prefix('products')->middleware(['adminPermissionCheck:Products Manage', 'moduleCheck:product_module_status'])->group(function () {
         /*-----------------------------------
             PRODUCTS ROUTES
         ------------------------------------*/
@@ -48,7 +80,7 @@ Route::prefix('admin-home')->middleware(['setlang:backend'])->group(function () 
         /*-----------------------------------
            PRODUCTS RATINGS ROUTES
        ------------------------------------*/
-        Route::group(['prefix' => 'product-ratings'],function (){
+        Route::group(['prefix' => 'product-ratings'], function () {
             Route::get('/', 'ProductsController@product_ratings')->name('admin.products.ratings');
             Route::post('/delete/{id}', 'ProductsController@product_ratings_delete')->name('admin.products.ratings.delete');
             Route::post('/bulk-action', 'ProductsController@product_ratings_bulk_action')->name('admin.products.ratings.bulk.action');
@@ -57,7 +89,7 @@ Route::prefix('admin-home')->middleware(['setlang:backend'])->group(function () 
         /*--------------------------
               * variant
         --------------------------*/
-        Route::group(['prefix' => 'variants'],function (){
+        Route::group(['prefix' => 'variants'], function () {
             Route::get('/', 'ProductVariantController@all')->name('admin.products.variants.all');
             Route::get('/new', 'ProductVariantController@new')->name('admin.products.variants.store');
             Route::post('/new', 'ProductVariantController@store');
@@ -71,7 +103,7 @@ Route::prefix('admin-home')->middleware(['setlang:backend'])->group(function () 
         /*-----------------------------------
            PRODUCTS  ORDERS ROUTES
        ------------------------------------*/
-        Route::group(['prefix' => 'product-order-logs'],function (){
+        Route::group(['prefix' => 'product-order-logs'], function () {
             Route::get('/', 'ProductsController@product_order_logs')->name('admin.products.order.logs');
             Route::post('/approve/{id}', 'ProductsController@product_order_payment_approve')->name('admin.products.order.payment.approve');
             Route::post('/delete/{id}', 'ProductsController@product_order_delete')->name('admin.product.payment.delete');
@@ -114,7 +146,7 @@ Route::prefix('admin-home')->middleware(['setlang:backend'])->group(function () 
         /*-----------------------------------
           CATEGORY SETTINGS  ROUTES
        ------------------------------------*/
-        Route::group(['prefix' => 'category'],function (){
+        Route::group(['prefix' => 'category'], function () {
             Route::get('/', 'ProductCategoryController@all_product_category')->name('admin.products.category.all');
             Route::post('/new', 'ProductCategoryController@store_product_category')->name('admin.products.category.new');
             Route::post('/update', 'ProductCategoryController@update_product_category')->name('admin.products.category.update');
@@ -126,7 +158,7 @@ Route::prefix('admin-home')->middleware(['setlang:backend'])->group(function () 
         /*-----------------------------------
          SUBCATEGORY SETTINGS  ROUTES
       ------------------------------------*/
-        Route::group(['prefix' => 'subcategory'],function (){
+        Route::group(['prefix' => 'subcategory'], function () {
             Route::get('/', 'ProductSubCategoryController@all_product_subcategory')->name('admin.products.subcategory.all');
             Route::post('/new', 'ProductSubCategoryController@store_product_subcategory')->name('admin.products.subcategory.new');
             Route::post('/update', 'ProductSubCategoryController@update_product_subcategory')->name('admin.products.subcategory.update');
@@ -139,7 +171,7 @@ Route::prefix('admin-home')->middleware(['setlang:backend'])->group(function () 
         /*-----------------------------------
          COUPON ROUTES
        ------------------------------------*/
-        Route::group(['prefix' => 'coupon'],function (){
+        Route::group(['prefix' => 'coupon'], function () {
             Route::get('/', 'ProductCouponController@all_coupon')->name('admin.products.coupon.all');
             Route::post('/new', 'ProductCouponController@store_coupon')->name('admin.products.coupon.new');
             Route::post('/update', 'ProductCouponController@update_coupon')->name('admin.products.coupon.update');
@@ -150,7 +182,7 @@ Route::prefix('admin-home')->middleware(['setlang:backend'])->group(function () 
         /*-----------------------------------
           SHIPPING ROUTES
         ------------------------------------*/
-        Route::group(['prefix' => 'shipping'],function (){
+        Route::group(['prefix' => 'shipping'], function () {
             Route::get('/', 'ProductShippingController@all_shipping')->name('admin.products.shipping.all');
             Route::post('/new', 'ProductShippingController@store_all_shipping')->name('admin.products.shipping.new');
             Route::post('/update', 'ProductShippingController@update_shipping')->name('admin.products.shipping.update');
@@ -158,7 +190,6 @@ Route::prefix('admin-home')->middleware(['setlang:backend'])->group(function () 
             Route::post('/default/{id}', 'ProductShippingController@default_shipping')->name('admin.products.shipping.default');
             Route::post('/bulk-action', 'ProductShippingController@bulk_action')->name('admin.products.shipping.bulk.action');
         });
-
     });
 
     /*-----------------------------------
@@ -184,7 +215,7 @@ Route::prefix('admin-home')->middleware(['setlang:backend'])->group(function () 
         /*-----------------------------------
          KNOWLEDGEBASE: CATEGORY ROUTES
        ------------------------------------*/
-        Route::group(['prefix' => 'category'],function (){
+        Route::group(['prefix' => 'category'], function () {
             Route::get('/', 'KnowledgebaseTopicsController@all_knowledgebase_category')->name('admin.knowledge.category.all');
             Route::post('/new', 'KnowledgebaseTopicsController@store_knowledgebase_category')->name('admin.knowledge.category.new');
             Route::post('/update', 'KnowledgebaseTopicsController@update_knowledgebase_category')->name('admin.knowledge.category.update');
@@ -198,7 +229,7 @@ Route::prefix('admin-home')->middleware(['setlang:backend'])->group(function () 
     /*==============================================
        SUPPORT TICKET MODULE
     ==============================================*/
-    Route::prefix('support-tickets')->middleware(['auth:admin','adminPermissionCheck:Support Tickets','moduleCheck:support_ticket_module_status'])->group(function () {
+    Route::prefix('support-tickets')->middleware(['auth:admin', 'adminPermissionCheck:Support Tickets', 'moduleCheck:support_ticket_module_status'])->group(function () {
         Route::get('/', 'SupportTicketController@all_tickets')->name('admin.support.ticket.all');
         Route::get('/new', 'SupportTicketController@new_ticket')->name('admin.support.ticket.new');
         Route::post('/new', 'SupportTicketController@store_ticket');
@@ -216,7 +247,7 @@ Route::prefix('admin-home')->middleware(['setlang:backend'])->group(function () 
         /*-----------------------------------
           SUPPORT TICKET : DEPARTMENT ROUTES
         ------------------------------------*/
-        Route::group(['prefix' => 'department'],function (){
+        Route::group(['prefix' => 'department'], function () {
             Route::get('/', 'Admin\SupportDepartmentController@category')->name('admin.support.ticket.department');
             Route::post('/', 'Admin\SupportDepartmentController@new_category');
             Route::post('/delete/{id}', 'Admin\SupportDepartmentController@delete')->name('admin.support.ticket.department.delete');
@@ -250,7 +281,7 @@ Route::prefix('admin-home')->middleware(['setlang:backend'])->group(function () 
         /*-----------------------------------
            JOB MODULE : CATEGORY ROUTES
         ------------------------------------*/
-        Route::group(['prefix' => 'category'],function (){
+        Route::group(['prefix' => 'category'], function () {
             Route::get('/', 'JobsCategoryController@all_jobs_category')->name('admin.jobs.category.all');
             Route::post('/new', 'JobsCategoryController@store_jobs_category')->name('admin.jobs.category.new');
             Route::post('/update', 'JobsCategoryController@update_jobs_category')->name('admin.jobs.category.update');
@@ -263,7 +294,7 @@ Route::prefix('admin-home')->middleware(['setlang:backend'])->group(function () 
         /*-----------------------------------
           JOB MODULE : APPLICANT ROUTES
        ------------------------------------*/
-        Route::group(['prefix' => 'applicant'],function () {
+        Route::group(['prefix' => 'applicant'], function () {
             Route::get('/', 'JobsController@all_jobs_applicant')->name('admin.jobs.applicant');
             Route::post('/delete/{id}', 'JobsController@delete_job_applicant')->name('admin.jobs.applicant.delete');
             Route::post('/bulk-delete', 'JobsController@job_applicant_bulk_delete')->name('admin.jobs.applicant.bulk.delete');
@@ -302,7 +333,7 @@ Route::prefix('admin-home')->middleware(['setlang:backend'])->group(function () 
         /*-----------------------------------
             SERVICES MODULE : CATEGORY ROUTES
          ------------------------------------*/
-        Route::group(['prefix' => 'category' ],function (){
+        Route::group(['prefix' => 'category'], function () {
             Route::get('/', 'ServiceController@category_index')->name('admin.service.category');
             Route::post('/', 'ServiceController@category_store');
             Route::post('/update', 'ServiceController@category_update')->name('admin.service.category.update');
@@ -316,7 +347,6 @@ Route::prefix('admin-home')->middleware(['setlang:backend'])->group(function () 
        ------------------------------------*/
         Route::get('/page-settings', 'ServicePageController@service_page_settings')->name('admin.services.page.settings');
         Route::post('/page-settings', 'ServicePageController@update_service_page_settings');
-
     });
 
     /*==============================================
@@ -326,7 +356,7 @@ Route::prefix('admin-home')->middleware(['setlang:backend'])->group(function () 
         /*-----------------------------------
          HOME PAGE VARIANT ROUTES
        ------------------------------------*/
-        Route::group(['prefix' => 'navbar-variant','middleware' => ['adminPermissionCheck:Home Variant']],function (){
+        Route::group(['prefix' => 'navbar-variant', 'middleware' => ['adminPermissionCheck:Home Variant']], function () {
             Route::get('/', "AdminDashboardController@home_variant")->name('admin.home.variant');
             Route::post('/', "AdminDashboardController@update_home_variant");
             Route::get('/settings', "AdminDashboardController@navbar_settings")->name('admin.navbar.settings');
@@ -347,18 +377,17 @@ Route::prefix('admin-home')->middleware(['setlang:backend'])->group(function () 
         /*-----------------------------------
          TOPBAR SETTINGS ROUTES
        ------------------------------------*/
-        Route::prefix('topbar-settings')->middleware(['adminPermissionCheck:Topbar Settings', ])->group(function () {
+        Route::prefix('topbar-settings')->middleware(['adminPermissionCheck:Topbar Settings',])->group(function () {
 
             Route::get('/', "TopBarController@topbar_settings")->name('admin.topbar.settings');
             Route::post('/', "TopBarController@update_topbar_settings");
 
-            Route::group(['prefix' => 'topbar'],function (){
+            Route::group(['prefix' => 'topbar'], function () {
                 Route::post('/new-social-item', 'TopBarController@new_social_item')->name('admin.new.social.item');
                 Route::post('/update-social-item', 'TopBarController@update_social_item')->name('admin.update.social.item');
                 Route::post('/delete-social-item/{id}', 'TopBarController@delete_social_item')->name('admin.delete.social.item');
                 Route::post('/info-item', 'TopBarController@store_info_item')->name('admin.support.info.item');
             });
-
         });
     });
 
@@ -366,11 +395,11 @@ Route::prefix('admin-home')->middleware(['setlang:backend'])->group(function () 
     /*==============================================
                 HOME PAGE MANAGE ROUTES
     ==============================================*/
-    Route::middleware(['adminPermissionCheck:Home Page Manage' ])->group(function () {
+    Route::middleware(['adminPermissionCheck:Home Page Manage'])->group(function () {
         /*-----------------------------------
             HOME ONE ROUTES
        ------------------------------------*/
-        Route::group(['prefix' => 'home-page-01'],function (){
+        Route::group(['prefix' => 'home-page-01'], function () {
             Route::get('/brand-logos', 'HomePageController@home_01_brand_logos_area')->name('admin.homeone.brand.logos');
             Route::post('/brand-logos', 'HomePageController@home_01_update_brand_logos_area');
             Route::get('/latest-news', 'HomePageController@home_01_latest_news')->name('admin.homeone.latest.news');
@@ -413,7 +442,7 @@ Route::prefix('admin-home')->middleware(['setlang:backend'])->group(function () 
         /*-----------------------------------
             HEADERS ROUTES
         ------------------------------------*/
-        Route::group(['prefix' => 'header'],function (){
+        Route::group(['prefix' => 'header'], function () {
             Route::get('/', 'HeaderSliderController@index')->name('admin.header');
             Route::post('/', 'HeaderSliderController@store');
             Route::post('/update', 'HeaderSliderController@update')->name('admin.header.update');
@@ -424,7 +453,7 @@ Route::prefix('admin-home')->middleware(['setlang:backend'])->group(function () 
         /*----------------------------------------
             HOME PAGE: 05 (PORTFOLIO)
         -----------------------------------------*/
-        Route::group(['prefix' => 'home-05'],function (){
+        Route::group(['prefix' => 'home-05'], function () {
             Route::get('/header', 'PortfolioHomePageController@header_area')->name('admin.home05.header');
             Route::post('/header', 'PortfolioHomePageController@update_header_area');
             Route::get('/about', 'PortfolioHomePageController@about_area')->name('admin.home05.about');
@@ -446,7 +475,7 @@ Route::prefix('admin-home')->middleware(['setlang:backend'])->group(function () 
         /*----------------------------------------
                    HOME PAGE: 06 (LOGISTICS)
         -----------------------------------------*/
-        Route::group(['prefix' => 'home-06'],function (){
+        Route::group(['prefix' => 'home-06'], function () {
             Route::get('/header', 'LogisticsHomePageController@header_area')->name('admin.home06.header');
             Route::post('/header', 'LogisticsHomePageController@update_header_area');
             Route::get('/what-we-offer', 'LogisticsHomePageController@what_we_offer_area')->name('admin.home06.what.offer');
@@ -469,7 +498,7 @@ Route::prefix('admin-home')->middleware(['setlang:backend'])->group(function () 
         /*----------------------------------------
                   HOME PAGE: 07 (INDUSTRY)
        -----------------------------------------*/
-        Route::group(['prefix' => 'home-07'],function (){
+        Route::group(['prefix' => 'home-07'], function () {
             Route::get('/header', 'IndustryHomePageController@header_area')->name('admin.home07.header');
             Route::post('/header', 'IndustryHomePageController@update_header_area');
             Route::get('/about', 'IndustryHomePageController@about_area')->name('admin.home07.about');
@@ -491,7 +520,7 @@ Route::prefix('admin-home')->middleware(['setlang:backend'])->group(function () 
         /*----------------------------------------
            HOME PAGE: 08 (CREATIVE AGENCY)
        -----------------------------------------*/
-        Route::group(['prefix' => 'home-08'],function () {
+        Route::group(['prefix' => 'home-08'], function () {
 
             Route::get('/header', 'CreativeAgencyHomePageController@header_area')->name('admin.home08.header');
             Route::post('/header', 'CreativeAgencyHomePageController@update_header_area');
@@ -514,7 +543,7 @@ Route::prefix('admin-home')->middleware(['setlang:backend'])->group(function () 
         /*----------------------------------------
           HOME PAGE: 09 (CONSTRUCTION AGENCY)
         -----------------------------------------*/
-        Route::group(['prefix' => 'home-09'],function () {
+        Route::group(['prefix' => 'home-09'], function () {
             Route::get('/header-area', 'ConstructionHomePageController@header_area')->name('admin.home09.header');
             Route::post('/header-area', 'ConstructionHomePageController@update_header_area');
             Route::get('/about-area', 'ConstructionHomePageController@about_area')->name('admin.home09.about');
@@ -607,7 +636,6 @@ Route::prefix('admin-home')->middleware(['setlang:backend'])->group(function () 
             Route::post('/testimonial-area', 'MedicalHomePageController@update_testimonial_area');
             Route::get('/news-area', 'MedicalHomePageController@news_area')->name('admin.home12.news');
             Route::post('/news-area', 'MedicalHomePageController@update_news_area');
-
         });
         /*----------------------------------------
            HOME PAGE: 13 (CHARITY)
@@ -742,7 +770,7 @@ Route::prefix('admin-home')->middleware(['setlang:backend'])->group(function () 
         /*-----------------------------------
            HOME 21 ROUTES
         ------------------------------------*/
-        Route::group(['namespace' => 'Admin','prefix' => 'home-page-21'],function (){
+        Route::group(['namespace' => 'Admin', 'prefix' => 'home-page-21'], function () {
             /* header area */
             Route::get('/header-area', 'CreativeAgencyHomePageManageController@header_area')->name('admin.home21.header');
             Route::post('/header-area', 'CreativeAgencyHomePageManageController@header_area_update');
@@ -774,13 +802,12 @@ Route::prefix('admin-home')->middleware(['setlang:backend'])->group(function () 
             /* newsletter area */
             Route::get('/newsletter-area', 'CreativeAgencyHomePageManageController@newsletter_area')->name('admin.home21.newsletter');
             Route::post('/newsletter-area', 'CreativeAgencyHomePageManageController@newsletter_area_update');
-
         }); //end home 21 routes group
 
         /*-----------------------------------
          HOME 20 ROUTES
       ------------------------------------*/
-        Route::group(['namespace' => 'Admin','prefix' => 'home-page-20'],function (){
+        Route::group(['namespace' => 'Admin', 'prefix' => 'home-page-20'], function () {
             /* breaking news area */
             Route::get('/breaking-news-area', 'NewspaperHomePageManageController@breaking_news_area')->name('admin.home20.breaking.news');
             Route::post('/breaking-news-area', 'NewspaperHomePageManageController@breaking_news_area_update');
@@ -807,13 +834,12 @@ Route::prefix('admin-home')->middleware(['setlang:backend'])->group(function () 
             /* Hot News area */
             Route::get('/hot-news-area', 'NewspaperHomePageManageController@hot_area')->name('admin.home20.hot');
             Route::post('/hot-news-area', 'NewspaperHomePageManageController@hot_area_update');
-
         }); // home 20 routes group
 
         /*-----------------------------------
             HOME 19 ROUTES
         ------------------------------------*/
-        Route::group(['namespace' => 'Admin','prefix' => 'home-page-19'],function (){
+        Route::group(['namespace' => 'Admin', 'prefix' => 'home-page-19'], function () {
             /* header area */
             Route::get('/header-area', 'FashionEcommerceHomePageController@header_area')->name('admin.home19.header');
             Route::post('/header-area', 'FashionEcommerceHomePageController@header_area_update');
@@ -847,7 +873,6 @@ Route::prefix('admin-home')->middleware(['setlang:backend'])->group(function () 
             Route::post('/promo-area', 'FashionEcommerceHomePageController@promo_area_update');
             Route::post('/blog-by-lang', 'FashionEcommerceHomePageController@product_by_lang')->name('admin.product.by.lang');
             Route::post('/blog-category-by-lang', 'FashionEcommerceHomePageController@product_category_by_lang')->name('admin.product.category.by.lang');
-
         }); // home 19 routes group
 
 
@@ -855,7 +880,7 @@ Route::prefix('admin-home')->middleware(['setlang:backend'])->group(function () 
          HOME PAGE: DONATION BY LANGUAGE
         -----------------------------------------*/
         Route::post('/blog-category-by-lang', 'Admin\NewspaperHomePageManageController@blog_category_by_lang')->name('admin.blog.category.by.lang');
-        Route::post('donation-by-lang','CharityHomePageController@donation_cause_by_lang')->name('admin.donation.cause.by.lang');
+        Route::post('donation-by-lang', 'CharityHomePageController@donation_cause_by_lang')->name('admin.donation.cause.by.lang');
     });
 
 
@@ -864,7 +889,7 @@ Route::prefix('admin-home')->middleware(['setlang:backend'])->group(function () 
      ==============================================*/
     Route::prefix('package')->middleware(['adminPermissionCheck:Package Orders Manage'])->group(function () {
 
-        Route::group(['prefix' => 'order-manage'],function (){
+        Route::group(['prefix' => 'order-manage'], function () {
             Route::get('/all', 'OrderManageController@all_orders')->name('admin.package.order.manage.all');
             Route::get('/pending', 'OrderManageController@pending_orders')->name('admin.package.order.manage.pending');
             Route::get('/completed', 'OrderManageController@completed_orders')->name('admin.package.order.manage.completed');
@@ -899,7 +924,7 @@ Route::prefix('admin-home')->middleware(['setlang:backend'])->group(function () 
     /*==============================================
           COURSE MODULE ROUTES
      ==============================================*/
-    Route::group(['prefix' => 'courses','middleware' => ['auth:admin','moduleCheck:course_module_status','adminPermissionCheck:Courses Manage']],function () {
+    Route::group(['prefix' => 'courses', 'middleware' => ['auth:admin', 'moduleCheck:course_module_status', 'adminPermissionCheck:Courses Manage']], function () {
 
         /*--------------------------
         * Courses
@@ -930,7 +955,7 @@ Route::prefix('admin-home')->middleware(['setlang:backend'])->group(function () 
         /*--------------------------
           * Category
           --------------------------*/
-        Route::group(['prefix' => 'category'],function (){
+        Route::group(['prefix' => 'category'], function () {
             Route::get('/', 'CoursesCategoryController@category_all')->name('admin.courses.category.all');
             Route::post('/new', 'CoursesCategoryController@category_new')->name('admin.courses.category.store');
             Route::post('/update', 'CoursesCategoryController@category_update')->name('admin.courses.category.update');
@@ -941,7 +966,7 @@ Route::prefix('admin-home')->middleware(['setlang:backend'])->group(function () 
         /*--------------------------
        * Coupon
        --------------------------*/
-        Route::group(['prefix' => 'coupon'],function (){
+        Route::group(['prefix' => 'coupon'], function () {
             Route::get('/', 'CourseCouponController@all')->name('admin.courses.coupon.all');
             Route::post('/new', 'CourseCouponController@new')->name('admin.courses.coupon.store');
             Route::post('/update', 'CourseCouponController@update')->name('admin.courses.coupon.update');
@@ -953,7 +978,7 @@ Route::prefix('admin-home')->middleware(['setlang:backend'])->group(function () 
         /*--------------------------
          * Instructor
          --------------------------*/
-        Route::group(['prefix' => 'instructor'],function (){
+        Route::group(['prefix' => 'instructor'], function () {
             Route::get('/', 'CourseInstructorController@all')->name('admin.courses.instructor.all');
             Route::get('/store', 'CourseInstructorController@new')->name('admin.courses.instructor.store');
             Route::post('/store', 'CourseInstructorController@store');
@@ -967,7 +992,7 @@ Route::prefix('admin-home')->middleware(['setlang:backend'])->group(function () 
         /*--------------------------
          * Lesson
          --------------------------*/
-        Route::group(['prefix' => 'lesson'],function (){
+        Route::group(['prefix' => 'lesson'], function () {
             Route::get('/', 'CourseLessonController@all')->name('admin.courses.lesson.all');
             Route::get('/store', 'CourseLessonController@new')->name('admin.courses.lesson.store');
             Route::post('/store', 'CourseLessonController@store');
@@ -983,7 +1008,7 @@ Route::prefix('admin-home')->middleware(['setlang:backend'])->group(function () 
         /*--------------------------
          * Review
          --------------------------*/
-        Route::group(['prefix' => 'review'],function (){
+        Route::group(['prefix' => 'review'], function () {
             Route::get('/', 'CourseReviewController@all')->name('admin.courses.review.all');
             Route::post('/delete/{id}', 'CourseReviewController@delete')->name('admin.courses.review.delete');
             Route::post('/bulk-action', 'CourseReviewController@bulk_action')->name('admin.course.review.bulk.action');
@@ -992,7 +1017,7 @@ Route::prefix('admin-home')->middleware(['setlang:backend'])->group(function () 
         /*--------------------------
        * Enrollment
        --------------------------*/
-        Route::group(['prefix' => 'enroll'],function (){
+        Route::group(['prefix' => 'enroll'], function () {
             Route::get('/', 'CourseEnrollController@all')->name('admin.courses.enroll.all');
             Route::post('/delete/{id}', 'CourseEnrollController@delete')->name('admin.courses.enroll.delete');
             Route::get('/view/{id}', 'CourseEnrollController@view')->name('admin.courses.enroll.view');
@@ -1004,20 +1029,19 @@ Route::prefix('admin-home')->middleware(['setlang:backend'])->group(function () 
         /*--------------------------
         * Certificates
         --------------------------*/
-        Route::group(['prefix' => 'certificate','namespace' => 'Admin'],function (){
+        Route::group(['prefix' => 'certificate', 'namespace' => 'Admin'], function () {
             Route::get('/', 'CourseCertificateController@all')->name('admin.courses.certificate.all');
             Route::get('/download/{id}', 'CourseCertificateController@download')->name('admin.courses.certificate.download');
             Route::post('/delete/{id}', 'CourseCertificateController@delete')->name('admin.courses.certificate.delete');
             Route::post('/bulk-action', 'CourseCertificateController@bulk_action')->name('admin.course.certificate.bulk.action');
             Route::post('/approve', 'CourseCertificateController@approved')->name('admin.course.certificate.approve');
         });
-
     });
 
     /*==============================================
           APPOINTMENT MODULE ROUTES
      ==============================================*/
-    Route::group(['prefix' => 'appointment','middleware' => 'auth:admin','moduleCheck:appointment_module_status','adminPermissionCheck:Appointment Manage'],function () {
+    Route::group(['prefix' => 'appointment', 'middleware' => 'auth:admin', 'moduleCheck:appointment_module_status', 'adminPermissionCheck:Appointment Manage'], function () {
 
         Route::get('/all', 'AppointmentController@appointment_all')->name('admin.appointment.all');
         Route::get('/new', 'AppointmentController@appointment_new')->name('admin.appointment.new');
@@ -1035,7 +1059,7 @@ Route::prefix('admin-home')->middleware(['setlang:backend'])->group(function () 
         /*----------------------------
             Settings
         -----------------------------*/
-        Route::group(['prefix' => 'settings' ],function (){
+        Route::group(['prefix' => 'settings'], function () {
             Route::get('/', 'AppointmentController@settings')->name('admin.appointment.booking.settings');
             Route::post('/', 'AppointmentController@settings_save');
         });
@@ -1043,7 +1067,7 @@ Route::prefix('admin-home')->middleware(['setlang:backend'])->group(function () 
         /*-----------------------------
            Category
        -------------------------------*/
-        Route::group(['prefix' => 'category' ],function (){
+        Route::group(['prefix' => 'category'], function () {
             Route::get('/', 'AppointmentCategoryController@category_all')->name('admin.appointment.category.all');
             Route::post('/new', 'AppointmentCategoryController@category_new')->name('admin.appointment.category.store');
             Route::post('/update', 'AppointmentCategoryController@category_update')->name('admin.appointment.category.update');
@@ -1054,7 +1078,7 @@ Route::prefix('admin-home')->middleware(['setlang:backend'])->group(function () 
         /*-----------------------------
              Booking Time
          -----------------------------*/
-        Route::group(['prefix' => 'booking-time' ],function (){
+        Route::group(['prefix' => 'booking-time'], function () {
             Route::get('/', 'AppointmentBookingTimeController@booking_time_all')->name('admin.appointment.booking.time.all');
             Route::post('/new', 'AppointmentBookingTimeController@booking_time_new')->name('admin.appointment.booking.time.store');
             Route::post('/update', 'AppointmentBookingTimeController@booking_time_update')->name('admin.appointment.booking.time.update');
@@ -1065,7 +1089,7 @@ Route::prefix('admin-home')->middleware(['setlang:backend'])->group(function () 
         /*--------------------------------
            appointment  booking
         ---------------------------------*/
-        Route::group(['prefix' => 'booking' ],function (){
+        Route::group(['prefix' => 'booking'], function () {
 
             Route::get('/', 'AppointmentBookingController@booking_all')->name('admin.appointment.booking.all');
             Route::post('/new', 'AppointmentBookingController@booking_new')->name('admin.appointment.booking.store');
@@ -1075,17 +1099,15 @@ Route::prefix('admin-home')->middleware(['setlang:backend'])->group(function () 
             Route::post('/bulk-action', 'AppointmentBookingController@bulk_action')->name('admin.appointment.booking.bulk.action');
             Route::post('/approve-payment/{id}', 'AppointmentBookingController@approve_payment')->name('admin.appointment.booking.approve.payment');
             Route::post('/reminder-mail', 'AppointmentBookingController@reminder_mail')->name('admin.appointment.booking.reminder.mail');
-
         });
 
         /*------------------
          Review
        ------------------*/
-        Route::group(['prefix' => 'review' ],function (){
+        Route::group(['prefix' => 'review'], function () {
             Route::get('/', 'AppointmentReviewController@review_all')->name('admin.appointment.review.all');
             Route::post('/delete/{id}', 'AppointmentReviewController@review_delete')->name('admin.appointment.review.delete');
         });
-
     });
 
     /*==============================================
@@ -1169,17 +1191,16 @@ Route::prefix('admin-home')->middleware(['setlang:backend'])->group(function () 
         /*------------------
            ALL FEEDBACK
         -------------------*/
-        Route::group(['prefix' => 'all-feedback'],function (){
+        Route::group(['prefix' => 'all-feedback'], function () {
             Route::get('/', 'FeedbackController@all_feedback')->name('admin.feedback.all');
             Route::post('/delete/{id}', 'FeedbackController@delete_feedback')->name('admin.feedback.delete');
             Route::post('/bulk-action', 'FeedbackController@bulk_action')->name('admin.feedback.bulk.action');
         });
-
     });
 
     /*==============================================
       IMAGE GALLERY ROUTES
- ==============================================*/
+    ==============================================*/
 
     Route::prefix('video-gallery')->middleware(['adminPermissionCheck:Video Gallery'])->group(function () {
         Route::get('/', 'Admin\VideoGalleryController@index')->name('admin.video.gallery.all');
@@ -1190,10 +1211,10 @@ Route::prefix('admin-home')->middleware(['setlang:backend'])->group(function () 
         Route::get('/page-settings', 'Admin\VideoGalleryController@page_settings')->name('admin.video.gallery.page.settings');
         Route::post('/page-settings', 'Admin\VideoGalleryController@update_page_settings');
     });
+
     /*==============================================
          IMAGE GALLERY ROUTES
     ==============================================*/
-
     Route::prefix('gallery-page')->middleware(['adminPermissionCheck:Gallery Page'])->group(function () {
         Route::get('/', 'ImageGalleryPageController@index')->name('admin.gallery.all');
         Route::post('/new', 'ImageGalleryPageController@store')->name('admin.gallery.new');
@@ -1205,7 +1226,7 @@ Route::prefix('admin-home')->middleware(['setlang:backend'])->group(function () 
         /*------------------------
             IMAGE CATEGORY
         -------------------------*/
-        Route::group(['prefix' => 'category'],function (){
+        Route::group(['prefix' => 'category'], function () {
             Route::get('/', 'ImageGalleryPageController@category_index')->name('admin.gallery.category');
             Route::post('/new', 'ImageGalleryPageController@category_store')->name('admin.gallery.category.new');
             Route::post('/update', 'ImageGalleryPageController@category_update')->name('admin.gallery.category.update');
@@ -1213,10 +1234,7 @@ Route::prefix('admin-home')->middleware(['setlang:backend'])->group(function () 
             Route::post('/bulk-action', 'ImageGalleryPageController@category_bulk_action')->name('admin.gallery.category.bulk.action');
         });
         Route::post('/category-by-slug', 'ImageGalleryPageController@category_by_slug')->name('admin.gallery.category.by.lang');
-
     });
-
-
 
     /*==============================================
          CONTACT PAGE ROUTES
@@ -1236,7 +1254,7 @@ Route::prefix('admin-home')->middleware(['setlang:backend'])->group(function () 
         /*------------------------
            CONTACT INFO ROUTES
         -------------------------*/
-        Route::group(['prefix' => 'contact-info'],function (){
+        Route::group(['prefix' => 'contact-info'], function () {
             Route::get('/', 'ContactInfoController@index')->name('admin.contact.info');
             Route::post('/', 'ContactInfoController@store');
             Route::post('/title', 'ContactInfoController@contact_info_title')->name('admin.contact.info.title');
@@ -1244,7 +1262,6 @@ Route::prefix('admin-home')->middleware(['setlang:backend'])->group(function () 
             Route::post('/delete/{id}', 'ContactInfoController@delete')->name('admin.contact.info.delete');
             Route::post('/bulk-action', 'ContactInfoController@bulk_action')->name('admin.contact.info.bulk.action');
         });
-
     });
 
     /*==============================================
@@ -1262,7 +1279,7 @@ Route::prefix('admin-home')->middleware(['setlang:backend'])->group(function () 
     /*======================================
         EMAIL TEMPLATE SETTINGS
     =======================================*/
-    Route::prefix('email-template')->middleware(['auth:admin','adminPermissionCheck:Email Templates' ])->namespace('Admin')->group(function () {
+    Route::prefix('email-template')->middleware(['auth:admin', 'adminPermissionCheck:Email Templates'])->namespace('Admin')->group(function () {
         Route::get('/all', 'EmailTemplateController@all')->name('admin.email.template.all');
         /*-------------------------------------------
             ADMIN PASSWORD RESET ROUTES
@@ -1434,8 +1451,6 @@ Route::prefix('admin-home')->middleware(['setlang:backend'])->group(function () 
         /* donation reminder mail */
         Route::get('/donation-mail-reminder-mail', 'DonationEmailTemplateController@donation_mail_reminder_mail')->name('admin.email.template.donation.mail.reminder.mail');
         Route::post('/donation-mail-reminder-mail', 'DonationEmailTemplateController@update_donation_mail_reminder_mail');
-
-
     });
 
     /*==============================================
@@ -1504,7 +1519,6 @@ Route::prefix('admin-home')->middleware(['setlang:backend'])->group(function () 
          --------------------------*/
         Route::get('/estimate', 'FormBuilderController@estimate_form_index')->name('admin.form.builder.estimate.form');
         Route::post('/estimate', 'FormBuilderController@update_estimate_form');
-
     });
 
     /*==============================================
@@ -1546,7 +1560,7 @@ Route::prefix('admin-home')->middleware(['setlang:backend'])->group(function () 
         Route::post('/all', 'NewsletterController@send_mail_all');
         Route::post('/new', 'NewsletterController@add_new_sub')->name('admin.newsletter.new.add');
         Route::post('/bulk-action', 'NewsletterController@bulk_action')->name('admin.newsletter.bulk.action');
-        Route::post('/verify-mail-send','NewsletterController@verify_mail_send')->name('admin.newsletter.verify.mail.send');
+        Route::post('/verify-mail-send', 'NewsletterController@verify_mail_send')->name('admin.newsletter.verify.mail.send');
     });
     /*==============================================
             LANGUAGE ROUTES
@@ -1554,8 +1568,8 @@ Route::prefix('admin-home')->middleware(['setlang:backend'])->group(function () 
     Route::prefix('languages')->middleware(['adminPermissionCheck:Languages'])->group(function () {
         Route::get('/', 'LanguageController@index')->name('admin.languages');
         Route::get('/words/edit/{id}', 'LanguageController@edit_words')->name('admin.languages.words.edit');
-        Route::get('/words/frontend/{id}','LanguageController@frontend_edit_words')->name('admin.languages.words.frontend');
-        Route::get('/words/backend/{id}','LanguageController@backend_edit_words')->name('admin.languages.words.backend');
+        Route::get('/words/frontend/{id}', 'LanguageController@frontend_edit_words')->name('admin.languages.words.frontend');
+        Route::get('/words/backend/{id}', 'LanguageController@backend_edit_words')->name('admin.languages.words.backend');
         Route::post('/words/new', 'LanguageController@add_new_words')->name('admin.languages.add.new.word');
         Route::post('/words/update/{id}', 'LanguageController@update_words')->name('admin.languages.words.update');
         Route::post('/new', 'LanguageController@store')->name('admin.languages.new');
@@ -1564,7 +1578,7 @@ Route::prefix('admin-home')->middleware(['setlang:backend'])->group(function () 
         Route::post('/clone', 'LanguageController@clone_languages')->name('admin.languages.clone');
         Route::post('/default/{id}', 'LanguageController@make_default')->name('admin.languages.default');
         Route::post('/add-new-string', 'LanguageController@add_new_string')->name('admin.languages.add.string');
-        Route::post('/languages/regenerate-source-text','LanguageController@regenerate_source_text')->name('admin.languages.regenerate.source.texts');
+        Route::post('/languages/regenerate-source-text', 'LanguageController@regenerate_source_text')->name('admin.languages.regenerate.source.texts');
     });
 
     /*==============================================
@@ -1608,7 +1622,7 @@ Route::prefix('admin-home')->middleware(['setlang:backend'])->group(function () 
         /*-------------------------
           BLOG CATEGORIES ROUTES
         --------------------------*/
-        Route::group(['prefix' => 'category'],function (){
+        Route::group(['prefix' => 'category'], function () {
             Route::get('/', 'BlogController@category')->name('admin.blog.category');
             Route::post('/', 'BlogController@new_category');
             Route::post('/delete/{id}', 'BlogController@delete_category')->name('admin.blog.category.delete');
@@ -1627,16 +1641,16 @@ Route::prefix('admin-home')->middleware(['setlang:backend'])->group(function () 
         Route::post('/single-settings', 'BlogController@update_blog_single_page_settings');
     });
 
-/*==============================================
+    /*==============================================
    ADVERTISEMENT
 ==============================================*/
-    Route::group(['prefix'=>'advertisement','namespace' => 'Admin'],function(){
-        Route::get('/','AdvertisementController@index')->name('admin.advertisement');
-        Route::get('/new','AdvertisementController@new_advertisement')->name('admin.advertisement.new');
-        Route::post('/store','AdvertisementController@store_advertisement')->name('admin.advertisement.store');
-        Route::get('/edit/{id}','AdvertisementController@edit_advertisement')->name('admin.advertisement.edit');
-        Route::post('/update/{id}','AdvertisementController@update_advertisement')->name('admin.advertisement.update');
-        Route::post('/delete/{id}','AdvertisementController@delete_advertisement')->name('admin.advertisement.delete');
+    Route::group(['prefix' => 'advertisement', 'namespace' => 'Admin'], function () {
+        Route::get('/', 'AdvertisementController@index')->name('admin.advertisement');
+        Route::get('/new', 'AdvertisementController@new_advertisement')->name('admin.advertisement.new');
+        Route::post('/store', 'AdvertisementController@store_advertisement')->name('admin.advertisement.store');
+        Route::get('/edit/{id}', 'AdvertisementController@edit_advertisement')->name('admin.advertisement.edit');
+        Route::post('/update/{id}', 'AdvertisementController@update_advertisement')->name('admin.advertisement.update');
+        Route::post('/delete/{id}', 'AdvertisementController@delete_advertisement')->name('admin.advertisement.delete');
         Route::post('/bulk-action', 'AdvertisementController@bulk_action')->name('admin.advertisement.bulk.action');
     });
 
@@ -1682,7 +1696,7 @@ Route::prefix('admin-home')->middleware(['setlang:backend'])->group(function () 
         /*---------------------------------
            PRICE PLAN CATEGORIES ROUTES
         -----------------------------------*/
-        Route::group(['prefix' => 'category'],function (){
+        Route::group(['prefix' => 'category'], function () {
             Route::get('/', 'PricePlanController@category_index')->name('admin.price.plan.category');
             Route::post('/', 'PricePlanController@category_store');
             Route::post('/update', 'PricePlanController@category_update')->name('admin.price.plan.category.update');
@@ -1718,7 +1732,7 @@ Route::prefix('admin-home')->middleware(['setlang:backend'])->group(function () 
     /*==============================================
            EVENTS MODULE ROUTES
      ==============================================*/
-    Route::prefix('events')->middleware(['adminPermissionCheck:Events Manage', 'moduleCheck:events_module_status' ])->group(function () {
+    Route::prefix('events')->middleware(['adminPermissionCheck:Events Manage', 'moduleCheck:events_module_status'])->group(function () {
 
         /*----------------------------------------
             EVENTS MODULE: ROUTEs
@@ -1768,7 +1782,7 @@ Route::prefix('admin-home')->middleware(['setlang:backend'])->group(function () 
          EVENTS MODULE: ATTENDANCE SETTINGS
        ----------------------------------------*/
         //event attendance logs
-        Route::group(['prefix' => 'attendance'],function (){
+        Route::group(['prefix' => 'attendance'], function () {
             Route::get('/all', 'EventsController@event_attendance_logs')->name('admin.event.attendance.logs');
             Route::post('/all', 'EventsController@update_event_attendance_logs_status');
             Route::post('/delete/{id}', 'EventsController@delete_event_attendance_logs')->name('admin.event.attendance.logs.delete');
@@ -1779,7 +1793,7 @@ Route::prefix('admin-home')->middleware(['setlang:backend'])->group(function () 
         /*----------------------------------------
            EVENTS MODULE: PAYMENT LOGS
          ----------------------------------------*/
-        Route::group(['prefix' => 'event-payment-logs'],function (){
+        Route::group(['prefix' => 'event-payment-logs'], function () {
             Route::get('/', 'EventsController@event_payment_logs')->name('admin.event.payment.logs');
             Route::post('/delete/{id}', 'EventsController@delete_event_payment_logs')->name('admin.event.payment.delete');
             Route::post('/approve/{id}', 'EventsController@approve_event_payment')->name('admin.event.payment.approve');
@@ -1789,7 +1803,7 @@ Route::prefix('admin-home')->middleware(['setlang:backend'])->group(function () 
         /*----------------------------------------
         EVENTS MODULE: CATEGORY ROUTES
          ----------------------------------------*/
-        Route::group(['prefix' => 'category'],function (){
+        Route::group(['prefix' => 'category'], function () {
             //event category
             Route::get('/', 'EventsCategoryController@all_events_category')->name('admin.events.category.all');
             Route::post('/new', 'EventsCategoryController@store_events_category')->name('admin.events.category.new');
@@ -1810,7 +1824,7 @@ Route::prefix('admin-home')->middleware(['setlang:backend'])->group(function () 
     /*==============================================
               DONATION MODULE ROUTES
     ==============================================*/
-    Route::prefix('donations')->middleware(['adminPermissionCheck:Donations Manage', 'moduleCheck:donations_module_status' ])->group(function () {
+    Route::prefix('donations')->middleware(['adminPermissionCheck:Donations Manage', 'moduleCheck:donations_module_status'])->group(function () {
 
         Route::get('/', 'DonationController@all_donation')->name('admin.donations.all');
         Route::get('/new', 'DonationController@new_donation')->name('admin.donations.new');
@@ -1852,7 +1866,7 @@ Route::prefix('admin-home')->middleware(['setlang:backend'])->group(function () 
         /*----------------------------------------------------
            DONATION : PAYMENT LOGS ROUTES
         ----------------------------------------------------*/
-        Route::group(['prefix' => 'payment-logs'],function (){
+        Route::group(['prefix' => 'payment-logs'], function () {
             Route::get('/', 'DonationController@event_payment_logs')->name('admin.donations.payment.logs');
             Route::post('/delete/{id}', 'DonationController@delete_event_payment_logs')->name('admin.donations.payment.delete');
             Route::post('/approve/{id}', 'DonationController@approve_event_payment')->name('admin.donations.payment.approve');
@@ -1879,7 +1893,7 @@ Route::prefix('admin-home')->middleware(['setlang:backend'])->group(function () 
         /*----------------------------------------------------
              CASE STUDY : CATEGORY ROUTES
         ----------------------------------------------------*/
-        Route::group(['prefix' => 'category'],function (){
+        Route::group(['prefix' => 'category'], function () {
             Route::get('/', 'WorksController@category_index')->name('admin.work.category');
             Route::post('/', 'WorksController@category_store');
             Route::post('/update', 'WorksController@category_update')->name('admin.work.category.update');
@@ -1938,7 +1952,6 @@ Route::prefix('admin-home')->middleware(['setlang:backend'])->group(function () 
         Route::get('/all', 'FrontendUserManageController@all_user')->name('admin.all.frontend.user');
         Route::post('/all/bulk-action', 'FrontendUserManageController@bulk_action')->name('admin.all.frontend.user.bulk.action');
         Route::post('/all/email-status', 'FrontendUserManageController@email_status')->name('admin.all.frontend.user.email.status');
-
     });
 
     /*==============================================
@@ -1957,13 +1970,12 @@ Route::prefix('admin-home')->middleware(['setlang:backend'])->group(function () 
         /*----------------------------------------------------
           ADMIN ROLE MANAGE
         ----------------------------------------------------*/
-        Route::group(['prefix' => 'all/role'],function (){
+        Route::group(['prefix' => 'all/role'], function () {
             Route::get('/', 'UserRoleManageController@all_user_role')->name('admin.all.user.role');
             Route::post('/', 'UserRoleManageController@add_new_user_role');
             Route::post('/update', 'UserRoleManageController@udpate_user_role')->name('admin.user.role.edit');
             Route::post('/delete/{id}', 'UserRoleManageController@delete_user_role')->name('admin.user.role.delete');
         });
-
     });
 
     /*==============================================
@@ -2116,14 +2128,13 @@ Route::prefix('admin-home')->middleware(['setlang:backend'])->group(function () 
         Route::get('/sitemap-settings', 'GeneralSettingsController@sitemap_settings')->name('admin.general.sitemap.settings');
         Route::post('/sitemap-settings', 'GeneralSettingsController@update_sitemap_settings');
         Route::post('/sitemap-settings/delete', 'GeneralSettingsController@delete_sitemap_settings')->name('admin.general.sitemap.settings.delete');
-
     });
 
 
     /*===================================================
          PAGE BUILDER ROUTE
      ==================================================*/
-    Route::group(['prefix' => 'page-builder','namespace' => 'Admin','middleware' => 'auth:admin'],function () {
+    Route::group(['prefix' => 'page-builder', 'namespace' => 'Admin', 'middleware' => 'auth:admin'], function () {
         /*-------------------------
             HOME PAGE BUILDER
         -------------------------*/
@@ -2145,10 +2156,7 @@ Route::prefix('admin-home')->middleware(['setlang:backend'])->group(function () 
         -------------------------*/
         Route::get('/dynamic-page/{type}/{id}', 'PageBuilderController@dynamicpage_builder')->name('admin.dynamic.page.builder');
         Route::post('/dynamic-page', 'PageBuilderController@update_dynamicpage_builder')->name('admin.dynamic.page.builder.store');
-
     });
-
-
 });
 
 /* ============================================
@@ -2167,5 +2175,3 @@ Route::prefix('admin-home')->group(function () {
     Route::post('/update-order', 'Admin\PageBuilderController@update_addon_order')->name('admin.page.builder.update.addon.order');
     Route::post('/get-admin-markup', 'Admin\PageBuilderController@get_admin_panel_addon_markup')->name('admin.page.builder.get.addon.markup');
 });
-
-
