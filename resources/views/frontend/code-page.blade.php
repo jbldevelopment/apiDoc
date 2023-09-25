@@ -3,6 +3,11 @@
     {{__($api_details->api_title)}}
 @endsection
 @section('content')
+<style>
+    .block-code .numbers{
+        display: none !important;
+    }
+</style>
     <section class="">
         <div class="container-fluid">
             <div class="row h-100">
@@ -36,12 +41,45 @@
                         </div>
                         <div class="col-lg-5 bg-dark pt-lg-5">
                             <div>
-                                @foreach ($api_meta_list as $item) 
-                                <figure class="block-code">
-                                    <figcaption>myday.class.php</figcaption>
-                                    <pre><code class="code-block" contenteditable="false" tabindex="0" spellcheck="false">{!!$item->api_meta_descripetion!!}</code></pre>
-                                </figure>
+                                @php
+                                    $technologies_code = [];
+                                    $active = 1;
+                                    $show_active = 1;
+                                @endphp
+                                @foreach ($api_code_meta_list as $code) 
+                                    @php
+                                        $technologies_code['tech_' . $code->api_technology][] = $code;
+                                        @endphp
                                 @endforeach
+                                <ul class="nav nav-tabs" id="myTabs" role="tablist">
+                                    @foreach ($technlogies as $links)
+                                    <li class="nav-item">
+                                        <a class="nav-link {{($active == 1) ? 'active' : ''}}" id="{{$links->technolgy_slug}}-tab" data-toggle="tab" href="#{{$links->technolgy_slug}}" role="tab" aria-controls="{{$links->technolgy_slug}}" aria-selected="true">{{$links->technolgy_slug}}</a>
+                                    </li>
+                                        @php
+                                            $active = 0;
+                                        @endphp
+                                    @endforeach
+                                </ul>
+                                <div class="tab-content" id="myTabContent">
+                                    @foreach ($technlogies as $item)
+                                    <div class="tab-pane fade {{($show_active == 1) ? 'show active' : ''}}" id="{{$item->technolgy_slug}}" role="tabpanel" aria-labelledby="{{$item->technolgy_slug}}-tab">
+                                        @foreach ($technologies_code as $keys => $codes )
+                                            @if ('tech_' . $item->technolgy_id == $keys)
+                                                @foreach ($codes as $keys => $data )
+                                                <figure class="block-code">
+                                                    <figcaption>{{$data['api_code_title']}}</figcaption>
+                                                    <pre><code class="code-block" contenteditable="false" tabindex="0" spellcheck="false">{!!$data['api_code']!!}</code></pre>
+                                                </figure>
+                                                @endforeach
+                                            @endif
+                                        @endforeach
+                                    </div>
+                                    @php
+                                        $show_active = 0;
+                                    @endphp
+                                    @endforeach
+                                </div>
                             </div>
                         </div>
                     </div>

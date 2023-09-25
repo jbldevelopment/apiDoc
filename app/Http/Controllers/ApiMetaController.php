@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\ApiMeta;
 use App\ApiList;
 use App\ApiCodeMeta;
+use App\Technologies;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use PhpParser\Node\Stmt\TryCatch;
@@ -20,6 +21,7 @@ class ApiMetaController extends Controller
         $is_exists_api_details = ApiList::where('api_slug', $slug)->exists();
         if ($is_exists_api_details) {
             $api_details = ApiList::where('api_slug', $slug)->first();
+            $technlogies = Technologies::where('technolgy_status', 1)->orderBy('technolgy_order')->get();
             $api_meta_list = ApiMeta::where('api_id', $api_details->api_id)->orderBy('api_meta_order')->get();
             $meta_array = [];
             foreach ($api_meta_list as $key => $value) {
@@ -30,6 +32,7 @@ class ApiMetaController extends Controller
                 'api_details' => $api_details,
                 'api_meta_list' => $api_meta_list,
                 'api_code_meta_list' => $api_code_meta_list,
+                'technlogies' => $technlogies,
             ]);
         }
         return redirect()->back()->with([
@@ -94,7 +97,7 @@ class ApiMetaController extends Controller
                     return sendResponse($status = false,  __('Failed to insert API!'), [], 400);
                 }
             }
-        } catch (\ThAPiable $th) {
+        } catch (\Throwable $th) {
             return sendResponse($status = false,  $th, [], 400);
         }
     }

@@ -61,7 +61,7 @@ class ApiCategoryController extends Controller
                     'type' => 'danger'
                 ]);
             }
-        } catch (\ThAPiable $th) {
+        } catch (\Throwable $th) {
             return redirect()->back()->with([
                 'msg' => $th,
                 'type' => 'danger'
@@ -125,7 +125,7 @@ class ApiCategoryController extends Controller
                     'msg' => __('Category not found!'),
                     'type' => 'danger'
                 ]);
-            } catch (\ThAPiable $th) {
+            } catch (\Throwable $th) {
                 return redirect()->back()->with([
                     'msg' => $th,
                     'type' => 'danger'

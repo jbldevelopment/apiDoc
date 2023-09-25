@@ -70,7 +70,7 @@ class ApiCodeMetaController extends Controller
                     return sendResponse($status = false,  __('Failed to insert API!'), [], 400);
                 }
             }
-        } catch (\ThAPiable $th) {
+        } catch (\Throwable $th) {
             return sendResponse($status = false,  $th, [], 400);
         }
     }

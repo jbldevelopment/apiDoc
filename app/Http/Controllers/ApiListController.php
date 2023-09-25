@@ -77,7 +77,7 @@ class ApiListController extends Controller
                     'type' => 'danger'
                 ]);
             }
-        } catch (\ThAPiable $th) {
+        } catch (\Throwable $th) {
             return redirect(route('api.list'))->with([
                 'msg' => $th,
                 'type' => 'danger'
@@ -150,7 +150,7 @@ class ApiListController extends Controller
                     'msg' => __('API not found!'),
                     'type' => 'danger'
                 ]);
-            } catch (\ThAPiable $th) {
+            } catch (\Throwable $th) {
                 return redirect(route('api.list'))->with([
                     'msg' => $th,
                     'type' => 'danger'

@@ -32,6 +32,11 @@
             </div>
             <div class="col-lg-10 px-lg-0">
                 <div class="row h-100 border-bottom border-top ">
+                    <div class="col-lg-12">
+                        <div class="margin-top-40"></div>
+                        <x-error-msg />
+                        <x-flash-msg />
+                    </div>
                     <div class="col-lg-7 pt-lg-2 doc-meta-details border-right">
                         <form action="{{ route('api.meta.add') }}" method="post" enctype="multipart/form-data" id="meta_form_data">
                             @csrf
@@ -54,7 +59,7 @@
                                     <div id="api_meta_details_{{$item->api_meta_id}}" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
                                         <div class="card-body">
                                             <div class="row py-lg-3">
-                                                <div class="col mt-lg-1-lg-6">
+                                                <div class="col-lg-6 mt-lg-1">
                                                     <div class="form-group mb-lg-0">
                                                         <label for="title">{{ __('Title') }}</label>
                                                         <input type="hidden" class="form-control" id="api_id_{{$item->api_meta_id}}" name="api_id[]" value="{{$api_details->api_id}}">
@@ -124,7 +129,7 @@
                                     <div id="api_meta_details_0" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
                                         <div class="card-body">
                                             <div class="row py-lg-3">
-                                                <div class="col mt-lg-1-lg-6">
+                                                <div class="col-lg-6 mt-lg-1">
                                                     <div class="form-group mb-lg-0">
                                                         <label for="title">{{ __('Title') }}</label>
                                                         <input type="hidden" class="form-control" id="api_id_0" name="api_id[]" value="{{$api_details->api_id}}">
@@ -201,7 +206,7 @@
                                     <div id="code_meta_{{$code->api_code_id}}" class="collapse" aria-labelledby="headingOne" data-parent="#accordion-2">
                                         <div class="card-body">
                                             <div class="row py-lg-3">
-                                                <div class="col mt-lg-1-lg-6">
+                                                <div class="col-lg-6 mt-lg-1">
                                                     <div class="form-group mb-lg-0">
                                                         <label for="title">{{ __('Title') }}</label>
                                                         <input type="hidden" class="form-control" id="api_code_id_{{$code->api_code_id}}" name="api_code_id[]" value="{{$code->api_code_id}}">
@@ -238,9 +243,9 @@
                                                     <div class="form-group mb-lg-0">
                                                         <label>{{ __('Technology') }}</label>
                                                         <select name="api_technology[]" id="api_technology_{{$code->api_code_id}}" class="form-control">
-                                                            <option {{ ($item->api_technology == 1) ? "selected" : "" }} value="1">{{ __('PHP') }}</option>
-                                                            <option {{ ($item->api_technology == 2) ? "selected" : "" }} value="2">{{ __('PYTHON') }}</option>
-                                                            <option {{ ($item->api_technology == 3) ? "selected" : "" }} value="3">{{ __('NODE') }}</option>
+                                                            @foreach ($technlogies as $item)
+                                                                <option {{ ($item->technolgy_id == $code->api_technology) ? "selected" : "" }} value="{{$item->technolgy_id}}">{{ __($item->technolgy_name) }}</option>
+                                                            @endforeach
                                                         </select>
                                                     </div>
                                                 </div>
@@ -254,8 +259,8 @@
                                                     <div class="form-group mb-lg-0">
                                                         <label>{{ __('Status') }}</label>
                                                         <select name="api_code_status[]" id="api_code_status_{{$code->api_code_id}}" class="form-control">
-                                                            <option {{ ($item->api_code_status == 0) ? "selected" : "" }} value="0">{{ __('Deactive') }}</option>
-                                                            <option {{ ($item->api_code_status == 1) ? "selected" : "" }} value="1">{{ __('Active') }}</option>
+                                                            <option {{ ($code->api_code_status == 0) ? "selected" : "" }} value="0">{{ __('Deactive') }}</option>
+                                                            <option {{ ($code->api_code_status == 1) ? "selected" : "" }} value="1">{{ __('Active') }}</option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -281,7 +286,7 @@
                                     <div id="code_meta_0" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion-2">
                                         <div class="card-body">
                                             <div class="row py-lg-3">
-                                                <div class="col mt-lg-1-lg-6">
+                                                <div class="col-lg-6 mt-lg-1">
                                                     <div class="form-group mb-lg-0">
                                                         <label for="title">{{ __('Title') }}</label>
                                                         <input type="text" class="form-control title-input" data-title-id="#code_title_0" data-slug-id="#api_code_slug_0" id="api_code_title_0" name="api_code_title[]" placeholder="{{ __('Title') }}">
@@ -318,9 +323,9 @@
                                                     <div class="form-group mb-lg-0">
                                                         <label>{{ __('Technology') }}</label>
                                                         <select name="api_technology[]" id="api_technology_0" class="form-control">
-                                                            <option value="1">{{ __('PHP') }}</option>
-                                                            <option value="2">{{ __('PYTHON') }}</option>
-                                                            <option value="3">{{ __('NODE') }}</option>
+                                                            @foreach ($technlogies as $item)
+                                                                <option value="{{$item->technolgy_id}}">{{ __($item->technolgy_name) }}</option>
+                                                            @endforeach
                                                         </select>
                                                     </div>
                                                 </div>
