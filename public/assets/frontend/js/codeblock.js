@@ -14,7 +14,6 @@ document.addEventListener('DOMContentLoaded', function () {
      preElements.forEach(function (pre) {
           // Find the first code or samp element within the pre element
           var code = pre.querySelector('code, samp');
-          console.log('pre :>> ', pre);
 
           if (code) {
                // Create a container for line numbers

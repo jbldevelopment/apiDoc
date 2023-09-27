@@ -11,6 +11,7 @@
     $all_permission_list = array(
         "Api Meta Manage",
         "Apis Manage",
+        "Apis Package Manage",
         "Category Manage",
         "Technology Manage",
         "Video Gallery",

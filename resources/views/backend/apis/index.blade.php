@@ -127,6 +127,9 @@
                                                 <a class="btn btn-xs btn-success btn-sm mb-3 mr-1" target="_blank" href="{{route('api.meta.create',['slug' => $data->api_slug ])}}">
                                                     <i class="ti-plus"></i>
                                                 </a>
+                                                <a class="btn btn-xs btn-secondary btn-sm mb-3 mr-1" target="_blank" href="{{route('api.plan.list',['slug' => $data->api_slug ])}}">
+                                                    <i class="ti-money"></i>
+                                                </a>
                                             </td>
                                         </tr>
                                     @endforeach

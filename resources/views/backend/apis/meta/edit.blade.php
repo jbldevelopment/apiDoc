@@ -12,9 +12,6 @@
     .numbers{
         display: none;
     }
-    code.code-block {
-        height: 10% !important;
-    }
 </style>
 <section class="bg-dark h-100">
     <div class="container-fluid">
@@ -225,7 +222,7 @@
                                                         <input type="hidden" id="api_code_{{$code->api_code_id}}" name="api_code[]">
                                                         {{-- <div class="summernote" data-content='{{$code->api_code}}'></div> --}}
                                                         <figure class="block-code">
-                                                            <pre><code id="api_code_details_{{$code->api_code_id}}" name="api_code_details[]" class="code-block" contenteditable="true" tabindex="0" spellcheck="false"><span class="com">{!!$code->api_code!!}</span></code></pre>
+                                                            <pre><code id="api_code_details_{{$code->api_code_id}}" name="api_code_details[]" class="code-block" contenteditable="true" tabindex="0" spellcheck="false" style="text-wrap: pretty;">{!!$code->api_code!!}</code></pre>
                                                         </figure>
                                                     </div>
                                                 </div>
@@ -304,7 +301,7 @@
                                                         <input type="hidden" id="api_code_0" name="api_code[]">
                                                         {{-- <div class="summernote" ></div> --}}
                                                         <figure class="block-code">
-                                                            <pre><code id="api_code_details_0" name="api_code_details[]" class="code-block" contenteditable="true" tabindex="0" spellcheck="false" class="language-plaintext" data-lang="plaintext"><span class="com">// Write code here</span></code></pre>
+                                                            <pre><code id="api_code_details_0" name="api_code_details[]" class="code-block" contenteditable="true" tabindex="0" spellcheck="false" class="language-plaintext" data-lang="plaintext" style="text-wrap: pretty;"><span class="com">// Write code here</span></code></pre>
                                                         </figure>
                                                     </div>
                                                 </div>

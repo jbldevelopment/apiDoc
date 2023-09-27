@@ -38,6 +38,12 @@ Route::prefix('admin-home')->middleware(['setlang:backend'])->group(function () 
         Route::post('/add-techonlogy', 'TechnologiesController@add_techonlogy')->name('techonlogy.add');
         Route::post('/edit-techonlogy', 'TechnologiesController@edit_techonlogy')->name('techonlogy.edit');
     });
+    Route::prefix('apipackage')->middleware(['adminPermissionCheck:Apis Package Manage', 'moduleCheck:product_module_status'])->group(function () {
+        Route::get('/{slug}', 'ApiPlanController@index')->name('api.plan.list');
+        Route::post('/add-api-package', 'ApiPlanController@add_api_package')->name('api.package.add');
+        Route::post('/delete-api-package', 'ApiPlanController@delete_api_package')->name('api.package.delete');
+        Route::post('/edit-api-package', 'ApiPlanController@edit_api_package')->name('api.package.edit');
+    });
 
     /* --------------------------
         MAINTAINS PAGE

@@ -79,6 +79,7 @@ use App\ApiCategory;
 use App\ApiMeta;
 use App\ApiCodeMeta;
 use App\Technologies;
+use App\ApiPlan;
 
 class FrontendController extends Controller
 {
@@ -1888,6 +1889,7 @@ class FrontendController extends Controller
                 ->where('api_meta_status', 1)
                 ->orderBy('api_meta_order', 'asc')
                 ->get();
+            $all_package = ApiPlan::where('api_id', $api_details->api_id)->where('api_plane_status', "!=", 2)->get();
             $meta_array = [];
             foreach ($api_meta_list as $key => $value) {
                 $meta_array[] = $value->api_meta_id;
@@ -1898,6 +1900,7 @@ class FrontendController extends Controller
                 'api_meta_list' => $api_meta_list,
                 'api_code_meta_list' => $api_code_meta_list,
                 'technlogies' => $technlogies,
+                'all_package' => $all_package,
             ]);
         }
         return redirect()->back()->with([
