@@ -28,13 +28,17 @@
         <div class="row">
             @php $a = 1; @endphp
             @foreach ($api_category_list as $key => $data)
-            <div class="col-lg-4 col-md-6">
-                <div class="single-what-we-cover-item-02 margin-bottom-30">
+            @php
+            $api_category_icon = asset('storage/image/category/icon/'.$data->api_category_icon);
+            $api_bg_img_url = asset('storage/image/category/'.$data->api_bg_img_url);
+            @endphp
+            <div class="col-lg-4 col-md-6 my-3">
+                <div class="single-what-we-cover-item-02 h-100">
                     <div class="single-what-img">
-                        <img src="http://127.0.0.1:8000/assets/uploads/media-uploader/161590862780.jpg" alt="">
+                        <img class="img-fluid" src="{{$api_bg_img_url}}" alt="{{$data->api_bg_img_url}}">
                     </div>
                     <div class="icon-02 style-01">
-                        <i class="{{$data->api_category_icon}}"></i>
+                        <img class="img-fluid m-auto" width="40" height="40" src="{{$api_category_icon}}" alt="{{$data->api_category_icon}}">
                     </div>
                     <div class="content">
                         <a href="{{ route('frontend.dynamic.category', ['slug' => $data->api_category_slug]) }}"><h4 class="title">{{ $data->api_category_title }}</h4></a>

@@ -13,6 +13,7 @@ use App\Page;
 use Illuminate\Support\Facades\Session;
 
 use App\ApiCategory;
+use App\ApiList;
 
 function active_menu($url)
 {
@@ -2754,7 +2755,19 @@ function render_categories_list($lang = null)
     foreach ($categories as $key => $category) {
         $html .= "<li data-ptype='api_category' data-pslug='" . $category->api_category_slug . "' data-proute='" . route('frontend.dynamic.category', ['slug' => $category->api_category_slug]) . "' data-purl='category/" . $category->api_category_slug . "' data-pname='$category->api_category_title'>
                     <label class='menu-item-title'>
-                    <input type='checkbox' class='menu-item-checkbox'>$category->api_category_title</label>
+                    <input type='checkbox' class='menu-item-checkbox'> $category->api_category_title</label>
+                </li>";
+    }
+    return $html;
+}
+function render_apis_list($lang = null)
+{
+    $categories = ApiList::where('api_status', 1)->orderBy('api_order')->get();
+    $html = "";
+    foreach ($categories as $key => $category) {
+        $html .= "<li data-ptype='api_product' data-pslug='" . $category->api_slug . "' data-proute='" . route('frontend.dynamic.doc', ['slug' => $category->api_slug]) . "' data-purl='doc/" . $category->api_slug . "' data-pname='$category->api_title'>
+                    <label class='menu-item-title'>
+                    <input type='checkbox' class='menu-item-checkbox'> $category->api_title</label>
                 </li>";
     }
     return $html;
@@ -2827,14 +2840,14 @@ function array_flatten($array)
     return $result;
 }
 
-function sendResponse($status = true, $message, $data, $staus_code)
+function sendResponse($status = true, $message, $data, $status_code)
 {
     return response()->json(
         [
             'success' => $status,
             'message' => $message,
             'data' => $data,
-            'staus_code' => $staus_code,
+            'status_code' => $status_code,
         ]
     );
 }

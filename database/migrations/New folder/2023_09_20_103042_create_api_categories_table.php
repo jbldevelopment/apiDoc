@@ -19,6 +19,7 @@ return new class extends Migration
             $table->text('api_category_short_desc')->nullable();
             $table->text('api_category_slug');
             $table->text('api_category_icon')->nullable();
+            $table->text('api_bg_img_url')->nullable();
             $table->longText('api_category_descripetion');
             $table->integer('api_category_order')->default(0)->comment("Sequence to Render Api in page Order Vise");
             $table->integer('api_category_status')->default(0)->comment("0 - Deactivate | 1 - Activate | 2 - Deleted");

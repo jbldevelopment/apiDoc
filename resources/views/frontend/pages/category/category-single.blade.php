@@ -9,7 +9,10 @@
             <div class="col-lg-8">
                 <div class="service-details-item">
                     <div class="thumb margin-bottom-40">
-                        <img src="http://localhost:8000/assets/uploads/media-uploader/161590862780.jpg" alt="">
+                        @php
+                            $api_bg_img_url = asset('storage/image/category/'.$api_category_details->api_bg_img_url);
+                        @endphp
+                        <img class="img-fluid" src="{{$api_bg_img_url}}" alt="{{$api_category_details->api_bg_img_url}}">
                     </div>
                     <div class="service-description">
                         <div>
@@ -26,7 +29,7 @@
                             <div class="col-lg-6 col-md-6">
                                 <div class="single-what-we-cover-item-02 h-100">
                                     <div class="single-what-img">
-                                        <img src="http://127.0.0.1:8000/assets/uploads/media-uploader/161590862780.jpg" alt="">
+                                        <img class="img-fluid" src="{{$api_bg_img_url}}" alt="{{$api_category_details->api_bg_img_url}}">
                                     </div>
                                     <div class="align-items-baseline content d-flex h-100 justify-content-center">
                                         <a href="{{ route('frontend.dynamic.doc', ['slug' => $data->api_slug]) }}">

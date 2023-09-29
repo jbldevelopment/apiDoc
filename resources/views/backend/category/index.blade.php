@@ -61,6 +61,7 @@
                                         </th>
                                         <th>{{__('ID')}}</th>
                                         <th>{{__('Title')}} </th>
+                                        <th>{{__('IMG')}} </th>
                                         <th>{{__('Order')}}</th>
                                         <th>{{__('Status')}}</th>
                                         <th>{{__('Created At & Updated At')}}</th>
@@ -68,6 +69,10 @@
                                     </thead>
                                     <tbody>
                                     @foreach($all_page as $key => $data)
+                                    @php
+                                    $api_category_icon = asset('storage/image/category/icon/'.$data->api_category_icon);
+                                    $api_bg_img_url = asset('storage/image/category/'.$data->api_bg_img_url);
+                                    @endphp
                                         <tr>
                                             <td>
                                                 <div class="bulk-checkbox-wrapper">
@@ -76,7 +81,13 @@
                                             </td>
                                             <td>{{ $data->api_category_id }}</td>
                                             <td>
-                                                <span class="font-weight-bold">{{$data->api_category_title}} </span><br> 
+                                                <span class="font-weight-bold">{{$data->api_category_title}} </span>
+                                            </td>
+                                            <td>
+                                                @if (!file_exists($api_category_icon))
+                                                    <img class="img-fluid" width="50" height="50" src="{{$api_category_icon}}" alt="{{$data->api_category_icon}}">
+                                                    <img class="img-fluid" width="50" height="50" src="{{$api_bg_img_url}}" alt="{{$data->api_bg_img_url}}">
+                                                @endif
                                             </td>
                                             <td>
                                                 <span class="badge badge-success">{{$data->api_category_order}}</span>

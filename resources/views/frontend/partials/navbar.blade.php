@@ -20,7 +20,7 @@
                 </button>
             </div>
             <div class="collapse navbar-collapse" id="bizcoxx_main_menu">
-                <ul class="navbar-nav">
+                <ul class="navbar-nav 1">
                     {!! render_frontend_menu($primary_menu) !!}
                 </ul>
             </div>

@@ -189,6 +189,15 @@ HTML;
             ], $attributes);
             $page_name = $multi_lang ? '_page_' . $default_lang . '_name' : '_page_name';
             $output .=  $this->render_li_start($pname, $attributes_string, $default_lang);
+        } elseif ($ptype === 'api_product') {
+            $attributes_string = array_merge([
+                'pname' =>  $pname,
+                'pslug' => $menu_item->pslug,
+                'purl' => $menu_item->purl,
+                'proute' => $menu_item->proute,
+            ], $attributes);
+            $page_name = $multi_lang ? '_page_' . $default_lang . '_name' : '_page_name';
+            $output .=  $this->render_li_start($pname, $attributes_string, $default_lang);
         } else {
             //check is mega menu
             preg_match('/MegaMenus/', $ptype, $matches);

@@ -102,6 +102,21 @@ class MenuBuilderFrontendRender
                 'href' => str_replace('@url', url('/'), $menu_item->purl),
                 'target' => $menu_item->antarget ?? '',
             ], $menu_item->icon ?? '');
+        } elseif ($ptype === 'api_product') {
+            //check to activation class
+            if (request()->path() === $menu_item->purl) {
+                if (isset($attributes_string['class'])) {
+                    $attributes_string[] = ['class' => ['current-menu-item']];
+                } else {
+                    $attributes_string['class'][] = 'current-menu-item';
+                }
+            }
+            $output .=  $this->render_li_start($pname, $attributes_string, $default_lang);
+            $title = $pname;
+            $output .= $this->get_anchor_markup($title, [
+                'href' => str_replace('@url', url('/'), $menu_item->purl),
+                'target' => $menu_item->antarget ?? '',
+            ], $menu_item->icon ?? '');
         } elseif ($ptype === 'static') {
             $menu_slug =  get_static_option(str_replace('-', '_', $menu_item->pslug) . '_page_slug');
             if (request()->path() == $menu_slug) {

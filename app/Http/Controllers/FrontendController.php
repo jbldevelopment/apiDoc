@@ -1921,7 +1921,7 @@ class FrontendController extends Controller
         $is_exists_api_category_details = ApiCategory::where('api_category_slug', $slug)->exists();
         if ($is_exists_api_category_details) {
             $api_category_details = ApiCategory::where('api_category_slug', $slug)->first();
-            $api_list = ApiList::where('api_category', $api_category_details->api_category_id)->get();
+            $api_list = ApiList::where('api_category', $api_category_details->api_category_id)->where('api_status', 1)->orderBy('api_order')->get();
             return view('frontend.pages.category.category-single')->with([
                 'api_category_details' => $api_category_details,
                 'api_list' => $api_list,

@@ -86,7 +86,7 @@
                                                         </button>
                                                     </h2>
                                                 </div>
-                                                <div id="category-list-items-content" class="collapse show" aria-labelledby="category-list-items" data-parent="#add_menu_item_accordion">
+                                                <div id="category-list-items-content" class="collapse" aria-labelledby="category-list-items" data-parent="#add_menu_item_accordion">
                                                     <div class="card-body">
                                                         <ul class="page-list-ul">
                                                             <li data-ptype="api_category" data-pslug="categories" data-purl="categories" data-pname="{{__('Category')}}">
@@ -111,19 +111,19 @@
                                                         </button>
                                                     </h2>
                                                 </div>
-                                                <div id="APIs-list-items-content" class="collapse" aria-labelledby="APIs-list-items" data-parent="#add_menu_item_accordion">
+                                                <div id="APIs-list-items-content" class="collapse show" aria-labelledby="APIs-list-items" data-parent="#add_menu_item_accordion">
                                                     <div class="card-body">
                                                         <ul class="page-list-ul">
-                                                            <li data-ptype="custom" data-purl="@url" data-pname="{{__('Home')}}">
+                                                            <li data-ptype="api_product" data-pslug="" data-purl="" data-pname="{{__('APIs')}}">
                                                                 <label class="menu-item-title">
                                                                     <input type="checkbox" class="menu-item-checkbox">
-                                                                    {{__('Home')}}
+                                                                    {{__('APIs')}}
                                                                 </label>
                                                             </li>
-                                                            {!! render_pages_list($page_post->lang) !!}
+                                                            {!! render_apis_list($page_post->lang) !!}
                                                         </ul>
                                                         <div class="form-group">
-                                                            <button type="button" id="add_page_to_menu" class="btn btn-primary btn-xs mt-4 pr-4 pl-4 add_page_to_menu">{{__('Add To Menu')}}</button>
+                                                            <button type="button" id="add_dynamic_api_to_menu" class="btn btn-primary btn-xs mt-4 pr-4 pl-4">{{__('Add To Menu')}}</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -315,55 +315,53 @@
                     var allDataAttr = '';
                     var menuType = $(this).parent().parent().data('ptype');
 
-                    if(menuType == 'static'){
-                        console.log('static :>> ');
-
-                        var menuPslug = $(this).parent().parent().data('pslug');
-                        var menuPname = $(this).parent().parent().data('pname');
-                        
-                        allDataAttr += 'data-pname="'+menuPname+'"';
-                        allDataAttr += ' data-pslug="'+menuPslug+'"';
-                        allDataAttr += ' data-ptype="'+menuType+'"';
-                        
-                    }else if(menuType == 'dynamic'){
-                        console.log('dynamic :>> ');
-                        
-                        var menuPid = $(this).parent().parent().data('pid');
-                        
-                        allDataAttr += 'data-pid="'+menuPid+'"';
-                        allDataAttr += ' data-ptype="'+menuType+'"';
-                        
-                    }else if(menuType == 'custom'){
-                        console.log('custom :>> ');
-                        
-                        var menuPurl = $(this).parent().parent().data('purl');
-                        var menuPName = $(this).parent().parent().data('pname');
-                        
-                        allDataAttr += 'data-purl="'+menuPurl+'"';
-                        allDataAttr += 'data-pname="'+menuPName+'"';
-                        allDataAttr += ' data-ptype="'+menuType+'"';
-                    }else if(menuType == 'api_category'){
-                        console.log('api_category :>> ');
+                    if(menuType == 'api_category'){
                         
                         var menuPurl = $(this).parent().parent().data('purl');
                         var menuPslug = $(this).parent().parent().data('pslug');
                         var menuRoute = $(this).parent().parent().data('proute');
                         var menuPName = $(this).parent().parent().data('pname');
                         
-                        allDataAttr += 'data-purl="'+menuPurl+'"';
+                        allDataAttr += ' data-purl="'+menuPurl+'"';
                         allDataAttr += ' data-pslug="'+menuPslug+'"';
-                        allDataAttr += 'data-proute="'+menuRoute+'"';
-                        allDataAttr += 'data-pname="'+menuPName+'"';
-                        allDataAttr += ' data-ptype="'+menuType+'"';
-                    }else{
-                        console.log('extra :>> ');
-                        var menuPid = $(this).parent().parent().data('pid');
-                        
-                        allDataAttr += 'data-pid="'+menuPid+'"';
+                        allDataAttr += ' data-proute="'+menuRoute+'"';
+                        allDataAttr += ' data-pname="'+menuPName+'"';
                         allDataAttr += ' data-ptype="'+menuType+'"';
                     }
-                    // console.log('allDataAttr :>> ', allDataAttr);
-                    // return false;
+                    draggAbleMenuWrap.append('<li class="dd-item" data-id="'+draggAbleMenuLength+'" '+ allDataAttr +'>\n' +
+                        ' <div class="dd-handle">'+$(this).parent().text()+'</div>\n' +
+                        '<span class="remove_item">x</span>'+
+                        '<span class="expand"><i class="ti-angle-down"></i></span>'+
+                        '<div class="dd-body hide">' +
+                        '<input type="text" class="icon_picker" placeholder="eg: fas-fa-facebook"/>'+
+                        '</div>'+
+                        '</li>');
+                });
+            });
+            $(document).on('click','#add_dynamic_api_to_menu',function (e) {
+                e.preventDefault();
+                //nestable
+                var allList = $(this).parent().prev().find('input[type="checkbox"]:checked');
+                var draggAbleMenuWrap = $('#nestable > ol');
+                $.each(allList,function (index,value) {
+                    $(this).attr('checked',false);
+                    var draggAbleMenuLength = $('#nestable ol li').length + 1;
+                    var allDataAttr = '';
+                    var menuType = $(this).parent().parent().data('ptype');
+
+                    if(menuType == 'api_product'){
+                        
+                        var menuPurl = $(this).parent().parent().data('purl');
+                        var menuPslug = $(this).parent().parent().data('pslug');
+                        var menuRoute = $(this).parent().parent().data('proute');
+                        var menuPName = $(this).parent().parent().data('pname');
+                        
+                        allDataAttr += ' data-purl="'+menuPurl+'"';
+                        allDataAttr += ' data-pslug="'+menuPslug+'"';
+                        allDataAttr += ' data-proute="'+menuRoute+'"';
+                        allDataAttr += ' data-pname="'+menuPName+'"';
+                        allDataAttr += ' data-ptype="'+menuType+'"';
+                    }
                     draggAbleMenuWrap.append('<li class="dd-item" data-id="'+draggAbleMenuLength+'" '+ allDataAttr +'>\n' +
                         ' <div class="dd-handle">'+$(this).parent().text()+'</div>\n' +
                         '<span class="remove_item">x</span>'+
