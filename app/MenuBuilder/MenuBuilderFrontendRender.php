@@ -99,7 +99,7 @@ class MenuBuilderFrontendRender
             $output .=  $this->render_li_start($pname, $attributes_string, $default_lang);
             $title = $pname;
             $output .= $this->get_anchor_markup($title, [
-                'href' => str_replace('@url', url('/'), $menu_item->purl),
+                'href' => str_replace('@url', url('/'), $menu_item->proute),
                 'target' => $menu_item->antarget ?? '',
             ], $menu_item->icon ?? '');
         } elseif ($ptype === 'api_product') {
@@ -114,7 +114,7 @@ class MenuBuilderFrontendRender
             $output .=  $this->render_li_start($pname, $attributes_string, $default_lang);
             $title = $pname;
             $output .= $this->get_anchor_markup($title, [
-                'href' => str_replace('@url', url('/'), $menu_item->purl),
+                'href' => str_replace('@url', url('/'), $menu_item->proute),
                 'target' => $menu_item->antarget ?? '',
             ], $menu_item->icon ?? '');
         } elseif ($ptype === 'static') {

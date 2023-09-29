@@ -89,7 +89,7 @@
                                                 <div id="category-list-items-content" class="collapse" aria-labelledby="category-list-items" data-parent="#add_menu_item_accordion">
                                                     <div class="card-body">
                                                         <ul class="page-list-ul">
-                                                            <li data-ptype="api_category" data-pslug="categories" data-purl="categories" data-pname="{{__('Category')}}">
+                                                            <li data-ptype="api_category" data-pslug="categories" data-proute="{{route('frontend.list.category')}}" data-purl="categories" data-pname="{{__('Category')}}">
                                                                 <label class="menu-item-title">
                                                                     <input type="checkbox" class="menu-item-checkbox">
                                                                     {{__('Category')}}
@@ -114,7 +114,7 @@
                                                 <div id="APIs-list-items-content" class="collapse show" aria-labelledby="APIs-list-items" data-parent="#add_menu_item_accordion">
                                                     <div class="card-body">
                                                         <ul class="page-list-ul">
-                                                            <li data-ptype="api_product" data-pslug="" data-purl="" data-pname="{{__('APIs')}}">
+                                                            <li data-ptype="api_product" data-proute="" data-pslug="" data-purl="" data-pname="{{__('APIs')}}">
                                                                 <label class="menu-item-title">
                                                                     <input type="checkbox" class="menu-item-checkbox">
                                                                     {{__('APIs')}}
