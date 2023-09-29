@@ -1889,7 +1889,7 @@ class FrontendController extends Controller
                 ->where('api_meta_status', 1)
                 ->orderBy('api_meta_order', 'asc')
                 ->get();
-            $all_package = ApiPlan::where('api_id', $api_details->api_id)->where('api_plane_status', "!=", 2)->get();
+            $all_package = ApiPlan::where('api_id', $api_details->api_id)->where('api_plane_status', 1)->get();
             $meta_array = [];
             foreach ($api_meta_list as $key => $value) {
                 $meta_array[] = $value->api_meta_id;
@@ -1908,13 +1908,23 @@ class FrontendController extends Controller
             'type' => 'danger'
         ]);
     }
+    public function api_cat_page()
+    {
+        $api_category_list = ApiCategory::where('api_category_status', 1)->orderBy('api_category_order')->get();
+        // return response()->json(['data' => 'aaaaa']);
+        return view('frontend.pages.category.category-page')->with([
+            'api_category_list' => $api_category_list,
+        ]);
+    }
     public function dynamic_cat_page($slug)
     {
-        $is_exists_api_details = ApiCategory::where('api_category_slug', $slug)->exists();
-        if ($is_exists_api_details) {
-            $api_details = ApiCategory::where('api_category_slug', $slug)->first();
-            return view('frontend.code-page')->with([
-                'api_details' => $api_details,
+        $is_exists_api_category_details = ApiCategory::where('api_category_slug', $slug)->exists();
+        if ($is_exists_api_category_details) {
+            $api_category_details = ApiCategory::where('api_category_slug', $slug)->first();
+            $api_list = ApiList::where('api_category', $api_category_details->api_category_id)->get();
+            return view('frontend.pages.category.category-single')->with([
+                'api_category_details' => $api_category_details,
+                'api_list' => $api_list,
             ]);
         }
         return redirect()->back()->with([
@@ -1922,4 +1932,5 @@ class FrontendController extends Controller
             'type' => 'danger'
         ]);
     }
-}//end class
+}
+//end class

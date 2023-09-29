@@ -12,6 +12,7 @@ use App\MediaUpload;
 use App\Page;
 use Illuminate\Support\Facades\Session;
 
+use App\ApiCategory;
 
 function active_menu($url)
 {
@@ -2745,6 +2746,18 @@ function render_pages_list($lang = null)
 {
     $instance = new \App\MenuBuilder\MenuBuilderHelpers();
     return $instance->get_static_pages_list($lang);
+}
+function render_categories_list($lang = null)
+{
+    $categories = ApiCategory::where('api_category_status', 1)->orderBy('api_category_order')->get();
+    $html = "";
+    foreach ($categories as $key => $category) {
+        $html .= "<li data-ptype='api_category' data-pslug='" . $category->api_category_slug . "' data-proute='" . route('frontend.dynamic.category', ['slug' => $category->api_category_slug]) . "' data-purl='category/" . $category->api_category_slug . "' data-pname='$category->api_category_title'>
+                    <label class='menu-item-title'>
+                    <input type='checkbox' class='menu-item-checkbox'>$category->api_category_title</label>
+                </li>";
+    }
+    return $html;
 }
 function render_dynamic_pages_list($lang = null)
 {

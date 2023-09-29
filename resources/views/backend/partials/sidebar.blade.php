@@ -81,7 +81,7 @@
                     @endif
 
                     @if (check_page_permission_by_string('Services'))
-                        <li class="main_dropdown @if (request()->is(['admin-home/services/*', 'admin-home/services'])) active @endif">
+                        <li class="d-none main_dropdown @if (request()->is(['admin-home/services/*', 'admin-home/services'])) active @endif">
                             <a href="javascript:void(0)" aria-expanded="true">
                                 <i class="ti-layout"></i>
                                 <span>{{ __('Services') }}</span>
@@ -141,11 +141,7 @@
                     @endif
 
                     @if (check_page_permission_by_string('Gallery Page'))
-                        <li
-                            class="main_dropdown
-                        {{ active_menu('admin-home/gallery-page') }}
-                        @if (request()->is('admin-home/gallery-page/*')) active @endif
-                                ">
+                        <li class="d-none main_dropdown {{ active_menu('admin-home/gallery-page') }} @if (request()->is('admin-home/gallery-page/*')) active @endif">
                             <a href="javascript:void(0)" aria-expanded="true"><i class="ti-write"></i>
                                 <span>{{ __('Image Gallery') }}</span></a>
                             <ul class="collapse">
@@ -163,11 +159,7 @@
                     @endif
 
                     @if (check_page_permission_by_string('Video Gallery'))
-                        <li
-                            class="main_dropdown
-                        {{ active_menu('admin-home/video-gallery') }}
-                        @if (request()->is('admin-home/video-gallery/*')) active @endif
-                                ">
+                        <li class="d-none main_dropdown {{ active_menu('admin-home/video-gallery') }} @if (request()->is('admin-home/video-gallery/*')) active @endif">
                             <a href="javascript:void(0)" aria-expanded="true"><i class="ti-write"></i>
                                 <span>{{ __('Video Gallery') }}</span></a>
                             <ul class="collapse">
@@ -182,10 +174,7 @@
                     @endif
 
                     @if (check_page_permission_by_string('Price Plan'))
-                        <li
-                            class="main_dropdown {{ active_menu('admin-home/price-plan') }}
-                        @if (request()->is('admin-home/price-plan/*')) active @endif
-                                ">
+                        <li class="d-none main_dropdown {{ active_menu('admin-home/price-plan') }} @if (request()->is('admin-home/price-plan/*')) active @endif">
                             <a href="javascript:void(0)" aria-expanded="true"><i class="ti-write"></i>
                                 <span>{{ __('Price Plan') }}</span></a>
                             <ul class="collapse">
@@ -711,8 +700,7 @@
                                         'admin-home/header',
                                         'admin-home/keyfeatures',
                                         'admin-home/page-builder/home-page',
-                                    ])) active @endif
-                                ">
+                                    ])) active @endif">
                                     <a href="javascript:void(0)" aria-expanded="true">
                                         {{ __('Home Page Manage') }}
                                     </a>

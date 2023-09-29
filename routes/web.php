@@ -534,6 +534,7 @@ require_once __DIR__ . '/admin.php';
     DYNAMIC PAGE ROUTE
 -------------------------------------*/
 Route::group(['middleware' => ['setlang:frontend', 'globalVariable', 'HtmlMinifier']], function () {
+    Route::get('/categories', 'FrontendController@api_cat_page')->name('frontend.list.category');
     Route::get('/{slug}', 'FrontendController@dynamic_single_page')->name('frontend.dynamic.page');
     Route::get('/doc/{slug}', 'FrontendController@dynamic_doc_page')->name('frontend.dynamic.doc');
     Route::get('/category/{slug}', 'FrontendController@dynamic_cat_page')->name('frontend.dynamic.category');

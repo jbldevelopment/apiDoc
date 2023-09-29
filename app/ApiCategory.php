@@ -13,7 +13,9 @@ class ApiCategory extends Model
     protected $fillable = [
         'api_category_id',
         'api_category_title',
+        'api_category_short_desc',
         'api_category_slug',
+        'api_category_icon',
         'api_category_descripetion',
         'api_category_order',
         'api_category_status'

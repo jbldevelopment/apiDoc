@@ -28,8 +28,7 @@
                             <div class="col-lg-8">
                                 <div class="form-group">
                                     <label for="title">{{ __('Title') }}</label>
-                                    <input type="text" class="form-control" id="api_category_title" name="api_category_title"
-                                        placeholder="{{ __('Title') }}">
+                                    <input type="text" class="form-control title-input" data-slug-id="#api_category_slug" id="api_category_title" name="api_category_title" placeholder="{{ __('Title') }}">
                                 </div>
                                 <div class="form-group classic-editor-wrapper">
                                     <label>{{ __('Decription') }}</label>

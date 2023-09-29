@@ -28,7 +28,7 @@
                                 <div class="form-group">
                                     <label for="title">{{ __('Title') }}</label>
                                     <input type="hidden" name="api_category_id" value="{{$api_details->api_category_id}}">
-                                    <input type="text" class="form-control" id="api_category_title" value="{{$api_details->api_category_title}}" name="api_category_title" placeholder="{{ __('Title') }}">
+                                    <input type="text" class="form-control title-input" data-slug-id="#api_category_slug" id="api_category_title" value="{{$api_details->api_category_title}}" name="api_category_title" placeholder="{{ __('Title') }}">
                                 </div>
                                 <div class="form-group">
                                     <label>{{__('Content')}}</label>

@@ -51,7 +51,7 @@ class ApiCategoryController extends Controller
             $inserted = $api_list->save();
 
             if ($inserted) {
-                return redirect()->back()->with([
+                return redirect(route('category.edit', ['slug' => $data['api_category_slug']]))->with([
                     'msg' => __('Category inserted successfully!'),
                     'type' => 'success'
                 ]);
@@ -62,7 +62,7 @@ class ApiCategoryController extends Controller
                 ]);
             }
         } catch (\Throwable $th) {
-            return redirect()->back()->with([
+            return redirect(route('category.list'))->with([
                 'msg' => $th,
                 'type' => 'danger'
             ]);
@@ -110,29 +110,29 @@ class ApiCategoryController extends Controller
                     $inserted = $api_details->update();
 
                     if ($inserted) {
-                        return redirect()->back()->with([
+                        return redirect(route('category.edit', ['slug' => $data['api_category_slug']]))->with([
                             'msg' => __('Category updated successfully!'),
                             'type' => 'success'
                         ]);
                     } else {
-                        return redirect()->back()->with([
+                        return redirect(route('category.edit', ['slug' => $data['api_category_slug']]))->with([
                             'msg' => __('Failed to insert API!'),
                             'type' => 'danger'
                         ]);
                     }
                 }
-                return redirect()->back()->with([
+                return redirect(route('category.list'))->with([
                     'msg' => __('Category not found!'),
                     'type' => 'danger'
                 ]);
             } catch (\Throwable $th) {
-                return redirect()->back()->with([
+                return redirect(route('category.list'))->with([
                     'msg' => $th,
                     'type' => 'danger'
                 ]);
             }
         }
-        return redirect()->back()->with([
+        return redirect(route('category.list'))->with([
             'msg' => __('Failed to insert API!'),
             'type' => 'danger'
         ]);
@@ -146,18 +146,18 @@ class ApiCategoryController extends Controller
             $api_details->api_category_status = 2;
             $deleted = $api_details->update();
             if ($deleted) {
-                return redirect()->back()->with([
+                return redirect(route('category.list'))->with([
                     'msg' => __('Category Deleted successfully!'),
                     'type' => 'success'
                 ]);
             } else {
-                return redirect()->back()->with([
+                return redirect(route('category.list'))->with([
                     'msg' => __('Failed to Delete API!'),
                     'type' => 'danger'
                 ]);
             }
         }
-        return redirect()->back()->with([
+        return redirect(route('category.list'))->with([
             'msg' => 'No Category Found',
             'type' => 'danger'
         ]);
