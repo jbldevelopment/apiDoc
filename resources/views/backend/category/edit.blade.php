@@ -26,7 +26,7 @@
                         <div class="row">
                             <div class="col-lg-8">
                                 <div class="form-group">
-                                    <label for="title">{{ __('Title') }}</label>
+                                    <label for="title">{{ __('Title') }} <span class="text-danger">*</span></label>
                                     <input type="hidden" name="api_category_id" value="{{$api_details->api_category_id}}">
                                     <input type="hidden" name="old_api_category_icon" value="{{$api_details->api_category_icon}}">
                                     <input type="hidden" name="old_api_bg_img_url" value="{{$api_details->api_bg_img_url}}">
@@ -34,12 +34,12 @@
                                     <small class="error_api_category_title text-danger"></small>
                                 </div>
                                 <div class="form-group">
-                                    <label for="title">{{ __('Short Description') }}</label>
+                                    <label for="title">{{ __('Short Description') }} <span class="text-danger">*</span></label>
                                     <textarea class="form-control" id="api_category_short_desc" name="api_category_short_desc" placeholder="{{ __('Short Description') }}" rows="4">{{$api_details->api_category_short_desc}}</textarea>
                                     <small class="error_api_category_short_desc text-danger"></small>
                                 </div>
                                 <div class="form-group">
-                                    <label>{{__('Content')}}</label>
+                                    <label>{{__('Content')}} <span class="text-danger">*</span></label>
                                     <input type="hidden" name="api_category_descripetion" value="{{$api_details->api_category_descripetion}}">
                                     <div class="summernote" data-content='{{$api_details->api_category_descripetion}}'></div>
                                     <small class="error_api_category_descripetion text-danger"></small>
@@ -47,12 +47,12 @@
                             </div>
                             <div class="col-lg-4">
                                 <div class="form-group">
-                                    <label for="slug">{{ __('Slug') }}</label>
+                                    <label for="slug">{{ __('Slug') }} <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="api_category_slug" value="{{$api_details->api_category_slug}}" name="api_category_slug" placeholder="{{ __('slug') }}">
                                     <small class="error_api_category_slug text-danger"></small>
                                 </div>
                                 <div class="form-group">
-                                    <label>{{ __('Status') }}</label>
+                                    <label>{{ __('Status') }} <span class="text-danger">*</span></label>
                                     <select name="api_category_status" id="api_category_status" class="form-control">
                                         <option {{ ($api_details->api_category_status == 0) ? "selected" : "" }} value="0">{{ __('Deactive') }}</option>
                                         <option {{ ($api_details->api_category_status == 1) ? "selected" : "" }} value="1">{{ __('Active') }}</option>
@@ -62,18 +62,18 @@
                                 
                                 <div class="d-flex">
                                     <div class="form-group w-50 mr-lg-2">
-                                        <label>{{ __('icon') }}</label>
+                                        <label>{{ __('icon') }} <span class="text-danger">*</span></label>
                                         <input type="file" class="form-control" id="api_category_icon" name="api_category_icon">
                                         <small class="error_api_category_icon text-danger"></small>
                                     </div>
                                     <div class="form-group w-50">
-                                        <label>{{ __('Bg Image') }}</label>
+                                        <label>{{ __('Bg Image') }} <span class="text-danger">*</span></label>
                                         <input type="file" class="form-control" id="api_category_bg_img_url" name="api_category_bg_img_url">
                                         <small class="error_api_category_bg_img_url text-danger"></small>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="title">{{ __('Order') }}</label>
+                                    <label for="title">{{ __('Order') }} <span class="text-danger">*</span></label>
                                     <input type="number" class="form-control" id="api_category_order" value="{{$api_details->api_category_order}}" name="api_category_order" placeholder="{{ __('Ex: 1,2,3..') }}">
                                     <small class="error_api_category_order text-danger"></small>
                                 </div>
@@ -130,14 +130,17 @@
                     success: function (response) {
                         if(response.success){
                             location.replace("{{route('category.list')}}");
+                        } else {
+                            co
+                            if(response.status_code == 400){
+                                $.each(response.message, function (indexInArray, valueOfElement) { 
+                                    console.log(indexInArray, valueOfElement);
+                                    $(`.error_${indexInArray}`).html(valueOfElement[0]).fadeIn().delay(2000).fadeOut();
+                                });
+                            } else {
+                                location.replace("{{route('category.list')}}");
+                            }
                         }
-                        if(response.status_code == 400){
-                            $.each(response.message, function (indexInArray, valueOfElement) { 
-                                console.log(indexInArray, valueOfElement);
-                                $(`.error_${indexInArray}`).html(valueOfElement[0]).fadeIn().delay(2000).fadeOut();
-                            });
-                        }
-                        location.replace("{{route('category.list')}}");
                     }
                 });
 

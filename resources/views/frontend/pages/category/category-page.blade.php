@@ -28,32 +28,32 @@
         <div class="row">
             @php $a = 1; @endphp
             @foreach ($api_category_list as $key => $data)
-            @php
-            $api_category_icon = asset('storage/image/category/icon/'.$data->api_category_icon);
-            $api_bg_img_url = asset('storage/image/category/'.$data->api_bg_img_url);
-            @endphp
-            <div class="col-lg-4 col-md-6 my-3">
-                <div class="single-what-we-cover-item-02 h-100">
-                    <div class="single-what-img">
-                        <img class="img-fluid" src="{{$api_bg_img_url}}" alt="{{$data->api_bg_img_url}}">
-                    </div>
-                    <div class="icon-02 style-01">
-                        <img class="img-fluid m-auto" width="40" height="40" src="{{$api_category_icon}}" alt="{{$data->api_category_icon}}">
-                    </div>
-                    <div class="content">
-                        <a href="{{ route('frontend.dynamic.category', ['slug' => $data->api_category_slug]) }}"><h4 class="title">{{ $data->api_category_title }}</h4></a>
-                        <p>{{$data->api_category_short_desc}}</p>
+                @php
+                $api_category_icon = asset('storage/image/category/icon/'.$data->api_category_icon);
+                $api_bg_img_url = asset('storage/image/category/'.$data->api_bg_img_url);
+                @endphp
+                <div class="col-lg-4 col-md-6 my-3">
+                    <div class="single-what-we-cover-item-02 h-100">
+                        <div class="single-what-img">
+                            <img class="img-fluid" src="{{$api_bg_img_url}}" alt="{{$data->api_bg_img_url}}">
+                        </div>
+                        <div class="icon-02 style-01">
+                            <img class="img-fluid m-auto" width="40" height="40" src="{{$api_category_icon}}" alt="{{$data->api_category_icon}}">
+                        </div>
+                        <div class="content">
+                            <a href="{{ route('frontend.dynamic.category', ['slug' => $data->api_category_slug]) }}"><h4 class="title">{{ $data->api_category_title }}</h4></a>
+                            <p>{{$data->api_category_short_desc}}</p>
+                        </div> 
                     </div> 
-                </div> 
-            </div>
-            @php
-                if ($a == 4) {
-                    $a = 1;
-                } else {
-                    $a++;
-                }
-            @endphp
-        @endforeach
+                </div>
+                @php
+                    if ($a == 4) {
+                        $a = 1;
+                    } else {
+                        $a++;
+                    }
+                @endphp
+            @endforeach
         </div>
     </div>
 </section>
