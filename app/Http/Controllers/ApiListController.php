@@ -65,24 +65,16 @@ class ApiListController extends Controller
             $inserted = $api_list->save();
 
             if ($inserted) {
-                // return sendResponse(true, 'APi inserted successfully!', [], 200);
-                return redirect()->back()->with([
-                    'msg' => __('API inserted successfully!'),
-                    'type' => 'success'
-                ]);
+                return sendResponse(true, 'APi inserted successfully!', [], 200);
             } else {
-                // return sendResponse(false, 'Failed to insert APi.', [], 400);
-                return redirect(route('api.list'))->with([
-                    'msg' => __('Failed to insert API!'),
-                    'type' => 'danger'
-                ]);
+                return sendResponse(false, 'Failed to insert APi.', [], 400);
             }
         } catch (\Throwable $th) {
-            return redirect(route('api.list'))->with([
-                'msg' => $th,
-                'type' => 'danger'
-            ]);
-            // return sendResponse(false, $th, [], 400);
+            // return redirect(route('api.list'))->with([
+            //     'msg' => $th,
+            //     'type' => 'danger'
+            // ]);
+            return sendResponse(false, $th, [], 400);
         }
     }
 
@@ -135,32 +127,16 @@ class ApiListController extends Controller
                     $inserted = $api_details->update();
 
                     if ($inserted) {
-                        return redirect(route('api.list'))->with([
-                            'msg' => __('API updated successfully!'),
-                            'type' => 'success'
-                        ]);
+                        return sendResponse(true, 'APi inserted successfully!', [], 200);
                     } else {
-                        return redirect()->back()->with([
-                            'msg' => __('Failed to insert API!'),
-                            'type' => 'danger'
-                        ]);
+                        return sendResponse(false, 'Failed to insert APi.', [], 400);
                     }
                 }
-                return redirect(route('api.list'))->with([
-                    'msg' => __('API not found!'),
-                    'type' => 'danger'
-                ]);
             } catch (\Throwable $th) {
-                return redirect(route('api.list'))->with([
-                    'msg' => $th,
-                    'type' => 'danger'
-                ]);
+                return sendResponse(false, $th, [], 400);
             }
         }
-        return redirect(route('api.list'))->with([
-            'msg' => __('Failed to insert API!'),
-            'type' => 'danger'
-        ]);
+        return sendResponse(false, 'Failed to insert APIz!', [], 400);
     }
 
     public function delete_api($id)
