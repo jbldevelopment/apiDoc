@@ -72,11 +72,11 @@ class ApiMetaController extends Controller
                     $inserted = $api_details->update();
 
                     if ($inserted) {
-                        return sendResponse($status = true,  __('API updated successfully!'), [], 200);
+                        return sendResponse($status = true,  __('Meta Updated Successfully!'), [], 200);
                     } else {
-                        return sendResponse($status = false,  __('Failed to insert API!'), [], 400);
+                        return sendResponse($status = false,  __('Failed To Update Meta!'), [], 400);
                     }
-                    return sendResponse($status = false,  __('API not found!'), [], 400);
+                    return sendResponse($status = false,  __('Meta Not Found!'), [], 400);
                 }
             } else {
                 // insert
@@ -92,9 +92,9 @@ class ApiMetaController extends Controller
                 $inserted = $api_details->save();
 
                 if ($inserted) {
-                    return sendResponse($status = true,  __('API updated successfully!'), [], 200);
+                    return sendResponse($status = true,  __('Meta Inserted Successfully!'), [], 200);
                 } else {
-                    return sendResponse($status = false,  __('Failed to insert API!'), [], 400);
+                    return sendResponse($status = false,  __('Failed To Insert Meta!'), [], 400);
                 }
             }
         } catch (\Throwable $th) {

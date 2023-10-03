@@ -41,8 +41,8 @@ Route::prefix('admin-home')->middleware(['setlang:backend'])->group(function () 
     Route::prefix('apipackage')->middleware(['adminPermissionCheck:Apis Package Manage', 'moduleCheck:product_module_status'])->group(function () {
         Route::get('/{slug}', 'ApiPlanController@index')->name('api.plan.list');
         Route::post('/add-api-package', 'ApiPlanController@add_api_package')->name('api.package.add');
-        Route::post('/delete-api-package', 'ApiPlanController@delete_api_package')->name('api.package.delete');
         Route::post('/edit-api-package', 'ApiPlanController@edit_api_package')->name('api.package.edit');
+        Route::post('/delete-api-package/{id}', 'ApiPlanController@delete_api_package')->name('api.package.delete');
     });
 
     /* --------------------------

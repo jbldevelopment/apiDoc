@@ -62,24 +62,12 @@ class ApiPlanController extends Controller
             $inserted = $api_list->save();
 
             if ($inserted) {
-                // return sendResponse(true, 'APi inserted successfully!', [], 200);
-                return redirect()->back()->with([
-                    'msg' => __('Package inserted successfully!'),
-                    'type' => 'success'
-                ]);
+                return sendResponse(true, 'Package Inserted Successfully!', [], 200);
             } else {
-                // return sendResponse(false, 'Failed to insert APi.', [], 400);
-                return redirect(route('api.list'))->with([
-                    'msg' => __('Failed to insert Package!'),
-                    'type' => 'danger'
-                ]);
+                return sendResponse(false, 'Failed To Insert Package.', [], 400);
             }
         } catch (\Throwable $th) {
-            return redirect()->back()->with([
-                'msg' => $th,
-                'type' => 'danger'
-            ]);
-            // return sendResponse(false, $th, [], 400);
+            return sendResponse(false, $th, [], 400);
         }
     }
 
@@ -116,30 +104,38 @@ class ApiPlanController extends Controller
                     $inserted = $api_details->update();
 
                     if ($inserted) {
-                        return redirect()->back()->with([
-                            'msg' => __('API updated successfully!'),
-                            'type' => 'success'
-                        ]);
+                        return sendResponse(true, 'Package Inserted Successfully!', [], 200);
                     } else {
-                        return redirect()->back()->with([
-                            'msg' => __('Failed to insert API!'),
-                            'type' => 'danger'
-                        ]);
+                        return sendResponse(false, 'Failed To Insert Package.', [], 400);
                     }
                 }
-                return redirect()->back()->with([
-                    'msg' => __('API not found!'),
-                    'type' => 'danger'
-                ]);
             } catch (\Throwable $th) {
+                return sendResponse(false, $th, [], 400);
+            }
+        }
+    }
+
+    public function delete_api_package($id)
+    {
+        $is_exists_api_details = ApiPlan::where('api_plan_id', $id)->exists();
+        if ($is_exists_api_details) {
+            $api_details = ApiPlan::where('api_plan_id', $id)->first();
+            $api_details->api_plane_status = 2;
+            $deleted = $api_details->update();
+            if ($deleted) {
+                return redirect(route('api.list'))->with([
+                    'msg' => __('Package Deleted successfully!'),
+                    'type' => 'success'
+                ]);
+            } else {
                 return redirect()->back()->with([
-                    'msg' => $th,
+                    'msg' => __('Failed to Delete Package!'),
                     'type' => 'danger'
                 ]);
             }
         }
         return redirect()->back()->with([
-            'msg' => __('Failed to insert API!'),
+            'msg' => 'No Api Found',
             'type' => 'danger'
         ]);
     }

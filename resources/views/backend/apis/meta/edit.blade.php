@@ -16,7 +16,7 @@
 <section class="bg-dark h-100">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-lg-2 pl-lg-0">
+            <div class="col-lg-2 pl-lg-0 border-bottom border-top">
                 <nav class="align-items-baseline bg-secondary h-100 navbar">
                     <ul class="navbar-nav w-100 navigation-slug-tag-html">
                         @foreach ($api_meta_list as $item) 
@@ -27,13 +27,13 @@
                     </ul>
                 </nav>
             </div>
-            <div class="col-lg-10 px-lg-0">
-                <div class="row h-100 border-bottom border-top ">
-                    <div class="col-lg-12">
+            <div class="col-lg-10 px-lg-0 border-bottom border-top">
+                <div class="row h-100 w-100">
+                    {{-- <div class="col-lg-12">
                         <div class="margin-top-40"></div>
                         <x-error-msg />
                         <x-flash-msg />
-                    </div>
+                    </div> --}}
                     <div class="col-lg-7 pt-lg-2 doc-meta-details border-right">
                         <form action="{{ route('api.meta.add') }}" method="post" enctype="multipart/form-data" id="meta_form_data">
                             @csrf
@@ -45,8 +45,8 @@
                                             <div class="btn text-white " id="title_{{$item->api_meta_id}}">
                                                 {{$item->api_meta_title}}
                                             </div>
-                                            <div>
-                                                <div class="btn btn-primary submit-meta-details" data-index-id="{{$item->api_meta_id}}" data-index-action="update">{{ __('Change') }}</div>
+                                            <div class="d-lg-flex align-items-center">
+                                                <div class="btn btn-primary mr-lg-2 btn-sm submit-meta-details" data-index-id="{{$item->api_meta_id}}" data-index-action="update">{{ __('Change') }}</div>
                                                 <div class="btn btn-outline-info" data-toggle="collapse" data-target="#api_meta_details_{{$item->api_meta_id}}" aria-expanded="true" aria-controls="api_meta_details_{{$item->api_meta_id}}">
                                                     <i class="ti-angle-down"></i>
                                                 </div>
@@ -123,8 +123,8 @@
                                             <div class="btn text-white" id="title_0">
                                                 Title To Show
                                             </div>
-                                            <div>
-                                                <div class="btn btn-primary submit-meta-details" data-index-id="0" data-index-action="save">{{ __('Save') }}</div>
+                                            <div class="d-lg-flex align-items-center">
+                                                <div class="btn btn-primary mr-lg-2 btn-sm submit-meta-details" data-index-id="0" data-index-action="save">{{ __('Save') }}</div>
                                                 <div class="btn btn-outline-info" data-toggle="collapse" data-target="#api_meta_details_0" aria-expanded="true" aria-controls="api_meta_details_0">
                                                     <i class="ti-angle-down"></i>
                                                 </div>
@@ -208,8 +208,8 @@
                                             <div class="btn text-white" id="code_title_{{$code->api_code_id}}">
                                                 {{$code->api_code_title}}
                                             </div>
-                                            <div>
-                                                <div class="btn btn-primary submit-code-details" data-index-id="{{$code->api_code_id}}" data-index-action="update">{{ __('Change') }}</div>
+                                            <div class="d-lg-flex align-items-center">
+                                                <div class="btn btn-primary mr-lg-2 btn-sm submit-code-details" data-index-id="{{$code->api_code_id}}" data-index-action="update">{{ __('Change') }}</div>
                                                 <div class="btn btn-outline-info" data-toggle="collapse" data-target="#code_meta_{{$code->api_code_id}}" aria-expanded="true" aria-controls="code_meta_{{$code->api_code_id}}">
                                                     <i class="ti-angle-down"></i>
                                                 </div>
@@ -287,8 +287,8 @@
                                             <div class="btn text-white" id="code_title_0">
                                                 Page / Code Title
                                             </div>
-                                            <div>
-                                                <div class="btn btn-primary submit-code-details" data-index-id="0" data-index-action="save">{{ __('Save') }}</div>
+                                            <div class="d-lg-flex align-items-center">
+                                                <div class="btn btn-primary mr-lg-2 btn-sm submit-code-details" data-index-id="0" data-index-action="save">{{ __('Save') }}</div>
                                                 <div class="btn btn-outline-info" data-toggle="collapse" data-target="#code_meta_0" aria-expanded="true" aria-controls="code_meta_0">
                                                     <i class="ti-angle-down"></i>
                                                 </div>
@@ -447,7 +447,7 @@
             success: function (response) {
                 if(response.success){
                     Swal.fire({
-                        title: 'Details Updated Successfully',
+                        title: response.message,
                         icon: 'success',
                     });
                 } else {
@@ -513,7 +513,7 @@
             success: function (response) {
                 if(response.success){
                     Swal.fire({
-                        title: 'Code Details Updated Successfully',
+                        title: response.message,
                         icon: 'success',
                     });
                 } else {
