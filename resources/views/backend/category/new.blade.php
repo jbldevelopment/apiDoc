@@ -128,7 +128,6 @@
                         if(response.success){
                             location.replace("{{route('category.list')}}");
                         } else {
-                            co
                             if(response.status_code == 400){
                                 $.each(response.message, function (indexInArray, valueOfElement) { 
                                     console.log(indexInArray, valueOfElement);

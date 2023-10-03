@@ -27,7 +27,7 @@ class ApiMetaController extends Controller
             foreach ($api_meta_list as $key => $value) {
                 $meta_array[] = $value->api_meta_id;
             }
-            $api_code_meta_list = ApiCodeMeta::whereIn('api_meta_id', $meta_array)->orderBy('api_code_order')->orderBy('api_technology')->get();
+            $api_code_meta_list = ApiCodeMeta::whereIn('api_meta_id', $meta_array)->orderBy('api_meta_id')->orderBy('api_code_order')->orderBy('api_technology')->get();
             return view('backend.apis.meta.edit')->with([
                 'api_details' => $api_details,
                 'api_meta_list' => $api_meta_list,

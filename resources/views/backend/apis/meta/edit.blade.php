@@ -58,50 +58,58 @@
                                             <div class="row py-lg-3">
                                                 <div class="col-lg-6 mt-lg-1">
                                                     <div class="form-group mb-lg-0">
-                                                        <label for="title">{{ __('Title') }}</label>
+                                                        <label for="title">{{ __('Title') }} <span class="text-danger">*</span></label>
                                                         <input type="hidden" class="form-control" id="api_id_{{$item->api_meta_id}}" name="api_id[]" value="{{$api_details->api_id}}">
                                                         <input type="hidden" class="form-control" id="api_meta_id_{{$item->api_meta_id}}" name="api_meta_id[]" value="{{$item->api_meta_id}}">
                                                         <input type="text" class="form-control title-input" data-title-id="#title_{{$item->api_meta_id}}" data-slug-id="#api_slug_{{$item->api_meta_id}}" id="api_title_{{$item->api_meta_id}}" value="{{$item->api_meta_title}}" name="api_title[]" placeholder="{{ __('Title') }}">
+                                                        <small class="error_api_title_{{$item->api_meta_id}} text-danger"></small>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6 mt-lg-1">
                                                     <div class="form-group mb-lg-0">
-                                                        <label for="slug">{{ __('Slug') }}</label>
+                                                        <label for="slug">{{ __('Slug') }} <span class="text-danger">*</span></label>
                                                         <input type="text" class="form-control" id="api_slug_{{$item->api_meta_id}}" value="{{$item->api_meta_slug}}" name="api_slug[]" placeholder="{{ __('slug') }}">
+                                                        <small class="error_api_slug_{{$item->api_meta_id}} text-danger"></small>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-12 mt-lg-1">
                                                     <div class="form-group mb-lg-2 classic-editor-wrapper">
-                                                        <label>{{ __('Decription') }}</label>
+                                                        <label>{{ __('Decription') }} <span class="text-danger">*</span></label>
                                                         <input type="hidden" id="api_description_{{$item->api_meta_id}}" name="api_description[]">
                                                         <div class="summernote" data-content='{{$item->api_meta_descripetion}}'></div>
+                                                        <small class="error_api_description_{{$item->api_meta_id}} text-danger"></small>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6 mt-lg-1">
                                                     <div class="form-group mb-lg-0">
-                                                        <label for="title">{{ __('Meta version') }}</label>
+                                                        <label for="title">{{ __('Meta version') }} <span class="text-danger">*</span></label>
                                                         <input type="text" class="form-control" id="meta_version_{{$item->api_meta_id}}" value="{{$item->api_meta_version}}" name="meta_version[]" placeholder="{{ __('https://github.com/') }}">
+                                                        <small class="error_meta_version_{{$item->api_meta_id}} text-danger"></small>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6 mt-lg-1">
                                                     <div class="form-group mb-lg-0">
-                                                        <label for="title">{{ __('Order') }}</label>
+                                                        <label for="title">{{ __('Order') }} <span class="text-danger">*</span></label>
                                                         <input type="number" class="form-control" id="api_order_{{$item->api_meta_id}}" value="{{$item->api_meta_order}}" name="api_order[]" placeholder="{{ __('Ex: 1,2,3..') }}">
+                                                        <small class="error_api_order_{{$item->api_meta_id}} text-danger"></small>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6 mt-lg-1">
                                                     <div class="form-group mb-lg-0">
-                                                        <label>{{ __('Status') }}</label>
+                                                        <label>{{ __('Status') }} <span class="text-danger">*</span></label>
                                                         <select name="api_status[]" id="api_status_{{$item->api_meta_id}}" class="form-control">
+                                                            <option value="">{{ __('Please Select Status') }}</option>
                                                             <option {{ ($item->api_meta_status == 0) ? "selected" : "" }} value="0">{{ __('Deactive') }}</option>
                                                             <option {{ ($item->api_meta_status == 1) ? "selected" : "" }} value="1">{{ __('Active') }}</option>
                                                         </select>
+                                                        <small class="error_api_status_{{$item->api_meta_id}} text-danger"></small>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6 mt-lg-1">
                                                     <div class="form-group mb-lg-0">
-                                                        <label for="title">{{ __('Source Code Link') }}</label>
+                                                        <label for="title">{{ __('Source Code Link') }} <span class="text-danger">*</span></label>
                                                         <input type="text" class="form-control" id="api_link_{{$item->api_meta_id}}" value="{{$item->api_meta_link}}" name="api_link[]" placeholder="{{ __('https://github.com/') }}">
+                                                        <small class="error_api_link_{{$item->api_meta_id}} text-danger"></small>
                                                     </div>
                                                 </div>
                                             </div>
@@ -128,50 +136,58 @@
                                             <div class="row py-lg-3">
                                                 <div class="col-lg-6 mt-lg-1">
                                                     <div class="form-group mb-lg-0">
-                                                        <label for="title">{{ __('Title') }}</label>
+                                                        <label for="title">{{ __('Title') }} <span class="text-danger">*</span></label>
                                                         <input type="hidden" class="form-control" id="api_id_0" name="api_id[]" value="{{$api_details->api_id}}">
                                                         <input type="hidden" class="form-control" id="api_meta_id_0" name="api_meta_id[]" value="{{$api_details->api_id}}">
                                                         <input type="text" class="form-control title-input" data-title-id="#title_0" data-slug-id="#api_slug_0" id="api_title_0" name="api_title[]" placeholder="{{ __('Title') }}">
+                                                        <small class="error_api_title_0 text-danger"></small>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6 mt-lg-1">
                                                     <div class="form-group mb-lg-0">
-                                                        <label for="slug">{{ __('Slug') }}</label>
+                                                        <label for="slug">{{ __('Slug') }} <span class="text-danger">*</span></label>
                                                         <input type="text" class="form-control" id="api_slug_0" name="api_slug[]" placeholder="{{ __('slug') }}">
+                                                        <small class="error_api_slug_0 text-danger"></small>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-12 mt-lg-1">
                                                     <div class="form-group mb-lg-2 classic-editor-wrapper">
-                                                        <label>{{ __('Decription') }}</label>
+                                                        <label>{{ __('Decription') }} <span class="text-danger">*</span></label>
                                                         <input type="hidden" id="api_description_0" name="api_description[]">
                                                         <div class="summernote" ></div>
+                                                        <small class="error_api_description_0 text-danger"></small>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6 mt-lg-1">
                                                     <div class="form-group mb-lg-0">
-                                                        <label for="title">{{ __('Meta version') }}</label>
+                                                        <label for="title">{{ __('Meta version') }} <span class="text-danger">*</span></label>
                                                         <input type="text" class="form-control" id="meta_version_0" name="meta_version[]" placeholder="{{ __('https://github.com/') }}">
+                                                        <small class="error_meta_version_0 text-danger"></small>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6 mt-lg-1">
                                                     <div class="form-group mb-lg-0">
-                                                        <label for="title">{{ __('Order') }}</label>
+                                                        <label for="title">{{ __('Order') }} <span class="text-danger">*</span></label>
                                                         <input type="number" class="form-control" id="api_order_0" name="api_order[]" placeholder="{{ __('Ex: 1,2,3..') }}">
+                                                        <small class="error_api_order_0 text-danger"></small>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6 mt-lg-1">
                                                     <div class="form-group mb-lg-0">
-                                                        <label>{{ __('Status') }}</label>
+                                                        <label>{{ __('Status') }} <span class="text-danger">*</span></label>
                                                         <select name="api_status[]" id="api_status_0" class="form-control">
+                                                            <option value="">{{ __('Please Select Status') }}</option>
                                                             <option value="0">{{ __('Deactive') }}</option>
                                                             <option value="1">{{ __('Active') }}</option>
                                                         </select>
+                                                        <small class="error_api_status_0 text-danger"></small>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6 mt-lg-1">
                                                     <div class="form-group mb-lg-0">
-                                                        <label for="title">{{ __('Source Code Link') }}</label>
+                                                        <label for="title">{{ __('Source Code Link') }} <span class="text-danger">*</span></label>
                                                         <input type="text" class="form-control" id="api_link_0" name="api_link[]" placeholder="{{ __('https://github.com/') }}">
+                                                        <small class="error_api_link_0 text-danger"></small>
                                                     </div>
                                                 </div>
                                             </div>
@@ -205,30 +221,29 @@
                                             <div class="row py-lg-3">
                                                 <div class="col-lg-6 mt-lg-1">
                                                     <div class="form-group mb-lg-0">
-                                                        <label for="title">{{ __('Title') }}</label>
+                                                        <label for="title">{{ __('Title') }} <span class="text-danger">*</span></label>
                                                         <input type="hidden" class="form-control" id="api_code_id_{{$code->api_code_id}}" name="api_code_id[]" value="{{$code->api_code_id}}">
                                                         <input type="text" class="form-control title-input" data-title-id="#code_title_{{$code->api_code_id}}" data-slug-id="#api_code_slug_{{$code->api_code_id}}" id="api_code_title_{{$code->api_code_id}}" name="api_code_title[]" value="{{$code->api_code_title}}" placeholder="{{ __('Title') }}">
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6 mt-lg-1">
                                                     <div class="form-group mb-lg-0">
-                                                        <label for="slug">{{ __('Slug') }}</label>
+                                                        <label for="slug">{{ __('Slug') }} <span class="text-danger">*</span></label>
                                                         <input type="text" class="form-control" id="api_code_slug_{{$code->api_code_id}}" name="api_code_slug[]" value="{{$code->api_code_slug}}" placeholder="{{ __('slug') }}">
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-12 mt-lg-1">
-                                                    <div class="form-group mb-lg-2 classic-editor-wrapper">
-                                                        <label>{{ __('Code') }}</label>
+                                                    <div class="form-group my-lg-2 classic-editor-wrapper">
+                                                        <label class="mb-1">{{ __('Code') }} <span class="text-danger">*</span></label>
                                                         <input type="hidden" id="api_code_{{$code->api_code_id}}" name="api_code[]">
-                                                        {{-- <div class="summernote" data-content='{{$code->api_code}}'></div> --}}
-                                                        <figure class="block-code">
+                                                        <figure class="block-code mt-lg-2">
                                                             <pre><code id="api_code_details_{{$code->api_code_id}}" name="api_code_details[]" class="code-block" contenteditable="true" tabindex="0" spellcheck="false" style="text-wrap: pretty;">{!!$code->api_code!!}</code></pre>
                                                         </figure>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6 mt-lg-1">
                                                     <div class="form-group mb-lg-0">
-                                                        <label>{{ __('API Meta') }}</label>
+                                                        <label>{{ __('API Meta') }} <span class="text-danger">*</span></label>
                                                         <select id="api_code_meta_id_{{$code->api_code_id}}" name="api_code_meta_id_[]" class="form-control">
                                                             @foreach ($api_meta_list as $items)
                                                                 <option def="{{$code->api_meta_id}}" abc="{{$items->api_meta_id}}" {{ ($code->api_meta_id == $items->api_meta_id) ? "selected" : "" }} value="{{$items->api_meta_id}}">{{$items->api_meta_title}}</option>
@@ -238,7 +253,7 @@
                                                 </div>
                                                 <div class="col-lg-6 mt-lg-1">
                                                     <div class="form-group mb-lg-0">
-                                                        <label>{{ __('Technology') }}</label>
+                                                        <label>{{ __('Technology') }} <span class="text-danger">*</span></label>
                                                         <select name="api_technology[]" id="api_technology_{{$code->api_code_id}}" class="form-control">
                                                             @foreach ($technlogies as $item)
                                                                 <option {{ ($item->technolgy_id == $code->api_technology) ? "selected" : "" }} value="{{$item->technolgy_id}}">{{ __($item->technolgy_name) }}</option>
@@ -248,13 +263,13 @@
                                                 </div>
                                                 <div class="col-lg-6 mt-lg-1">
                                                     <div class="form-group mb-lg-0">
-                                                        <label for="title">{{ __('Order') }}</label>
+                                                        <label for="title">{{ __('Order') }} <span class="text-danger">*</span></label>
                                                         <input type="number" class="form-control" id="api_code_order_{{$code->api_code_id}}" name="api_code_order[]" value="{{$code->api_code_order}}" placeholder="{{ __('Ex: 1,2,3..') }}">
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6 mt-lg-1">
                                                     <div class="form-group mb-lg-0">
-                                                        <label>{{ __('Status') }}</label>
+                                                        <label>{{ __('Status') }} <span class="text-danger">*</span></label>
                                                         <select name="api_code_status[]" id="api_code_status_{{$code->api_code_id}}" class="form-control">
                                                             <option {{ ($code->api_code_status == 0) ? "selected" : "" }} value="0">{{ __('Deactive') }}</option>
                                                             <option {{ ($code->api_code_status == 1) ? "selected" : "" }} value="1">{{ __('Active') }}</option>
@@ -285,60 +300,69 @@
                                             <div class="row py-lg-3">
                                                 <div class="col-lg-6 mt-lg-1">
                                                     <div class="form-group mb-lg-0">
-                                                        <label for="title">{{ __('Title') }}</label>
+                                                        <label for="title">{{ __('Title') }} <span class="text-danger">*</span></label>
                                                         <input type="text" class="form-control title-input" data-title-id="#code_title_0" data-slug-id="#api_code_slug_0" id="api_code_title_0" name="api_code_title[]" placeholder="{{ __('Title') }}">
+                                                        <small class="error_api_code_title_0 text-danger"></small>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6 mt-lg-1">
                                                     <div class="form-group mb-lg-0">
-                                                        <label for="slug">{{ __('Slug') }}</label>
+                                                        <label for="slug">{{ __('Slug') }} <span class="text-danger">*</span></label>
                                                         <input type="text" class="form-control" id="api_code_slug_0" name="api_code_slug[]" placeholder="{{ __('slug') }}">
+                                                        <small class="error_api_code_slug_0 text-danger"></small>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-12 mt-lg-1">
                                                     <div class="form-group mb-lg-2 classic-editor-wrapper">
-                                                        <label>{{ __('Code') }}</label>
+                                                        <label>{{ __('Code') }} <span class="text-danger">*</span></label>
                                                         <input type="hidden" id="api_code_0" name="api_code[]">
                                                         {{-- <div class="summernote" ></div> --}}
                                                         <figure class="block-code">
                                                             <pre><code id="api_code_details_0" name="api_code_details[]" class="code-block" contenteditable="true" tabindex="0" spellcheck="false" class="language-plaintext" data-lang="plaintext" style="text-wrap: pretty;"><span class="com">// Write code here</span></code></pre>
                                                         </figure>
+                                                        <small class="error_api_code_details_0 text-danger"></small>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6 mt-lg-1">
                                                     <div class="form-group mb-lg-0">
-                                                        <label>{{ __('API Meta') }}</label>
+                                                        <label>{{ __('API Meta') }} <span class="text-danger">*</span></label>
                                                         <select id="api_code_meta_id_0" name="api_code_meta_id_[]" class="form-control">
-                                                            <option>{{ __('Please Select Api') }}</option>
+                                                            <option value="">{{ __('Please Select Api') }}</option>
                                                             @foreach ($api_meta_list as $item)
                                                                 <option value="{{$item->api_meta_id}}">{{$item->api_meta_title}}</option>
                                                             @endforeach
                                                         </select>
+                                                        <small class="error_api_code_meta_id_0 text-danger"></small>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6 mt-lg-1">
                                                     <div class="form-group mb-lg-0">
-                                                        <label>{{ __('Technology') }}</label>
+                                                        <label>{{ __('Technology') }} <span class="text-danger">*</span></label>
                                                         <select name="api_technology[]" id="api_technology_0" class="form-control">
+                                                            <option value="">{{ __('Please Select Technlogy') }}</option>
                                                             @foreach ($technlogies as $item)
-                                                                <option value="{{$item->technolgy_id}}">{{ __($item->technolgy_name) }}</option>
+                                                            <option value="{{$item->technolgy_id}}">{{ __($item->technolgy_name) }}</option>
                                                             @endforeach
                                                         </select>
+                                                        <small class="error_api_technology_0 text-danger"></small>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6 mt-lg-1">
                                                     <div class="form-group mb-lg-0">
-                                                        <label for="title">{{ __('Order') }}</label>
+                                                        <label for="title">{{ __('Order') }} <span class="text-danger">*</span></label>
                                                         <input type="number" class="form-control" id="api_code_order_0" name="api_code_order[]" placeholder="{{ __('Ex: 1,2,3..') }}">
+                                                        <small class="error_api_code_order_0 text-danger"></small>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6 mt-lg-1">
                                                     <div class="form-group mb-lg-0">
-                                                        <label>{{ __('Status') }}</label>
+                                                        <label>{{ __('Status') }} <span class="text-danger">*</span></label>
                                                         <select name="api_code_status[]" id="api_code_status_0" class="form-control">
+                                                            <option value="">{{ __('Please Select Status') }}</option>
                                                             <option value="0">{{ __('Deactive') }}</option>
                                                             <option value="1">{{ __('Active') }}</option>
                                                         </select>
+                                                        <small class="error_api_code_status_0 text-danger"></small>
                                                     </div>
                                                 </div>
                                             </div>
@@ -380,15 +404,8 @@
             });
         }
         $('#toggleCode').click(function () {
-                                            $('.code-block').toggle();
-                                        });
-    });
-    $('#add-new-section').click(function(e) {
-        e.preventDefault();
-        let html = `<li class="nav-item">
-                            <a class="nav-link text-white" href="#">Link 2</a>
-                        </li>`
-        $('.navigation-slug-tag-html').append(html);
+            $('.code-block').toggle();
+        });
     });
     $('.submit-meta-details').click(function(e) {
         e.preventDefault();
@@ -429,7 +446,16 @@
             dataType: "json",
             success: function (response) {
                 if(response.success){
-                    location.reload();
+                    Swal.fire({
+                        title: 'Details Updated Successfully',
+                        icon: 'success',
+                    });
+                } else {
+                    if(response.status_code == 400){
+                        $.each(response.message, function (indexInArray, valueOfElement) { 
+                            $(`.error_${indexInArray}_${data_index}`).html(valueOfElement[0]).fadeIn().delay(10000).fadeOut();
+                        });
+                    }
                 }
             }
         });
@@ -458,7 +484,7 @@
         let api_code_title = $(`#api_code_title_${data_index}`).val();
         let api_code_slug = $(`#api_code_slug_${data_index}`).val();
         let api_code = $(`#api_code_details_${data_index}`).html();
-        let api_meta_id = $(`#api_code_meta_id_${data_index}`).val();
+        let api_code_meta_id = $(`#api_code_meta_id_${data_index}`).val();
         let api_technology = $(`#api_technology_${data_index}`).val();
         let api_code_order = $(`#api_code_order_${data_index}`).val();
         let api_code_status = $(`#api_code_status_${data_index}`).val();
@@ -467,7 +493,7 @@
             api_code_title: api_code_title,
             api_code_slug: api_code_slug,
             api_code: api_code,
-            api_meta_id: api_meta_id,
+            api_code_meta_id: api_code_meta_id,
             api_technology: api_technology,
             api_code_order: api_code_order,
             api_code_status: api_code_status
@@ -486,7 +512,16 @@
             dataType: "json",
             success: function (response) {
                 if(response.success){
-                    location.reload();
+                    Swal.fire({
+                        title: 'Code Details Updated Successfully',
+                        icon: 'success',
+                    });
+                } else {
+                    if(response.status_code == 400){
+                        $.each(response.message, function (indexInArray, valueOfElement) { 
+                            $(`.error_${indexInArray}_${data_index}`).html(valueOfElement[0]).fadeIn().delay(10000).fadeOut();
+                        });
+                    }
                 }
             }
         });

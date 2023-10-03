@@ -21,7 +21,7 @@ class ApiCodeMetaController extends Controller
             'api_code_title' => 'required',
             'api_code_slug' => 'required',
             'api_code' => 'required',
-            'api_meta_id' => 'required|numeric',
+            'api_code_meta_id' => 'required|numeric',
             'api_technology' => 'required|numeric',
             'api_code_order' => 'required|numeric',
             'api_code_status' => 'required|in:0,1',
@@ -39,18 +39,18 @@ class ApiCodeMetaController extends Controller
                     $api_details->api_code_title = $data['api_code_title'];
                     $api_details->api_code_slug = $data['api_code_slug'];
                     $api_details->api_code = $data['api_code'];
-                    $api_details->api_meta_id = $data['api_meta_id'];
+                    $api_details->api_meta_id = $data['api_code_meta_id'];
                     $api_details->api_technology = $data['api_technology'];
                     $api_details->api_code_order = $data['api_code_order'];
                     $api_details->api_code_status = $data['api_code_status'];
                     $inserted = $api_details->update();
 
                     if ($inserted) {
-                        return sendResponse($status = true,  __('API updated successfully!'), [], 200);
+                        return sendResponse($status = true,  __('Code Details Updated Successfully!'), [], 200);
                     } else {
-                        return sendResponse($status = false,  __('Failed to insert API!'), [], 400);
+                        return sendResponse($status = false,  __('Failed To Update Code Details!'), [], 400);
                     }
-                    return sendResponse($status = false,  __('API not found!'), [], 400);
+                    return sendResponse($status = false,  __('Code Details not found!'), [], 400);
                 }
             } else {
                 // insert
@@ -58,16 +58,16 @@ class ApiCodeMetaController extends Controller
                 $api_details->api_code_title = $data['api_code_title'];
                 $api_details->api_code_slug = $data['api_code_slug'];
                 $api_details->api_code = $data['api_code'];
-                $api_details->api_meta_id = $data['api_meta_id'];
+                $api_details->api_meta_id = $data['api_code_meta_id'];
                 $api_details->api_technology = $data['api_technology'];
                 $api_details->api_code_order = $data['api_code_order'];
                 $api_details->api_code_status = $data['api_code_status'];
                 $inserted = $api_details->save();
 
                 if ($inserted) {
-                    return sendResponse($status = true,  __('API updated successfully!'), [], 200);
+                    return sendResponse($status = true,  __('Code Details Insert Successfully!'), [], 200);
                 } else {
-                    return sendResponse($status = false,  __('Failed to insert API!'), [], 400);
+                    return sendResponse($status = false,  __('Failed To Insert Code Details!'), [], 400);
                 }
             }
         } catch (\Throwable $th) {
