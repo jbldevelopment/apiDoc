@@ -11,6 +11,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     {!! render_favicon_by_id(filter_static_option_value('site_favicon', $global_static_field_data)) !!}
     {!! load_google_fonts() !!}

@@ -88,42 +88,33 @@
                         <div class="attorney-contact-form-wrap">
                             <h3 class="title">Have Query ?</h3>
                             <div class="attorney-contact-form">
-                                <form action="http://localhost:8000/submit-custom-form" method="post" id="custom_form_builder_qLBQNFTqxi" class="custom-form-builder-form " enctype="multipart/form-data">
-                                    <input type="hidden" name="custom_form_id" value="1">
-                                    <input type="hidden" name="captcha_token" id="gcaptcha_token">
+                                <form id="lead-form" class="lead-form" enctype="multipart/form-data">
                                     <div class="error-message"></div>
-                                    <div class="form-group"><label for="your-name">Your Name</label>
-                                        <input type="text" id="your-name" name="your-name" class="form-control" placeholder="Your Name" required="required">
+                                    <div class="form-group">
+                                        <label for="lead_name">Your Name</label>
+                                        <input type="text" id="lead_name" name="lead_name" class="form-control" placeholder="Your Name" required="required">
+                                        <small class="error_lead_name text-white"></small>
                                     </div>
                                     <div class="form-group">
-                                        <label for="your-email">Your Email</label>
-                                        <input type="email" id="your-email" name="your-email" class="form-control" placeholder="Your Email" required="required">
+                                        <label for="lead_email">Your Email</label>
+                                        <input type="email" id="lead_email" name="lead_email" class="form-control" placeholder="Your Email" required="required">
+                                        <small class="error_lead_email text-white"></small>
                                     </div>
                                     <div class="form-group">
-                                        <label for="your-phone">Your Phone</label>
-                                        <input type="tel" id="your-phone" name="your-phone" class="form-control" placeholder="Your Phone">
+                                        <label for="lead_mobile">Your Phone</label>
+                                        <input type="tel" id="lead_mobile" name="lead_mobile" class="form-control" placeholder="Your Phone">
+                                        <small class="error_lead_mobile text-white"></small>
                                     </div>
-                                    <div class="form-group textarea"><label for="your-message">Your Message</label>
-                                        <textarea name="your-message" id="your-message" cols="30" rows="5" class="form-control" placeholder="Your Message" required="required"></textarea>
+                                    <div class="form-group">
+                                        <label for="lead_occupation">Your Occupation</label>
+                                        <input type="text" id="lead_occupation" name="lead_occupation" class="form-control" placeholder="Your Name" required="required">
+                                        <small class="error_lead_occupation text-white"></small>
                                     </div>
                                     <div class="btn-wrapper">
-                                        <button type="submit" class="submit-btn custom_submit_form_button submit-btn">Submit Request</button>
-                                        <div class="ajax-loading-wrap hide">
-                                            <div class="sk-fading-circle">
-                                                <div class="sk-circle1 sk-circle"></div>
-                                                <div class="sk-circle2 sk-circle"></div>
-                                                <div class="sk-circle3 sk-circle"></div>
-                                                <div class="sk-circle4 sk-circle"></div>
-                                                <div class="sk-circle5 sk-circle"></div>
-                                                <div class="sk-circle6 sk-circle"></div>
-                                                <div class="sk-circle7 sk-circle"></div>
-                                                <div class="sk-circle8 sk-circle"></div>
-                                                <div class="sk-circle9 sk-circle"></div>
-                                                <div class="sk-circle10 sk-circle"></div>
-                                                <div class="sk-circle11 sk-circle"></div>
-                                                <div class="sk-circle12 sk-circle"></div>
-                                            </div>
-                                        </div>
+                                        <input type="hidden" id="lead_user_id" name="lead_user_id" value="526">
+                                        <input type="hidden" id="lead_intrest" name="lead_intrest" value="CAT-{{$api_category_details->api_category_id}}">
+                                        <input type="hidden" id="lead_otp" name="lead_otp" value="0000">
+                                        <div id="submit-lead" class="text-center custom_submit_form_buttons submit-btn">Submit Request</div>
                                     </div>
                                 </form>
                             </div>
@@ -134,4 +125,59 @@
         </div>
     </div>
 </div>
+<script>
+    $(document).ready(function () {
+        $("form").submit(function(e) {
+            e.preventDefault();
+        });
+        $('#submit-lead').click(function(e) {
+            e.preventDefault();
+            let submit_url = "{{ route('frontend.new.lead') }}";
+    
+            let lead_name = $(`#lead_name`).val();
+            let lead_email = $(`#lead_email`).val();
+            let lead_mobile = $(`#lead_mobile`).val();
+            let lead_occupation = $(`#lead_occupation`).val();
+            let lead_user_id = $(`#lead_user_id`).val();
+            let lead_intrest = $(`#lead_intrest`).val();
+            let lead_otp = $(`#lead_otp`).val();
+    
+            let form_data = {
+                lead_name: lead_name,
+                lead_email: lead_email,
+                lead_mobile: lead_mobile,
+                lead_occupation: lead_occupation,
+                lead_user_id: lead_user_id,
+                lead_intrest: lead_intrest,
+                lead_otp: lead_otp,
+            };
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                type: "post",
+                url: submit_url,
+                data: form_data,
+                dataType: "json",
+                success: function(response) {
+                    if (response.success) {
+                        Swal.fire({
+                            title: response.message,
+                            icon: 'success',
+                        }).then((result) => {
+                            location.reload();
+                        });
+                    } else {
+                        if (response.status_code == 400) {
+                            $.each(response.message, function(indexInArray, valueOfElement) {
+                                $(`.error_${indexInArray}`).html(valueOfElement[0]).fadeIn().delay(3000).fadeOut();
+                            });
+                        }
+                    }
+                }
+            });
+    
+        });
+    });
+</script>
 @endsection

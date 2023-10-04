@@ -453,7 +453,7 @@
                 } else {
                     if(response.status_code == 400){
                         $.each(response.message, function (indexInArray, valueOfElement) { 
-                            $(`.error_${indexInArray}_${data_index}`).html(valueOfElement[0]).fadeIn().delay(10000).fadeOut();
+                            $(`.error_${indexInArray}_${data_index}`).html(valueOfElement[0]).fadeIn().delay(5000).fadeOut();
                         });
                     }
                 }
@@ -519,7 +519,7 @@
                 } else {
                     if(response.status_code == 400){
                         $.each(response.message, function (indexInArray, valueOfElement) { 
-                            $(`.error_${indexInArray}_${data_index}`).html(valueOfElement[0]).fadeIn().delay(10000).fadeOut();
+                            $(`.error_${indexInArray}_${data_index}`).html(valueOfElement[0]).fadeIn().delay(5000).fadeOut();
                         });
                     }
                 }

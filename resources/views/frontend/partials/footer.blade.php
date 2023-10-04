@@ -70,6 +70,7 @@ filter_static_option_value('home_page_call_to_action_section_status',$static_fie
 <script src="{{asset('assets/frontend/js/slick.js')}}"></script>
 <script src="{{asset('assets/frontend/js/main.js')}}"></script>
 <script src="{{asset('assets/frontend/js/codeblock.js')}}"></script>
+<script src="{{asset('assets/backend/js/sweetalert2.js')}}"></script>
 @if(\Route::currentRouteName() === 'frontend.products')
 <script src="{{asset('assets/frontend/js/jquery-ui.js')}}"></script>
 @endif
