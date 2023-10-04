@@ -24,7 +24,7 @@ class TechnologiesController extends Controller
         $validator = Validator::make($data, [
             'technolgy_name' => 'required|unique:technologies',
             'technolgy_slug' => 'required',
-            'technolgy_status' => 'required|in:0,1',
+            'technolgy_status' => 'required|in:0,1,2',
             'technolgy_order' => 'required|numeric',
         ]);
 
@@ -42,21 +42,12 @@ class TechnologiesController extends Controller
             $inserted = $api_list->save();
 
             if ($inserted) {
-                return redirect()->back()->with([
-                    'msg' => __('Technology inserted successfully!'),
-                    'type' => 'success'
-                ]);
+                return sendResponse(true, 'Technology Inserted Successfully!', [], 200);
             } else {
-                return redirect()->back()->with([
-                    'msg' => __('Failed to insert Technology!'),
-                    'type' => 'danger'
-                ]);
+                return sendResponse(false, 'Failed To Insert Technolgy.', [], 400);
             }
         } catch (\Throwable $th) {
-            return redirect()->back()->with([
-                'msg' => $th,
-                'type' => 'danger'
-            ]);
+            return sendResponse(false, $th, [], 400);
         }
     }
     public function edit_techonlogy(Request $request)
@@ -66,7 +57,7 @@ class TechnologiesController extends Controller
             $validator = Validator::make($data, [
                 'technolgy_name' => 'required',
                 'technolgy_slug' => 'required',
-                'technolgy_status' => 'required|in:0,1',
+                'technolgy_status' => 'required|in:0,1,2',
                 'technolgy_order' => 'required|numeric',
             ]);
 
@@ -85,31 +76,16 @@ class TechnologiesController extends Controller
                     $inserted = $technology->update();
 
                     if ($inserted) {
-                        return redirect(route('techonlogy.list'))->with([
-                            'msg' => __('technology updated successfully!'),
-                            'type' => 'success'
-                        ]);
+                        return sendResponse(true, 'Technology Updated Successfully!', [], 200);
                     } else {
-                        return redirect()->back()->with([
-                            'msg' => __('Failed to insert technology!'),
-                            'type' => 'danger'
-                        ]);
+                        return sendResponse(false, 'Failed To Update Technolgy.', [], 400);
                     }
                 }
-                return redirect(route('techonlogy.list'))->with([
-                    'msg' => __('technology not found!'),
-                    'type' => 'danger'
-                ]);
+                return sendResponse(false, 'Technology Not Found!', [], 400);
             } catch (\Throwable $th) {
-                return redirect(route('techonlogy.list'))->with([
-                    'msg' => $th,
-                    'type' => 'danger'
-                ]);
+                return sendResponse(false, $th, [], 400);
             }
         }
-        return redirect(route('techonlogy.list'))->with([
-            'msg' => __('Failed to insert Techonlogy!'),
-            'type' => 'danger'
-        ]);
+        return sendResponse(false, 'Failed To Update Techonlogy!', [], 400);
     }
 }
