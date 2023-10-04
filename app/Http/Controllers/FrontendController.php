@@ -1911,7 +1911,6 @@ class FrontendController extends Controller
     public function api_cat_page()
     {
         $api_category_list = ApiCategory::where('api_category_status', 1)->orderBy('api_category_order')->get();
-        // return response()->json(['data' => 'aaaaa']);
         return view('frontend.pages.category.category-page')->with([
             'api_category_list' => $api_category_list,
         ]);
@@ -1921,10 +1920,12 @@ class FrontendController extends Controller
         $is_exists_api_category_details = ApiCategory::where('api_category_slug', $slug)->exists();
         if ($is_exists_api_category_details) {
             $api_category_details = ApiCategory::where('api_category_slug', $slug)->first();
+            $suggested_category_details = ApiCategory::where('api_category_slug', '!=', $slug)->inRandomOrder()->limit(5)->get();
             $api_list = ApiList::where('api_category', $api_category_details->api_category_id)->where('api_status', 1)->orderBy('api_order')->get();
             return view('frontend.pages.category.category-single')->with([
                 'api_category_details' => $api_category_details,
                 'api_list' => $api_list,
+                'suggested_category_details' => $suggested_category_details,
             ]);
         }
         return redirect()->back()->with([

@@ -54,34 +54,15 @@
                 <div class="widget-area">
                     <div class="widget-nav-menu margin-bottom-30 service-category sidebars-single-content">
                         <ul>
+                            @foreach ($suggested_category_details as $item => $category)                                
                             <li>
-                                <a href="http://localhost:8000/service/category/4/mobile-apps" class="service-widget ">
+                                <a href="{{route('frontend.dynamic.category',['slug' => $category->api_category_slug])}}" class="service-widget ">
                                     <div class="service-title">
-                                        <h6 class="title">Mobile Apps</h6>
+                                        <h6 class="title">{{$category->api_category_title}}</h6>
                                     </div>
                                 </a>
                             </li>
-                            <li>
-                                <a href="http://localhost:8000/service/category/3/uxui-design" class="service-widget ">
-                                    <div class="service-title">
-                                        <h6 class="title">UX/UI Design</h6>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="http://localhost:8000/service/category/2/web-developer" class="service-widget active">
-                                    <div class="service-title">
-                                        <h6 class="title">Web Developer</h6>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="http://localhost:8000/service/category/1/web-design" class="service-widget ">
-                                    <div class="service-title">
-                                        <h6 class="title">Web Design</h6>
-                                    </div>
-                                </a>
-                            </li>
+                            @endforeach
                         </ul>
                     </div>
                     <div class="no-padding-border service-widget widget">
