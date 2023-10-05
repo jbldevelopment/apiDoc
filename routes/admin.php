@@ -33,6 +33,9 @@ Route::prefix('admin-home')->middleware(['setlang:backend'])->group(function () 
     Route::prefix('apicode')->middleware(['adminPermissionCheck:Api Meta Manage', 'moduleCheck:product_module_status'])->group(function () {
         Route::post('/add-api-code', 'ApiCodeMetaController@add_api_code')->name('api.code.add');
     });
+    Route::prefix('leads')->middleware(['adminPermissionCheck:Lead Manage', 'moduleCheck:product_module_status'])->group(function () {
+        Route::get('/', 'LeadController@index')->name('leads');
+    });
     Route::prefix('apitechnology')->middleware(['adminPermissionCheck:Category Manage', 'moduleCheck:product_module_status'])->group(function () {
         Route::get('/', 'TechnologiesController@index')->name('techonlogy.list');
         Route::post('/add-techonlogy', 'TechnologiesController@add_techonlogy')->name('techonlogy.add');

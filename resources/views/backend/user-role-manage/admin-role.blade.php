@@ -10,6 +10,7 @@
 @php
     $all_permission_list = array(
         "Api Meta Manage",
+        "Lead Manage",
         "Apis Manage",
         "Apis Package Manage",
         "Category Manage",

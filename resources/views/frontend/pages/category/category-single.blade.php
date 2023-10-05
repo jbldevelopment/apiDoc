@@ -73,17 +73,17 @@
                                     <div class="error-message"></div>
                                     <div class="form-group">
                                         <label for="lead_name">Your Name</label>
-                                        <input type="text" id="lead_name" name="lead_name" class="form-control" placeholder="Your Name" required="required">
+                                        <input type="text" id="lead_name" name="lead_name" class="form-control" value="{{(isset(auth()->user()->name)) ? auth()->user()->name : ''}}" placeholder="Your Name" required="required">
                                         <small class="error_lead_name text-white"></small>
                                     </div>
                                     <div class="form-group">
                                         <label for="lead_email">Your Email</label>
-                                        <input type="email" id="lead_email" name="lead_email" class="form-control" placeholder="Your Email" required="required">
+                                        <input type="email" id="lead_email" name="lead_email" class="form-control" value="{{(isset(auth()->user()->email)) ? auth()->user()->email : ''}}" placeholder="Your Email" required="required">
                                         <small class="error_lead_email text-white"></small>
                                     </div>
                                     <div class="form-group">
                                         <label for="lead_mobile">Your Phone</label>
-                                        <input type="tel" id="lead_mobile" name="lead_mobile" class="form-control" placeholder="Your Phone">
+                                        <input type="tel" id="lead_mobile" name="lead_mobile" class="form-control" value="{{(isset(auth()->user()->phone)) ? auth()->user()->phone : ''}}" placeholder="Your Phone">
                                         <small class="error_lead_mobile text-white"></small>
                                     </div>
                                     <div class="form-group">
@@ -92,7 +92,7 @@
                                         <small class="error_lead_occupation text-white"></small>
                                     </div>
                                     <div class="btn-wrapper">
-                                        <input type="hidden" id="lead_user_id" name="lead_user_id" value="526">
+                                        <input type="hidden" id="lead_user_id" name="lead_user_id" value="{{(isset(auth()->user()->id)) ? auth()->user()->id : 0}}">
                                         <input type="hidden" id="lead_intrest" name="lead_intrest" value="CAT-{{$api_category_details->api_category_id}}">
                                         <input type="hidden" id="lead_otp" name="lead_otp" value="0000">
                                         <div id="submit-lead" class="text-center custom_submit_form_buttons submit-btn">Submit Request</div>

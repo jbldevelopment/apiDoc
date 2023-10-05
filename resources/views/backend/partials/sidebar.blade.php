@@ -23,7 +23,14 @@
                             <span>@lang('dashboard')</span>
                         </a>
                     </li>
-
+                    @if (check_page_permission_by_string('Lead Manage'))
+                        <li class="{{ active_menu('admin-home/leads') }}">
+                            <a href="{{ route('leads') }}" aria-expanded="true">
+                                <i class="ti-dashboard"></i>
+                                <span>@lang('Leads')</span>
+                            </a>
+                        </li>
+                    @endif
                     @if (check_page_permission_by_string('APIs Manage'))
                         <li class="main_dropdown @if (request()->is(['admin-home/apilist/*', 'admin-home/apilist'])) active @endif">
                             <a href="javascript:void(0)" aria-expanded="true"><i class="ti-write"></i>
