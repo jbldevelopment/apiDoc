@@ -3,6 +3,8 @@
 @include('backend.partials.media-upload.style')
 <link rel="stylesheet" href="{{ asset('assets/backend/css/summernote-bs4.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/backend/css/bootstrap-tagsinput.css') }}">
+<script src="https://cdn.jsdelivr.net/npm/ace-builds@1.4.12/src-min/ace.js" type="text/javascript" charset="utf-8"></script>
+
 @endsection
 @section('site-title')
 {{ __('Edit API') }}
@@ -11,6 +13,10 @@
 <style>
     .numbers{
         display: none;
+    }
+    table tr th,
+    table tr td {
+        border-top: 1px solid rgba(0, 0, 0, 1) !important;
     }
 </style>
 <section class="bg-dark h-100">
@@ -232,13 +238,20 @@
                                                         <input type="text" class="form-control" id="api_code_slug_{{$code->api_code_id}}" name="api_code_slug[]" value="{{$code->api_code_slug}}" placeholder="{{ __('slug') }}">
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-12 mt-lg-1">
+                                                {{-- <div class="col-lg-12 mt-lg-1">
                                                     <div class="form-group my-lg-2 classic-editor-wrapper">
                                                         <label class="mb-1">{{ __('Code') }} <span class="text-danger">*</span></label>
                                                         <input type="hidden" id="api_code_{{$code->api_code_id}}" name="api_code[]">
                                                         <figure class="block-code mt-lg-2">
                                                             <pre><code id="api_code_details_{{$code->api_code_id}}" name="api_code_details[]" class="code-block" contenteditable="true" tabindex="0" spellcheck="false" style="text-wrap: pretty;">{!!$code->api_code!!}</code></pre>
                                                         </figure>
+                                                    </div>
+                                                </div> --}}
+                                                <div class="col-lg-12 mt-lg-1">
+                                                    <div class="form-group my-lg-2 classic-editor-wrapper">
+                                                        <label class="mb-1">{{ __('Code') }} <span class="text-danger">*</span></label>
+                                                        <input type="hidden" id="api_code_{{$code->api_code_id}}" name="api_code[]">
+                                                        <div id="api_code_details_{{$code->api_code_id}}" name="api_code_details[]" class="w-100 editors" style="height: 200px;"><pre>{!!$code->api_code!!}</div>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6 mt-lg-1">
@@ -255,6 +268,7 @@
                                                     <div class="form-group mb-lg-0">
                                                         <label>{{ __('Technology') }} <span class="text-danger">*</span></label>
                                                         <select name="api_technology[]" id="api_technology_{{$code->api_code_id}}" class="form-control">
+                                                            <option {{ ($code->api_technology == 0) ? "selected" : "" }} value="0">{{ __('Response') }}</option>
                                                             @foreach ($technlogies as $item)
                                                                 <option {{ ($item->technolgy_id == $code->api_technology) ? "selected" : "" }} value="{{$item->technolgy_id}}">{{ __($item->technolgy_name) }}</option>
                                                             @endforeach
@@ -312,14 +326,28 @@
                                                         <small class="error_api_code_slug_0 text-danger"></small>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-12 mt-lg-1">
+                                                {{-- <div class="col-lg-12 mt-lg-1">
                                                     <div class="form-group mb-lg-2 classic-editor-wrapper">
                                                         <label>{{ __('Code') }} <span class="text-danger">*</span></label>
                                                         <input type="hidden" id="api_code_0" name="api_code[]">
-                                                        {{-- <div class="summernote" ></div> --}}
                                                         <figure class="block-code">
                                                             <pre><code id="api_code_details_0" name="api_code_details[]" class="code-block" contenteditable="true" tabindex="0" spellcheck="false" class="language-plaintext" data-lang="plaintext" style="text-wrap: pretty;"><span class="com">// Write code here</span></code></pre>
                                                         </figure>
+                                                        <small class="error_api_code_details_0 text-danger"></small>
+                                                    </div>
+                                                </div> --}}
+                                                <div class="col-lg-12 mt-lg-1">
+                                                    <div class="form-group mb-lg-2">
+                                                        <label>{{ __('Code') }} <span class="text-danger">*</span></label>
+                                                        {{-- <div id="api_code_details_0" name="api_code_details[]" class="w-100 editors" style="height: 200px;">// Write code here</div> --}}
+                                                        <div id="api_code_details_0" name="api_code_details[]" class="w-100 editors" style="height: 200px;">// Method : PUT 
+//URL
+{base_url}/transactional/v1/orders/bracket/{exchange}/{order_id}
+
+// content type
+application/json
+
+// response</div>
                                                         <small class="error_api_code_details_0 text-danger"></small>
                                                     </div>
                                                 </div>
@@ -340,6 +368,7 @@
                                                         <label>{{ __('Technology') }} <span class="text-danger">*</span></label>
                                                         <select name="api_technology[]" id="api_technology_0" class="form-control">
                                                             <option value="">{{ __('Please Select Technlogy') }}</option>
+                                                            <option value="0">{{ __('Response') }}</option>
                                                             @foreach ($technlogies as $item)
                                                             <option value="{{$item->technolgy_id}}">{{ __($item->technolgy_name) }}</option>
                                                             @endforeach
@@ -381,6 +410,8 @@
 @section('script')
 <script src="{{asset('assets/backend/js/bootstrap-tagsinput.js')}}"></script>
 <script src="{{asset('assets/backend/js/summernote-bs4.js')}}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
 <x-backend.auto-slug-js :url="route('admin.page.slug.check')" :type="'update'" />
 <script>
     $(document).ready(function() {
@@ -483,7 +514,11 @@
 
         let api_code_title = $(`#api_code_title_${data_index}`).val();
         let api_code_slug = $(`#api_code_slug_${data_index}`).val();
-        let api_code = $(`#api_code_details_${data_index}`).html();
+        // let api_code = $(`#api_code_details_${data_index}`).html();
+
+        var editor = ace.edit(`api_code_details_${data_index}`);
+        var api_code = editor.getValue();
+        
         let api_code_meta_id = $(`#api_code_meta_id_${data_index}`).val();
         let api_technology = $(`#api_technology_${data_index}`).val();
         let api_code_order = $(`#api_code_order_${data_index}`).val();
@@ -515,6 +550,10 @@
                     Swal.fire({
                         title: response.message,
                         icon: 'success',
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            location.reload();
+                        }
                     });
                 } else {
                     if(response.status_code == 400){
@@ -532,6 +571,17 @@
     $(".code-block pre > pre").unwrap();
 
 </script>
+<script>
+    $('.editors').each(function (index, element) {
+        var editor = ace.edit(element.id);
+        editor.setTheme("ace/theme/tomorrow_night_bright");
+        editor.getSession().setMode("ace/mode/javascript");
+        var editorContent = editor.getValue();
+        console.log(editorContent); 
+        
+    });
+</script>
+
 <script src="{{asset('assets/backend/js/dropzone.js')}}"></script>
 @include('backend.partials.media-upload.media-js')
 @endsection

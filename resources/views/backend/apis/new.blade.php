@@ -137,7 +137,14 @@
                     dataType: "json",
                     success: function (response) {
                         if(response.success){
-                            location.replace("{{route('api.list')}}");
+                            Swal.fire({
+                                title: response.message,
+                                icon: 'success',
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    location.replace("{{route('api.list')}}");
+                                }
+                            });
                         } else {
                             if(response.status_code == 400){
                                 $.each(response.message, function (indexInArray, valueOfElement) { 

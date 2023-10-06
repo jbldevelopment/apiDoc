@@ -1893,9 +1893,41 @@ class FrontendController extends Controller
             $meta_array = [];
             foreach ($api_meta_list as $key => $value) {
                 $meta_array[] = $value->api_meta_id;
+                $value->code_metas = ApiCodeMeta::where('api_meta_id', $value->api_meta_id)->where('api_code_status', 1)->orderBy('api_code_order')->orderBy('api_technology')->get()->toArray();
             }
             $api_code_meta_list = ApiCodeMeta::whereIn('api_meta_id', $meta_array)->where('api_code_status', 1)->orderBy('api_code_order')->orderBy('api_technology')->get();
             return view('frontend.code-page')->with([
+                'api_details' => $api_details,
+                'api_meta_list' => $api_meta_list,
+                'api_code_meta_list' => $api_code_meta_list,
+                'technlogies' => $technlogies,
+                'all_package' => $all_package,
+            ]);
+        }
+        return redirect()->back()->with([
+            'msg' => 'No Api Found',
+            'type' => 'danger'
+        ]);
+    }
+    public function test_dynamic_doc_page($slug)
+    {
+        $is_exists_api_details = ApiList::where('api_slug', $slug)->exists();
+        if ($is_exists_api_details) {
+            $api_details = ApiList::where('api_slug', $slug)->first();
+            $technlogies = Technologies::where('technolgy_status', 1)->orderBy('technolgy_order')->get();
+            $api_meta_list = ApiMeta::where('api_id', $api_details->api_id)
+                ->where('api_meta_status', 1)
+                ->orderBy('api_meta_order', 'asc')
+                ->get();
+            $all_package = ApiPlan::where('api_id', $api_details->api_id)->where('api_plane_status', 1)->get();
+            $meta_array = [];
+            foreach ($api_meta_list as $key => $value) {
+                $meta_array[] = $value->api_meta_id;
+                $value->code_metas = ApiCodeMeta::where('api_meta_id', $value->api_meta_id)->where('api_code_status', 1)->orderBy('api_code_order')->orderBy('api_technology')->get()->toArray();
+            }
+            $api_code_meta_list = ApiCodeMeta::whereIn('api_meta_id', $meta_array)->where('api_code_status', 1)->orderBy('api_code_order')->orderBy('api_technology')->get();
+            // dd($api_meta_list);
+            return view('frontend.code-page-new')->with([
                 'api_details' => $api_details,
                 'api_meta_list' => $api_meta_list,
                 'api_code_meta_list' => $api_code_meta_list,

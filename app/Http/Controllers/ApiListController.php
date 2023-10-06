@@ -43,7 +43,7 @@ class ApiListController extends Controller
             'api_slug' => 'required|unique:api_lists',
             'api_status' => 'required|in:0,1',
             'api_type' => 'required|in:0,1',
-            'api_category' => 'required|in:0,1,2,3,4',
+            'api_category' => 'required',
             'api_order' => 'required|numeric',
         ]);
 
@@ -104,7 +104,7 @@ class ApiListController extends Controller
                 'api_slug' => 'required',
                 'api_status' => 'required|in:0,1',
                 'api_type' => 'required|in:0,1',
-                'api_category' => 'required|in:0,1,2,3,4',
+                'api_category' => 'required',
                 'api_order' => 'required|numeric',
             ]);
 
@@ -127,16 +127,16 @@ class ApiListController extends Controller
                     $inserted = $api_details->update();
 
                     if ($inserted) {
-                        return sendResponse(true, 'APi inserted successfully!', [], 200);
+                        return sendResponse(true, 'APi Updated successfully!', [], 200);
                     } else {
-                        return sendResponse(false, 'Failed to insert APi.', [], 400);
+                        return sendResponse(false, 'Failed to Updated APi.', [], 400);
                     }
                 }
             } catch (\Throwable $th) {
                 return sendResponse(false, $th, [], 400);
             }
         }
-        return sendResponse(false, 'Failed to insert APIz!', [], 400);
+        return sendResponse(false, 'Failed to Updated APIs!', [], 400);
     }
 
     public function delete_api($id)

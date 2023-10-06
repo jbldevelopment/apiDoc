@@ -3,7 +3,7 @@
 {{$api_category_details->api_category_title}}
 @endsection
 @section('content')
-<div class="page-content service-details padding-top-120 padding-bottom-115">
+<div class="page-content service-details py-5">
     <div class="container">
         <div class="row">
             <div class="col-lg-8">
@@ -12,7 +12,7 @@
                         @php
                             $api_bg_img_url = asset('storage/image/category/'.$api_category_details->api_bg_img_url);
                         @endphp
-                        <img class="img-fluid" src="{{$api_bg_img_url}}" alt="{{$api_category_details->api_bg_img_url}}">
+                        {{-- <img class="img-fluid" src="{{$api_bg_img_url}}" alt="{{$api_category_details->api_bg_img_url}}"> --}}
                     </div>
                     <div class="service-description">
                         <div>

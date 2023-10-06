@@ -7,6 +7,11 @@
     .block-code .numbers{
         display: none !important;
     }
+    .single-what-img img {
+        height: 275px;
+        width: 400px;
+        object-fit: cover;
+    }
 </style>
 <section class="breadcrumb-area breadcrumb-bg navbar-variant-01" style="background-image: url(http://127.0.0.1:8000/assets/uploads/media-uploader/011589562979.png);"> 
     <div class="container"> 
