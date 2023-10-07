@@ -54,9 +54,9 @@
                     @if (check_page_permission_by_string('Technology Manage'))
                         <li class="main_dropdown @if (request()->is(['admin-home/apitechnology/*', 'admin-home/apitechnology'])) active @endif">
                             <a href="javascript:void(0)" aria-expanded="true"><i class="ti-write"></i>
-                                <span>{{ __('Technolgy') }}</span></a>
+                                <span>{{ __('technology') }}</span></a>
                             <ul class="collapse">
-                                <li class="{{ active_menu('admin-home/apitechnology/') }}"><a href="{{ route('techonlogy.list') }}">{{ __('All Technolgy') }}</a></li>
+                                <li class="{{ active_menu('admin-home/apitechnology/') }}"><a href="{{ route('techonlogy.list') }}">{{ __('All technology') }}</a></li>
                             </ul>
                         </li>
                     @endif

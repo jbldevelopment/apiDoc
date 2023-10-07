@@ -1,6 +1,6 @@
 @extends('backend.admin-master')
 @section('site-title')
-    {{__('All APIs')}}
+    {{__('All Categories')}}
 @endsection
 @section('style')
     <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
@@ -41,7 +41,9 @@
                                 <div class="select-box-wrap">
                                     <select name="bulk_option" id="bulk_option">
                                         <option value="">{{{__('Bulk Action')}}}</option>
-                                        <option value="delete">{{{__('Delete')}}}</option>
+                                        <option value="0">{{{__('Deactive')}}}</option>
+                                        <option value="1">{{{__('Active')}}}</option>
+                                        <option value="2">{{{__('Delete')}}}</option>
                                     </select>
                                     <button class="btn btn-primary btn-sm" id="bulk_delete_btn">{{__('Apply')}}</button>
                                 </div>
@@ -141,21 +143,30 @@
                 allCheckbox.each(function(index,value){
                     allIds.push($(this).val());
                 });
-                if(allIds != '' && bulkOption == 'delete'){
-                    $(this).text('{{__('Deleting...')}}');
+                if(allIds != '' && bulkOption != ''){
+                    $(this).text("{{__('Proccessing...')}}");
                     $.ajax({
                         'type' : "POST",
-                        'url' : "{{route('admin.page.bulk.action')}}",
+                        'url' : "{{route('category.bulk.action')}}",
                         'data' : {
                             _token: "{{csrf_token()}}",
-                            ids: allIds
+                            ids: allIds,
+                            action: bulkOption
                         },
-                        success:function (data) {
-                            location.reload();
+                        success:function (response) {
+                            Swal.fire({
+                                title: response.message,
+                                icon: (response.success) ? 'success' : 'error',
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    if(response.success){
+                                        location.reload();
+                                    }
+                                }
+                            });
                         }
                     });
                 }
-
             });
 
             $('.all-checkbox').on('change',function (e) {

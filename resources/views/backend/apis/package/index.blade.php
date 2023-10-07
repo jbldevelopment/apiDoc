@@ -3,7 +3,7 @@
     <link rel="stylesheet" href="{{asset('assets/backend/css/nice-select.css')}}">
 @endsection
 @section('site-title')
-    {{__('All Admin Role')}}
+    {{__('All Pakages')}}
 @endsection
 @section('content')
 
@@ -159,8 +159,8 @@
                     <h5 class="modal-title">{{__('Admin package Edit')}}</h5>
                     <button type="button" class="close" data-dismiss="modal"><span>×</span></button>
                 </div>
+                <div class="modal-body">
                 <form id="api_package_modal_form" enctype="multipart/form-data">
-                    <div class="modal-body">
                         <input type="hidden" class="edit-fields" name="api_plan_id" id="api_plan_id">
                         @csrf
                         <div class="row">
@@ -229,8 +229,8 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('Close')}}</button>
                         <button type="submit" id="edit-package" class="btn btn-primary">{{__('Save changes')}}</button>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
@@ -293,8 +293,7 @@
                         } else {
                             if(response.status_code == 400){
                                 $.each(response.message, function (indexInArray, valueOfElement) { 
-                                    console.log(indexInArray, valueOfElement);
-                                    location.reload();
+                                    $(`.error_${indexInArray}`).html(valueOfElement[0]).fadeIn().delay(2000).fadeOut();
                                 });
                             }
                         }

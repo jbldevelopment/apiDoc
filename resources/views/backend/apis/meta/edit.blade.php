@@ -270,7 +270,7 @@
                                                         <select name="api_technology[]" id="api_technology_{{$code->api_code_id}}" class="form-control">
                                                             <option {{ ($code->api_technology == 0) ? "selected" : "" }} value="0">{{ __('Response') }}</option>
                                                             @foreach ($technlogies as $item)
-                                                                <option {{ ($item->technolgy_id == $code->api_technology) ? "selected" : "" }} value="{{$item->technolgy_id}}">{{ __($item->technolgy_name) }}</option>
+                                                                <option {{ ($item->technology_id == $code->api_technology) ? "selected" : "" }} value="{{$item->technology_id}}">{{ __($item->technology_name) }}</option>
                                                             @endforeach
                                                         </select>
                                                     </div>
@@ -339,15 +339,7 @@
                                                 <div class="col-lg-12 mt-lg-1">
                                                     <div class="form-group mb-lg-2">
                                                         <label>{{ __('Code') }} <span class="text-danger">*</span></label>
-                                                        {{-- <div id="api_code_details_0" name="api_code_details[]" class="w-100 editors" style="height: 200px;">// Write code here</div> --}}
-                                                        <div id="api_code_details_0" name="api_code_details[]" class="w-100 editors" style="height: 200px;">// Method : PUT 
-//URL
-{base_url}/transactional/v1/orders/bracket/{exchange}/{order_id}
-
-// content type
-application/json
-
-// response</div>
+                                                        <div id="api_code_details_0" name="api_code_details[]" class="w-100 editors" style="height: 200px;">// Write code here</div>
                                                         <small class="error_api_code_details_0 text-danger"></small>
                                                     </div>
                                                 </div>
@@ -370,7 +362,7 @@ application/json
                                                             <option value="">{{ __('Please Select Technlogy') }}</option>
                                                             <option value="0">{{ __('Response') }}</option>
                                                             @foreach ($technlogies as $item)
-                                                            <option value="{{$item->technolgy_id}}">{{ __($item->technolgy_name) }}</option>
+                                                            <option value="{{$item->technology_id}}">{{ __($item->technology_name) }}</option>
                                                             @endforeach
                                                         </select>
                                                         <small class="error_api_technology_0 text-danger"></small>
@@ -573,12 +565,27 @@ application/json
 </script>
 <script>
     $('.editors').each(function (index, element) {
+        console.log('element.id :>> ', element.id);
         var editor = ace.edit(element.id);
         editor.setTheme("ace/theme/tomorrow_night_bright");
         editor.getSession().setMode("ace/mode/javascript");
-        var editorContent = editor.getValue();
-        console.log(editorContent); 
+        if(element.id != 'api_code_details_0'){
+            editor.setOptions({
+                maxLines: Infinity
+            });
+        }
         
+    });
+    $('.nav-link').on('click', function(event) {
+        if (this.hash !== "") {
+            event.preventDefault();
+            var hash = this.hash;
+            $('html, body').animate({
+                scrollTop: $(hash).offset().top
+            }, 800, function(){
+                window.location.hash = hash;
+            });
+        }
     });
 </script>
 

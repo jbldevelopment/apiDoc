@@ -471,8 +471,8 @@ small {
 }
 
 .modal-content {
-    max-height: calc(100vh - 50px);
-    overflow-y: scroll;
+    /* max-height: calc(100vh - 50px); */
+    /* overflow-y: scroll; */
 }
 
 .view-quote-details-info .title,

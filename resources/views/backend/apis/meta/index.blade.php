@@ -256,7 +256,7 @@
                                                         <label>{{ __('Technology') }} <span class="text-danger">*</span></label>
                                                         <select name="api_technology[]" id="api_technology_{{$code->api_code_id}}" class="form-control">
                                                             @foreach ($technlogies as $item)
-                                                                <option {{ ($item->technolgy_id == $code->api_technology) ? "selected" : "" }} value="{{$item->technolgy_id}}">{{ __($item->technolgy_name) }}</option>
+                                                                <option {{ ($item->technology_id == $code->api_technology) ? "selected" : "" }} value="{{$item->technology_id}}">{{ __($item->technology_name) }}</option>
                                                             @endforeach
                                                         </select>
                                                     </div>
@@ -341,7 +341,7 @@
                                                         <select name="api_technology[]" id="api_technology_0" class="form-control">
                                                             <option value="">{{ __('Please Select Technlogy') }}</option>
                                                             @foreach ($technlogies as $item)
-                                                            <option value="{{$item->technolgy_id}}">{{ __($item->technolgy_name) }}</option>
+                                                            <option value="{{$item->technology_id}}">{{ __($item->technology_name) }}</option>
                                                             @endforeach
                                                         </select>
                                                         <small class="error_api_technology_0 text-danger"></small>

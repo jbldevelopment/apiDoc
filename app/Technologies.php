@@ -9,12 +9,12 @@ class Technologies extends Model
 {
     use HasFactory;
     protected $table = 'technologies';
-    protected $primaryKey = 'technolgy_id';
+    protected $primaryKey = 'technology_id';
     protected $fillable = [
-        'technolgy_id',
-        'technolgy_name',
-        'technolgy_slug',
-        'technolgy_order',
-        'technolgy_status',
+        'technology_id',
+        'technology_name',
+        'technology_slug',
+        'technology_order',
+        'technology_status',
     ];
 }

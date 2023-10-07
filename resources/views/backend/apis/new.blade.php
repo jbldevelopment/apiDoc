@@ -20,7 +20,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="header-wrap d-flex justify-content-between">
-                        <h4 class="header-title">{{ __('Add New API : ') }}<span id="code_title">TITLE</span></h4>
+                        <h4 class="header-title">{{ __('Add New API : ') }}<span id="code_title"></span></h4>
                     </div>
                     <form id="api_details" enctype="multipart/form-data">
                         @csrf

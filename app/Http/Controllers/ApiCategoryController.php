@@ -68,9 +68,9 @@ class ApiCategoryController extends Controller
             $inserted = $api_list->save();
 
             if ($inserted) {
-                return sendResponse(true, 'Category inserted successfully!', [], 200);
+                return sendResponse(true, 'Category Inserted Successfully!', [], 200);
             } else {
-                return sendResponse(false, 'Failed to insert Category!', [], 400);
+                return sendResponse(false, 'Failed To Insert Category!', [], 400);
             }
         } catch (\Throwable $th) {
             return sendResponse(false, $th, [], 400);
@@ -137,17 +137,17 @@ class ApiCategoryController extends Controller
                     $inserted = $api_details->update();
 
                     if ($inserted) {
-                        return sendResponse(true, 'Category inserted successfully!', [], 200);
+                        return sendResponse(true, 'Category Updated Successfully!', [], 200);
                     } else {
-                        return sendResponse(false, 'Failed to insert Category!', [], 400);
+                        return sendResponse(false, 'Failed To Update Category!', [], 400);
                     }
                 }
-                return sendResponse(false, 'Category not found!', [], 400);
+                return sendResponse(false, 'Category Not Found!', [], 400);
             } catch (\Throwable $th) {
                 return sendResponse(false, $th, [], 400);
             }
         }
-        return sendResponse(false, 'Failed to insert API!', [], 400);
+        return sendResponse(false, 'Soemthing Went wrong', [], 400);
     }
 
     public function delete_category($id)
@@ -173,5 +173,25 @@ class ApiCategoryController extends Controller
             'msg' => 'No Category Found',
             'type' => 'danger'
         ]);
+    }
+
+    public function bulk_category_action(Request $request)
+    {
+        try {
+            if (isset($request->ids) && !empty(isset($request->ids))) {
+                $ids = $request->ids;
+                $status = $request->action;
+                $is_exists_api_details = ApiCategory::whereIn('api_category_id', $ids)->exists();
+                if ($is_exists_api_details) {
+                    $results = ApiCategory::whereIn('api_category_id', $ids)->update(['api_category_status' => $status]);
+                    if ($results) {
+                        return sendResponse(true, 'Action Triggred Successfully!', $is_exists_api_details, 200);
+                    }
+                }
+                return sendResponse(false, 'Failed To Triggred Action.', [], 400);
+            }
+        } catch (\Throwable $th) {
+            return sendResponse(false, $th, [], 400);
+        }
     }
 }

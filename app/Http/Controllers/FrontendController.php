@@ -1884,7 +1884,7 @@ class FrontendController extends Controller
         $is_exists_api_details = ApiList::where('api_slug', $slug)->exists();
         if ($is_exists_api_details) {
             $api_details = ApiList::where('api_slug', $slug)->first();
-            $technlogies = Technologies::where('technolgy_status', 1)->orderBy('technolgy_order')->get();
+            $technlogies = Technologies::where('technology_status', 1)->orderBy('technology_order')->get();
             $api_meta_list = ApiMeta::where('api_id', $api_details->api_id)
                 ->where('api_meta_status', 1)
                 ->orderBy('api_meta_order', 'asc')
@@ -1914,7 +1914,7 @@ class FrontendController extends Controller
         $is_exists_api_details = ApiList::where('api_slug', $slug)->exists();
         if ($is_exists_api_details) {
             $api_details = ApiList::where('api_slug', $slug)->first();
-            $technlogies = Technologies::where('technolgy_status', 1)->orderBy('technolgy_order')->get();
+            $technlogies = Technologies::where('technology_status', 1)->orderBy('technology_order')->get();
             $api_meta_list = ApiMeta::where('api_id', $api_details->api_id)
                 ->where('api_meta_status', 1)
                 ->orderBy('api_meta_order', 'asc')

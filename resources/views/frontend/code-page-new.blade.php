@@ -63,7 +63,7 @@
                                 <ul class="nav nav-tabs justify-content-center mr-lg-3" id="myTabs" role="tablist">
                                     @foreach ($technlogies as $links)
                                     <li class="nav-item">
-                                        <a class="nav-link {{($active == 1) ? 'active' : ''}}" id="{{$links->technolgy_slug}}-tab" data-toggle="tab" href="#{{$links->technolgy_slug}}" role="tab" aria-controls="{{$links->technolgy_slug}}" aria-selected="true">{{$links->technolgy_slug}}</a>
+                                        <a class="nav-link {{($active == 1) ? 'active' : ''}}" id="{{$links->technology_slug}}-tab" data-toggle="tab" href="#{{$links->technology_slug}}" role="tab" aria-controls="{{$links->technology_slug}}" aria-selected="true">{{$links->technology_slug}}</a>
                                     </li>
                                         @php
                                             $active = 0;
@@ -72,9 +72,9 @@
                                 </ul>
                                 <div class="tab-content mr-lg-3" id="myTabContent">
                                     @foreach ($technlogies as $item)
-                                    <div class="tab-pane fade {{($show_active == 1) ? 'show active' : ''}}" id="{{$item->technolgy_slug}}" role="tabpanel" aria-labelledby="{{$item->technolgy_slug}}-tab">
+                                    <div class="tab-pane fade {{($show_active == 1) ? 'show active' : ''}}" id="{{$item->technology_slug}}" role="tabpanel" aria-labelledby="{{$item->technology_slug}}-tab">
                                         @foreach ($technologies_code as $keys => $codes )
-                                            @if ('tech_' . $item->technolgy_id == $keys)
+                                            @if ('tech_' . $item->technology_id == $keys)
                                                 @foreach ($codes as $keys => $data )
                                                 <figure class="block-code">
                                                     <figcaption>{{$data['api_code_title']}}</figcaption>
@@ -154,6 +154,7 @@
         $(document).ready(function () {
           $('.owl-carousel').owlCarousel({
             loop: true,
+            center: true,
             margin: 10,
             responsiveClass: true,
             // responsive: {

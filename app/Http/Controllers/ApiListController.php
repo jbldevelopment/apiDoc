@@ -163,4 +163,23 @@ class ApiListController extends Controller
             'type' => 'danger'
         ]);
     }
+    public function bulk_api_action(Request $request)
+    {
+        try {
+            if (isset($request->ids) && !empty(isset($request->ids))) {
+                $ids = $request->ids;
+                $status = $request->action;
+                $is_exists_api_details = ApiList::whereIn('api_id', $ids)->exists();
+                if ($is_exists_api_details) {
+                    $results = ApiList::whereIn('api_id', $ids)->update(['api_status' => $status]);
+                    if ($results) {
+                        return sendResponse(true, 'Action Triggred Successfully!', $is_exists_api_details, 200);
+                    }
+                }
+                return sendResponse(false, 'Failed To Triggred Action.', [], 400);
+            }
+        } catch (\Throwable $th) {
+            return sendResponse(false, $th, [], 400);
+        }
+    }
 }

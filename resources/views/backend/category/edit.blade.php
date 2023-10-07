@@ -129,7 +129,14 @@
                     processData: false,
                     success: function (response) {
                         if(response.success){
-                            location.replace("{{route('category.list')}}");
+                            Swal.fire({
+                                title: response.message,
+                                icon: 'success',
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    location.replace("{{route('category.list')}}");
+                                }
+                            });
                         } else {
                             if(response.status_code == 400){
                                 $.each(response.message, function (indexInArray, valueOfElement) { 
@@ -137,7 +144,14 @@
                                     $(`.error_${indexInArray}`).html(valueOfElement[0]).fadeIn().delay(2000).fadeOut();
                                 });
                             } else {
-                                location.replace("{{route('category.list')}}");
+                                Swal.fire({
+                                    title: response.message,
+                                    icon: 'error',
+                                    }).then((result) => {
+                                        if (result.isConfirmed) {
+                                        location.replace("{{route('category.list')}}");
+                                    }
+                                });
                             }
                         }
                     }

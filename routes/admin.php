@@ -17,6 +17,7 @@ Route::prefix('admin-home')->middleware(['setlang:backend'])->group(function () 
         Route::get('/edit-api/{slug}', 'ApiListController@edit_api')->name('api.edit');
         Route::post('/update-api', 'ApiListController@update_api')->name('api.update');
         Route::post('/delete-api/{id}', 'ApiListController@delete_api')->name('api.delete');
+        Route::post('/bulk-action', 'ApiListController@bulk_api_action')->name('api.bulk.action');
     });
     Route::prefix('apicategory')->middleware(['adminPermissionCheck:Category Manage', 'moduleCheck:product_module_status'])->group(function () {
         Route::get('/', 'ApiCategoryController@index')->name('category.list');
@@ -25,6 +26,7 @@ Route::prefix('admin-home')->middleware(['setlang:backend'])->group(function () 
         Route::get('/edit-category/{slug}', 'ApiCategoryController@edit_category')->name('category.edit');
         Route::post('/update-category', 'ApiCategoryController@update_category')->name('category.update');
         Route::post('/delete-category/{id}', 'ApiCategoryController@delete_category')->name('category.delete');
+        Route::post('/bulk-action', 'ApiCategoryController@bulk_category_action')->name('category.bulk.action');
     });
     Route::prefix('apimeta')->middleware(['adminPermissionCheck:Api Meta Manage', 'moduleCheck:product_module_status'])->group(function () {
         Route::get('/new-api-meta/{slug}', 'ApiMetaController@create_api_meta')->name('api.meta.create');
