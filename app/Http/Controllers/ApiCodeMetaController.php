@@ -63,15 +63,33 @@ class ApiCodeMetaController extends Controller
                 $api_details->api_code_order = $data['api_code_order'];
                 $api_details->api_code_status = $data['api_code_status'];
                 $inserted = $api_details->save();
+                $inserted_id = $api_details->api_code_id;
 
                 if ($inserted) {
-                    return sendResponse($status = true,  __('Code Details Insert Successfully!'), [], 200);
+                    return sendResponse($status = true,  __('Code Details Insert Successfully!'), ['inserted_id' => $inserted_id], 200);
                 } else {
                     return sendResponse($status = false,  __('Failed To Insert Code Details!'), [], 400);
                 }
             }
         } catch (\Throwable $th) {
             return sendResponse($status = false,  $th, [], 400);
+        }
+    }
+
+    public function delete_api_meta_code($code_id)
+    {
+
+        $is_exists_api_details = ApiCodeMeta::where('api_code_id', $code_id)->exists();
+        if ($is_exists_api_details) {
+            $api_details = ApiCodeMeta::find($code_id);
+            $deleted = $api_details->delete();
+
+            if ($deleted) {
+                return sendResponse($status = true,  __('Code Details Deleted Successfully!'), [], 200);
+            } else {
+                return sendResponse($status = false,  __('Failed To Deleted Code Details!'), [], 400);
+            }
+            return sendResponse($status = false,  __('Code Details not found!'), [], 400);
         }
     }
 }

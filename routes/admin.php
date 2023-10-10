@@ -31,9 +31,11 @@ Route::prefix('admin-home')->middleware(['setlang:backend'])->group(function () 
     Route::prefix('apimeta')->middleware(['adminPermissionCheck:Api Meta Manage', 'moduleCheck:product_module_status'])->group(function () {
         Route::get('/new-api-meta/{slug}', 'ApiMetaController@create_api_meta')->name('api.meta.create');
         Route::post('/add-api-meta', 'ApiMetaController@add_api_meta')->name('api.meta.add');
+        Route::get('/delete/{id}', 'ApiMetaController@delete_api_meta')->name('api.meta.delete');
     });
     Route::prefix('apicode')->middleware(['adminPermissionCheck:Api Meta Manage', 'moduleCheck:product_module_status'])->group(function () {
         Route::post('/add-api-code', 'ApiCodeMetaController@add_api_code')->name('api.code.add');
+        Route::get('/delete/{id}', 'ApiCodeMetaController@delete_api_meta_code')->name('api.code.delete');
     });
     Route::prefix('leads')->middleware(['adminPermissionCheck:Lead Manage', 'moduleCheck:product_module_status'])->group(function () {
         Route::get('/', 'LeadController@index')->name('leads');

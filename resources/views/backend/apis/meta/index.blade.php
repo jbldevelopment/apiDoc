@@ -565,7 +565,6 @@
 </script>
 <script>
     $('.editors').each(function (index, element) {
-        console.log('element.id :>> ', element.id);
         var editor = ace.edit(element.id);
         editor.setTheme("ace/theme/tomorrow_night_bright");
         editor.getSession().setMode("ace/mode/javascript");

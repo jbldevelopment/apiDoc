@@ -13,3 +13,6 @@ bootstrap
 /bootstrap/cache
 /bootstrap/cache/routes-v7.php
 /bootstrap/cache/config.php
+/public/storage/image/category/icon
+public/storage/image/category/icon
+public/storage/*

@@ -92,13 +92,27 @@ class ApiMetaController extends Controller
                 $inserted = $api_details->save();
 
                 if ($inserted) {
-                    return sendResponse($status = true,  __('Meta Inserted Successfully!'), [], 200);
+                    $inserted_id = $api_details->api_meta_id;
+                    return sendResponse($status = true,  __('Meta Inserted Successfully!'), ['inserted_id' => $inserted_id,], 200);
                 } else {
                     return sendResponse($status = false,  __('Failed To Insert Meta!'), [], 400);
                 }
             }
         } catch (\Throwable $th) {
             return sendResponse($status = false,  $th, [], 400);
+        }
+    }
+    public function delete_api_meta($id)
+    {
+        $is_exists_api_details = ApiMeta::where('api_meta_id', $id)->exists();
+        if ($is_exists_api_details) {
+            $api_details = ApiMeta::find($id);
+            $deleted = $api_details->delete();
+            if ($deleted) {
+                return sendResponse($status = true,  __('Meta Deleted Successfully!'), [], 200);
+            } else {
+                return sendResponse($status = false,  __('Failed To Delete Meta!'), [], 400);
+            }
         }
     }
 }
