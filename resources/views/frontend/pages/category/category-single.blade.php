@@ -143,7 +143,8 @@
                 success: function(response) {
                     if (response.success) {
                         Swal.fire({
-                            title: response.message,
+                            title: 'Lead Recived Successfully',
+                            text: 'our representative will contact you soon.',
                             icon: 'success',
                         }).then((result) => {
                             location.reload();

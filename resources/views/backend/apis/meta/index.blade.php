@@ -40,7 +40,7 @@
                         <x-error-msg />
                         <x-flash-msg />
                     </div> --}}
-                    <div class="col-lg-7 pt-lg-2 doc-meta-details border-right">
+                    <div class="col-lg-7 py-lg-2 doc-meta-details border-right">
                         <form action="{{ route('api.meta.add') }}" method="post" enctype="multipart/form-data" id="meta_form_data">
                             @csrf
                             <div id="accordion">

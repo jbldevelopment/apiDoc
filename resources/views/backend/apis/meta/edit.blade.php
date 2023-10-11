@@ -35,7 +35,7 @@
             </div>
             <div class="col-lg-10 px-lg-0 border-bottom border-top">
                 <div class="row h-100 w-100">
-                    <div class="col-lg-7 pt-lg-2 doc-meta-details border-right">
+                    <div class="col-lg-7 py-lg-2 doc-meta-details border-right">
                         <form action="{{ route('api.meta.add') }}" method="post" enctype="multipart/form-data" id="meta_form_data">
                             @csrf
                             <div class="btn btn-outline-warning w-100" id="new_section">Add New Section</div>

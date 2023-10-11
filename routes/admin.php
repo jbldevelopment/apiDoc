@@ -39,6 +39,11 @@ Route::prefix('admin-home')->middleware(['setlang:backend'])->group(function () 
     });
     Route::prefix('leads')->middleware(['adminPermissionCheck:Lead Manage', 'moduleCheck:product_module_status'])->group(function () {
         Route::get('/', 'LeadController@index')->name('leads');
+        Route::get('/edit-lead/{id}', 'LeadController@edit_lead')->name('lead.edit');
+        Route::post('/update-lead', 'LeadController@update_lead')->name('lead.update');
+    });
+    Route::prefix('leadsmeta')->middleware(['adminPermissionCheck:Lead Manage', 'moduleCheck:product_module_status'])->group(function () {
+        Route::post('/update-lead-meta', 'LeadMetaController@update_lead_meta')->name('lead.meta.update');
     });
     Route::prefix('apitechnology')->middleware(['adminPermissionCheck:Category Manage', 'moduleCheck:product_module_status'])->group(function () {
         Route::get('/', 'TechnologiesController@index')->name('techonlogy.list');

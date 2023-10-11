@@ -18,7 +18,7 @@ class LeadDumpController extends Controller
         $data = $request->all();
         $validator = Validator::make($data, [
             'lead_name' => 'required',
-            'lead_email' => 'required',
+            'lead_email' => 'required|email',
             'lead_mobile' => 'required',
             'lead_occupation' => 'required',
             'lead_intrest' => 'required',

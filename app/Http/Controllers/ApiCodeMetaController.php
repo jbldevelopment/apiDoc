@@ -46,11 +46,11 @@ class ApiCodeMetaController extends Controller
                     $inserted = $api_details->update();
 
                     if ($inserted) {
-                        return sendResponse($status = true,  __('Code Details Updated Successfully!'), [], 200);
+                        return sendResponse(true,  __('Code Details Updated Successfully!'), [], 200);
                     } else {
-                        return sendResponse($status = false,  __('Failed To Update Code Details!'), [], 400);
+                        return sendResponse(false,  __('Failed To Update Code Details!'), [], 400);
                     }
-                    return sendResponse($status = false,  __('Code Details not found!'), [], 400);
+                    return sendResponse(false,  __('Code Details not found!'), [], 400);
                 }
             } else {
                 // insert
@@ -66,30 +66,31 @@ class ApiCodeMetaController extends Controller
                 $inserted_id = $api_details->api_code_id;
 
                 if ($inserted) {
-                    return sendResponse($status = true,  __('Code Details Insert Successfully!'), ['inserted_id' => $inserted_id], 200);
+                    return sendResponse(true,  __('Code Details Insert Successfully!'), ['inserted_id' => $inserted_id], 200);
                 } else {
-                    return sendResponse($status = false,  __('Failed To Insert Code Details!'), [], 400);
+                    return sendResponse(false,  __('Failed To Insert Code Details!'), [], 400);
                 }
             }
         } catch (\Throwable $th) {
-            return sendResponse($status = false,  $th, [], 400);
+            return sendResponse(false,  $th, [], 400);
         }
     }
 
     public function delete_api_meta_code($code_id)
     {
 
-        $is_exists_api_details = ApiCodeMeta::where('api_code_id', $code_id)->exists();
-        if ($is_exists_api_details) {
-            $api_details = ApiCodeMeta::find($code_id);
-            $deleted = $api_details->delete();
-
+        $is_exists_api_code_details = ApiCodeMeta::where('api_code_id', $code_id)->exists();
+        if ($is_exists_api_code_details) {
+            $api_code_details = ApiCodeMeta::where('api_code_id', $code_id)->first();
+            $api_code_details->api_code_status = 2;
+            $deleted = $api_code_details->update();
+            // $deleted = $api_code_details->delete();
             if ($deleted) {
-                return sendResponse($status = true,  __('Code Details Deleted Successfully!'), [], 200);
+                return sendResponse(true,  __('Code Details Deleted Successfully!'), [], 200);
             } else {
-                return sendResponse($status = false,  __('Failed To Deleted Code Details!'), [], 400);
+                return sendResponse(false,  __('Failed To Deleted Code Details!'), [], 400);
             }
-            return sendResponse($status = false,  __('Code Details not found!'), [], 400);
+            return sendResponse(false,  __('Code Details not found!'), [], 400);
         }
     }
 }

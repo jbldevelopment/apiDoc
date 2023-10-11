@@ -82,8 +82,7 @@
                                     <input type="text" class="form-control input-fields" id="api_link" name="api_link" placeholder="{{ __('https://github.com/') }}">
                                     <small class="error_api_link text-danger"></small>
                                 </div>
-                                <button type="submit"
-                                    class="btn btn-primary mt-4 pr-4 pl-4"  id="submit-api-details">{{ __('Save API') }}</button>
+                                <button type="submit" class="btn btn-primary mt-4 pr-4 pl-4" id="submit-api-details">{{ __('Save API') }}</button>
                             </div>
                         </div>
                     </form>

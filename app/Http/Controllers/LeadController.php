@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Lead;
 use App\LeadMeta;
+use App\LeadDump;
 use App\ApiCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use PhpParser\Node\Stmt\TryCatch;
 
 class LeadController extends Controller
 {
@@ -30,6 +33,58 @@ class LeadController extends Controller
         }
         return view('backend.leads.index')->with([
             'lead_list' => $lead_list,
+        ]);
+    }
+    public function update_lead(Request $request)
+    {
+        $data = $request->all();
+        $validator = Validator::make($data, [
+            'lead_name' => 'required',
+            'lead_email' => 'required|email',
+            'lead_mobile' => 'required',
+            'lead_occupation' => 'required',
+            'lead_verified' => 'required',
+            'lead_status' => 'required',
+        ]);
+        if ($validator->fails()) {
+            return sendResponse(false, $validator->errors(), $data, 400);
+        }
+        $lead_id =  $request->lead_id;
+        try {
+            $is_lead_exists = Lead::where('lead_id', $lead_id)->exists();
+            if ($is_lead_exists) {
+                $lead_exists = Lead::where('lead_id', $lead_id)->first();
+                $lead_exists->lead_name = $request->lead_name;
+                $lead_exists->lead_email = $request->lead_email;
+                $lead_exists->lead_mobile = $request->lead_mobile;
+                $lead_exists->lead_occupation = $request->lead_occupation;
+                $lead_exists->lead_status = $request->lead_status;
+                $lead_exists->lead_verified = $request->lead_verified;
+                $result = $lead_exists->update();
+                if ($result) {
+                    return sendResponse(true, 'Lead Details Update Succesfully', [], 200);
+                }
+                return sendResponse(false, 'Failed To Update Lead Details.', [], 400);
+            }
+            return sendResponse(false, 'Lead Not Found', [], 400);
+        } catch (\Throwable $th) {
+            return sendResponse(false, $th, [], 401);
+        }
+    }
+    public function edit_lead($id)
+    {
+        $is_exists_lead_details = LeadMeta::where('lead_id', $id)->exists();
+        if ($is_exists_lead_details) {
+            $lead_details = Lead::where('lead_id', $id)->first();
+            $lead_meta = LeadMeta::where('lead_id', $lead_details->lead_id)->orderBy('created_at', 'DESC')->get();
+            return view('backend.leads.edit')->with([
+                'lead_details' => $lead_details,
+                'lead_meta' => $lead_meta,
+            ]);
+        }
+        return redirect(route('leads'))->with([
+            'msg' => 'No Api Found',
+            'type' => 'danger'
         ]);
     }
 }

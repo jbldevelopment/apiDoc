@@ -33,7 +33,8 @@ class RegisterController extends Controller
      */
     protected $redirectTo = RouteServiceProvider::HOME;
 
-    public function redirectTo(){
+    public function redirectTo()
+    {
         return route('user.home');
     }
     /**
@@ -57,12 +58,12 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:191'],
-            'captcha_token' => ['required'],
+            // 'captcha_token' => ['required'],
             'username' => ['required', 'string', 'string', 'max:255', 'unique:users'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ],[
-            'captcha_token.required' => __('google captcha is required'),
+        ], [
+            // 'captcha_token.required' => __('google captcha is required'),
             'name.required' => __('name is required'),
             'name.max' => __('name is must be between 191 character'),
             'username.required' => __('username is required'),
@@ -120,5 +121,4 @@ class RegisterController extends Controller
     {
         return view('frontend.user.register');
     }
-
 }

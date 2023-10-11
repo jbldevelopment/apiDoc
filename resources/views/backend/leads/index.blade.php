@@ -54,6 +54,7 @@
                                         <th>{{__('Occupation & Intrest')}} </th>
                                         <th>{{__('Status')}}</th>
                                         <th>{{__('Created At & Updated At')}}</th>
+                                        <th>{{__('Action')}}</th>
                                     </thead>
                                     <tbody>
                                     @foreach($lead_list as $key => $data)
@@ -84,6 +85,11 @@
                                                 @endif
                                             </td>
                                             <td>{{$data->created_at->format('d M,Y H:i A')}} <br> {{$data->updated_at->format('d M,Y H:i A')}}</td>
+                                            <td>
+                                                <a class="btn btn-xs btn-primary btn-sm mb-3 mr-1" href="{{route('lead.edit',['id' => $data->lead_id ])}}">
+                                                    <i class="ti-pencil"></i>
+                                                </a>
+                                            </td>
                                         </tr>
                                     @endforeach
                                     </tbody>
@@ -146,7 +152,7 @@
 
 
             $('.table-wrap > table').DataTable( {
-                "order": [[ 1, "desc" ]],
+                "order": [[ 1, "asc" ]],
                 'columnDefs' : [{
                     'targets' : 'no-sort',
                     'orderable' : false
