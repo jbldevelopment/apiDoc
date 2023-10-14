@@ -1,0 +1,182 @@
+@font-face {
+    font-family: 'BwModelica-Black';
+    src: url(../font/modelica/BwModelica-Black.otf) format('otf');
+    font-weight: 900;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'BwModelica-Bold';
+    src: url(../font/modelica/BwModelica-Bold.otf) format('otf');
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'BwModelica-ExtraBold';
+    src: url(../font/modelica/BwModelica-ExtraBold.otf) format('otf');
+    font-weight: 800;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'BwModelica-Light';
+    src: url(../font/modelica/BwModelica-Light.otf) format('otf');
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'BwModelica-Medium';
+    src: url(../font/modelica/BwModelica-Medium.otf) format('otf');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'BwModelica-Regular';
+    src: url(../font/modelica/BwModelica-Regular.otf) format('otf');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'BwModelica-Thin';
+    src: url(../font/modelica/BwModelica-Thin.otf) format('otf');
+    font-weight: 100;
+    font-style: normal;
+}
+
+
+:root {
+    --defualt-white: #FFFFFF;
+    --defualt-blacK: #000000;
+    --transparent: transparent;
+    --color1: #2B948F;
+    --color2: #A5DD88;
+    --color3: #404341;
+    --color4: #FDF884;
+    --color5: #404341;
+    --color6: #959595;
+}
+
+body {
+    font-family: 'BwModelica-Black', sans-serif;
+}
+
+/* color classes */
+.color1 {
+    color: var(--color1);
+}
+
+.color2 {
+    color: var(--color2);
+}
+
+.color3 {
+    color: var(--color3);
+}
+
+.color4 {
+    color: var(--color4);
+}
+
+.color5 {
+    color: var(--color5);
+}
+
+.color6 {
+    color: var(--color6);
+}
+
+/* BgColor classes */
+.bg-color1 {
+    background-color: var(--color1);
+}
+
+.bg-color2 {
+    background-color: var(--color2);
+}
+
+.bg-color3 {
+    background-color: var(--color3);
+}
+
+.bg-color4 {
+    background-color: var(--color4);
+}
+
+.bg-color5 {
+    background-color: var(--color5);
+}
+
+.bg-color6 {
+    background-color: var(--color6);
+}
+
+/* border classes */
+.border-color1 {
+    border-color: var(--color1);
+}
+
+.border-color2 {
+    border-color: var(--color2);
+}
+
+.border-color3 {
+    border-color: var(--color3);
+}
+
+.border-color4 {
+    border-color: var(--color4);
+}
+
+.border-color5 {
+    border-color: var(--color5);
+}
+
+.border-color6 {
+    border-color: var(--color6);
+}
+
+/* button classes */
+.btn-jnm-primary {
+    color: var(--defualt-white);
+    border: 1px solid var(--color1);
+    background-color: var(--color1);
+}
+
+.btn-jnm-primary:hover {
+    color: var(--color1);
+    border: 1px solid var(--color1);
+    background-color: var(--transparent);
+}
+
+.btn-jnm-secondary {
+    color: var(--color1);
+    border: 1px solid var(--color4);
+    background-color: var(--color4);
+}
+
+.btn-jnm-secondary:hover {
+    color: var(--color4);
+    border: 1px solid var(--color1);
+    background-color: var(--color1);
+}
+
+.btn-jnm-third {
+    color: var(--defualt-blacK);
+    border: 1px solid var(--color1);
+    background-color: var(--transparent);
+}
+
+.btn-jnm-third:hover {
+    color: var(--defualt-white);
+    border: 1px solid var(--color1);
+    background-color: var(--color1);
+}
+
+/* main classes */
+.text-justify {
+    text-align: justify;
+}

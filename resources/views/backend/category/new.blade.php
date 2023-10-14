@@ -74,7 +74,10 @@
                                     <input type="number" class="form-control" id="api_category_order" name="api_category_order" placeholder="{{ __('Ex: 1,2,3..') }}">
                                     <small class="error_api_category_order text-danger"></small>
                                 </div>
-                                <button type="submit" id="submit-category-details" class="btn btn-primary mt-4 pr-4 pl-4">{{ __('Save category') }}</button>
+                                <div class="d-flex justify-content-between">
+                                    <button type="reset" class="btn btn-danger mt-4 pr-4 pl-4">Reset</button>
+                                    <button type="submit" id="submit-category-details" class="btn btn-primary mt-4 pr-4 pl-4">{{ __('Save category') }}</button>
+                                </div>
                             </div>
                         </div>
                     </form>

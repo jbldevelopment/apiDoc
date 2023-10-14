@@ -101,16 +101,9 @@
                                             </td>
                                             <td> 
                                                 @php
-                                                    $category_color = 'info';
-                                                    if($data->api_category == 2){
-                                                        $category_color = 'warning';
-                                                    }elseif ($data->api_category == 3) {
-                                                        $category_color = 'success';
-                                                    }elseif ($data->api_category == 4) {
-                                                        $category_color = 'danger';
-                                                    }
+                                                    $category_Name = App\ApiCategory::select('api_category_title')->where('api_category_id', $data->api_category)->first()->api_category_title;
                                                 @endphp
-                                                <span class="font-weight-normal">{{$data->api_category_title}}</span>
+                                                <span class="font-weight-normal">{{$category_Name}}</span>
                                                 @if (isset($data->api_link) && !empty($data->api_link))
                                                     <br>
                                                     <a href="{{$data->api_link}}">

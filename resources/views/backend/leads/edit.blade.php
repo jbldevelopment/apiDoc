@@ -87,7 +87,8 @@
                             </div>
                             <div class="col-lg-4">
                                 <div class="form-group">
-                                    <button type="submit" class="btn btn-primary mt-4 pr-4 pl-4" id="submit-api-details">{{ __('Update Lead') }}</button>
+                                        <button type="reset" class="btn btn-danger mt-4 pr-4 pl-4">Reset</button>
+                                        <button type="submit" class="btn btn-primary mt-4 pr-4 pl-4" id="submit-api-details">{{ __('Update Lead') }}</button>
                                 </div>
                             </div>
                             <div class="col-lg-12 mt-3 border-top">

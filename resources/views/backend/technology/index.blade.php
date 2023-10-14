@@ -98,7 +98,10 @@
                                 </div>
                             </div>
                         </div>
-                        <button type="submit" id="submit-technology" class="btn btn-primary mt-4 pr-4 pl-4">{{__('Add New Role')}}</button>
+                        <div class="d-flex justify-content-between">
+                            <button type="reset" class="btn btn-danger mt-4 pr-4 pl-4">Reset</button>
+                            <button type="submit" id="submit-technology" class="btn btn-primary mt-4 pr-4 pl-4">{{__('Add New Role')}}</button>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -155,6 +158,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('Close')}}</button>
+                    {{-- <button type="reset" class="btn btn-danger pr-4 pl-4">Reset</button> --}}
                     <button type="submit" id="edit-technology" class="btn btn-primary">{{__('Save changes')}}</button>
                 </div>
             </form>

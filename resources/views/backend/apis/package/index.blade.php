@@ -143,8 +143,11 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>                            
-                            <button type="submit" id="new-package" class="btn btn-primary pr-4 pl-4">{{__('Add New Package')}}</button>
+                            </div>  
+                            <div class="d-flex justify-content-between">
+                                <button type="reset" class="btn btn-danger mt-4 pr-4 pl-4">Reset</button>
+                                <button type="submit" id="new-package" class="btn btn-primary mt-4 pr-4 pl-4">{{__('Add New Package')}}</button>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -228,6 +231,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('Close')}}</button>
+                        {{-- <button type="reset" class="btn btn-danger pr-4 pl-4">Reset</button> --}}
                         <button type="submit" id="edit-package" class="btn btn-primary">{{__('Save changes')}}</button>
                     </form>
                 </div>
@@ -284,12 +288,11 @@
                             Swal.fire({
                                 title: 'Package Details Added Successfully',
                                 icon: 'success',
-                                }).then((result) => {
-                                    if (result.isConfirmed) {
-                                    $(this).next().find('.swal_form_submit_btn').trigger('click');
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    location.reload();
                                 }
                             });
-
                         } else {
                             if(response.status_code == 400){
                                 $.each(response.message, function (indexInArray, valueOfElement) { 

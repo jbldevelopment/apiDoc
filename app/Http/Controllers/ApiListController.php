@@ -65,9 +65,9 @@ class ApiListController extends Controller
             $inserted = $api_list->save();
 
             if ($inserted) {
-                return sendResponse(true, 'APi inserted successfully!', [], 200);
+                return sendResponse(true, 'API inserted successfully!', [], 200);
             } else {
-                return sendResponse(false, 'Failed to insert APi.', [], 400);
+                return sendResponse(false, 'Failed to insert API.', [], 400);
             }
         } catch (\Throwable $th) {
             // return redirect(route('api.list'))->with([
@@ -127,9 +127,9 @@ class ApiListController extends Controller
                     $inserted = $api_details->update();
 
                     if ($inserted) {
-                        return sendResponse(true, 'APi Updated successfully!', [], 200);
+                        return sendResponse(true, 'API Updated successfully!', [], 200);
                     } else {
-                        return sendResponse(false, 'Failed to Updated APi.', [], 400);
+                        return sendResponse(false, 'Failed to Updated API.', [], 400);
                     }
                 }
             } catch (\Throwable $th) {

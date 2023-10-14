@@ -333,6 +333,7 @@ Route::group(['middleware' => ['setlang:frontend', 'globalVariable', 'maintains_
 
     Route::get('/code-page', 'FrontendController@code_page')->name('code_page');
     Route::get('/', 'FrontendController@index')->name('homepage');
+    Route::get('/homes', 'FrontendController@new_index')->name('home.page');
 
     Route::post('/get-touch', 'FrontendFormController@get_touch')->name('frontend.get.touch');
     Route::post('/appointment-message', 'FrontendFormController@appointment_message')->name('frontend.appointment.message');

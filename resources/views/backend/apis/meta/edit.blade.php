@@ -26,7 +26,7 @@
                 <nav class="align-items-baseline bg-secondary h-100 navbar">
                     <ul class="navbar-nav w-100 navigation-slug-tag-html">
                         @foreach ($api_meta_list as $item) 
-                        <li class="nav-item">
+                        <li class="nav-item" id="link-{{$item->api_meta_slug}}">
                             <a class="nav-link text-white" href="#{{$item->api_meta_slug}}">{{$item->api_meta_title}}</a>
                         </li>
                         @endforeach
@@ -204,7 +204,7 @@
                                                 <div class="col-lg-4 mt-lg-1">
                                                     <div class="form-group mb-lg-0">
                                                         <label for="title">{{ __('Order') }} <span class="text-danger">*</span></label>
-                                                        <input type="number" class="form-control" id="api_code_order_{{$code->api_code_id}}" name="api_code_order[]" value="{{$code->api_code_order}}" placeholder="{{ __('Ex: 1,2,3..') }}">
+                                                        <input type="number" pattern="[0-9]*" class="form-control" id="api_code_order_{{$code->api_code_id}}" name="api_code_order[]" value="{{$code->api_code_order}}" placeholder="{{ __('Ex: 1,2,3..') }}">
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-5 mt-lg-1">
@@ -268,12 +268,13 @@
             $('.code-block').toggle();
         });
     });
+  
 
     $('#new_section').click(function (e) { 
         e.preventDefault();
         if(get_section_data()){
             let count = $('.section_index').length + 1;
-            let section_html = `<div class="card my-lg-2 border-dark section_index card_index" id='dynamic_${count}'>
+            let section_html = `<div class="card my-lg-2 border-dark section_index card_index" id='dynamic_0_${count}'>
                                     <div class="card-header card_header_0_${count}" id="headingOne">
                                         <h5 class="mb-0 d-lg-flex justify-content-lg-between">
                                             <div class="btn text-white" id="title_0_${count}">
@@ -286,7 +287,7 @@
                                                 <div class="btn btn-outline-info mr-1">
                                                     <i class="ti-shortcode"></i>
                                                 </div>
-                                                <div class="btn btn-outline-danger remove_meta_details dynamic" data-card-id='dynamic_${count}'>
+                                                <div class="btn btn-outline-danger remove_meta_details dynamic" data-meta-id="" id="delete_meta_section_0_${count}" data-card-id='dynamic_0_${count}'>
                                                     <i class="ti-trash"></i>
                                                 </div>
                                             </div>
@@ -319,14 +320,14 @@
                                                         <small class="error_api_description_0_${count} text-danger"></small>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-6 mt-lg-2">
+                                                <div class="col-lg-4 mt-lg-2">
                                                     <div class="form-group mb-lg-0">
                                                         <label for="title">{{ __('Meta version') }} <span class="text-danger">*</span></label>
-                                                        <input type="text" class="form-control" id="meta_version_0_${count}" name="meta_version[]" placeholder="{{ __('https://github.com/') }}">
+                                                        <input type="text" class="form-control" id="meta_version_0_${count}" name="meta_version[]" placeholder="{{ __('1.1.0') }}">
                                                         <small class="error_meta_version_0_${count} text-danger"></small>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-6 mt-lg-2">
+                                                <div class="col-lg-4 mt-lg-2">
                                                     <div class="form-group mb-lg-0">
                                                         <label for="title">{{ __('Order') }} <span class="text-danger">*</span></label>
                                                         <input type="number" class="form-control" id="api_order_0_${count}" name="api_order[]" placeholder="{{ __('Ex: 1,2,3..') }}">
@@ -346,16 +347,16 @@
                                                 </div>
                                                 <div class="col-lg-6 mt-lg-2">
                                                     <div class="form-group mb-lg-0">
-                                                        <label for="title">{{ __('Source Code Link') }} <span class="text-danger">*</span></label>
+                                                        <label for="title">{{ __('Source Code Link') }}</label>
                                                         <input type="text" class="form-control" id="api_link_0_${count}" name="api_link[]" placeholder="{{ __('https://github.com/') }}">
                                                         <small class="error_api_link_0_${count} text-danger"></small>
                                                     </div>
                                                 </div>
                                                 
-                                                <div class="col-lg-2 mt-lg-2">
-                                                    <div class="form-group mb-lg-0">
-                                                        <label for="title" style="opacity: 0;">{{ __('ssss ') }} <span class="text-danger"></span></label>
-                                                        <div class="btn btn-primary mr-lg-2 btn-sm submit-meta-details w-100" data-index-id="0_${count}" data-index-action="add" id="dynamic_save_0_${count}">{{ __('Save') }}</div>
+                                                <div class="col-lg-6 mt-lg-2">
+                                                    <div class="d-flex justify-content-between mt-1">
+                                                        <button type="reset" class="btn btn-danger mt-4 pr-4 pl-4">Reset</button>
+                                                        <div class="btn btn-primary btn-sm submit-meta-details mt-4 pr-4 pl-4" data-index-id="0_${count}" data-index-action="add" id="dynamic_save_0_${count}">{{ __('Save') }}</div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -383,6 +384,17 @@
         e.preventDefault();
         if(get_meta_section_data()){
             let meta_count = $('.meta_code_index').length + 1;
+
+            let option_html = '';
+            $('.submit-meta-details').each(function (index, element) {
+                let dataValue = $(element).data('index-id');
+                let title = $(`#api_title_${dataValue}`).val();
+                if(title != ''){
+                    let meta_id = $(`#api_meta_id_${dataValue}`).val();
+                    option_html += `<option value="${meta_id}">${title}</option>`;
+                }
+            });
+
             let meta_code_html = `<div class="card my-lg-2 border-dark meta_code_index card_index" id="dynamic_meta_${meta_count}">
                                     <div class="card-header header_codemeta_0_${meta_count}" id="headingOne">
                                         <h5 class="mb-0 d-lg-flex justify-content-lg-between">
@@ -390,11 +402,11 @@
                                                 Page / Code Title
                                             </div>
                                             <div class="d-lg-flex align-items-center">
-                                                <div class="btn btn-outline-info mr-1" data-toggle="collapse" data-target="#api_meta_details_0_${meta_count}" aria-expanded="true" aria-controls="api_meta_details_0_${meta_count}">
+                                                <div class="btn btn-outline-info mr-1" data-toggle="collapse" data-target="#code_meta_0_${meta_count}" aria-expanded="true" aria-controls="code_meta_0_${meta_count}">
                                                     <i class="ti-pencil"></i>
                                                 </div>
-                                                <div class="btn btn-outline-info" data-toggle="collapse" data-target="#code_meta_0_${meta_count}" aria-expanded="true" aria-controls="code_meta_0_${meta_count}">
-                                                    <i class="ti-angle-down"></i>
+                                                <div class="btn btn-outline-danger remove_code_meta_details dynamic" data-code-meta-id="0_${meta_count}" id="delete_code_meta_details_0_${meta_count}" data-card-code-id="dynamic_meta_${meta_count}">
+                                                    <i class="ti-trash"></i>
                                                 </div>
                                             </div>
                                         </h5>
@@ -424,23 +436,21 @@
                                                         <small class="error_api_code_details_0_${meta_count} text-danger"></small>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-6 mt-lg-1">
+                                                <div class="col-lg-5 mt-lg-1">
                                                     <div class="form-group mb-lg-0">
                                                         <label>{{ __('API Meta') }} <span class="text-danger">*</span></label>
                                                         <select id="api_code_meta_id_0_${meta_count}" name="api_code_meta_id_[]" class="form-control section_options">
                                                             <option value="">{{ __('Please Select Api') }}</option>
-                                                            @foreach ($api_meta_list as $item)
-                                                                <option value="{{$item->api_meta_id}}">{{$item->api_meta_title}}</option>
-                                                            @endforeach
+                                                            ${option_html}
                                                         </select>
                                                         <small class="error_api_code_meta_id_0_${meta_count} text-danger"></small>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-6 mt-lg-1">
+                                                <div class="col-lg-4 mt-lg-1">
                                                     <div class="form-group mb-lg-0">
                                                         <label>{{ __('Technology') }} <span class="text-danger">*</span></label>
                                                         <select name="api_technology[]" id="api_technology_0_${meta_count}" class="form-control">
-                                                            <option value="">{{ __('Please Select Technlogy') }}</option>
+                                                            <option value="">{{ __('Select Technlogy') }}</option>
                                                             @foreach ($technlogies as $item)
                                                             <option value="{{$item->technology_id}}">{{ __($item->technology_name) }}</option>
                                                             @endforeach
@@ -448,10 +458,10 @@
                                                         <small class="error_api_technology_0_${meta_count} text-danger"></small>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-4 mt-lg-1">
+                                                <div class="col-lg-3 mt-lg-1">
                                                     <div class="form-group mb-lg-0">
                                                         <label for="title">{{ __('Order') }} <span class="text-danger">*</span></label>
-                                                        <input type="number" class="form-control" id="api_code_order_0_${meta_count}" name="api_code_order[]" placeholder="{{ __('Ex: 1,2,3..') }}">
+                                                        <input type="number" class="form-control" pattern="[0-9]*" id="api_code_order_0_${meta_count}" name="api_code_order[]" placeholder="{{ __('Ex: 1,2,3..') }}">
                                                         <small class="error_api_code_order_0_${meta_count} text-danger"></small>
                                                     </div>
                                                 </div>
@@ -466,10 +476,10 @@
                                                         <small class="error_api_code_status_0_${meta_count} text-danger"></small>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-3 mt-lg-2">
-                                                    <div class="form-group mb-lg-0">
-                                                        <label for="title" style="opacity: 0;">{{ __('ssss ') }} <span class="text-danger"></span></label>
-                                                        <div class="btn btn-primary mr-lg-2 btn-sm submit-code-details w-100" data-index-id="0_${meta_count}" data-index-action="save" id="dynamic_code_save_0_${meta_count}">{{ __('Save') }}</div>
+                                                <div class="col-lg-7 mt-lg-2">
+                                                    <div class="d-flex justify-content-between mt-1">
+                                                        <button type="reset" class="btn btn-danger mt-4 pr-4 pl-4">Reset</button>
+                                                        <div class="btn btn-primary btn-sm submit-code-details mt-4 pr-4 pl-4" data-index-id="0_${meta_count}" data-index-action="save" id="dynamic_code_save_0_${meta_count}">{{ __('Save') }}</div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -499,6 +509,7 @@
         }).then((result) => {
             if (result.isConfirmed) {
                 let data_card_id = $(this).data('card-id');
+                console.log('data_card_id :>> ', data_card_id);
                 if(!$(this).hasClass('dynamic')){
                     let data_meta_id = $(this).data('meta-id');
                     $.ajax({
@@ -512,6 +523,7 @@
                     });
                 }
                 $(`#${data_card_id}`).remove();
+                $(`#link-${data_card_id}`).remove();
             }
         });
 
@@ -596,8 +608,9 @@
                             if (typeof response.data.inserted_id !== 'undefined'){
                                 $('.section_options').append(`<option value="${response.data.inserted_id}">${api_title}</option>`);
                                 $(`#api_meta_id_${data_index}`).val(response.data.inserted_id);
+                                $(`#delete_meta_section_${data_index}`).removeClass('dynamic').attr('data-meta-id',response.data.inserted_id);
                                 $(`#dynamic_save_${data_index}`).data('index-action', 'update').html('Change');
-                                $(`.navigation-slug-tag-html`).append(`<li class="nav-item"> <a class="nav-link text-white" href="#${api_slug}">${api_title}</a> </li>`);
+                                $(`.navigation-slug-tag-html`).append(`<li class="nav-item" id="link-dynamic_${data_index}"> <a class="nav-link text-white" href="#${api_slug}">${api_title}</a> </li>`);
                             }
                         }
                     });
@@ -674,6 +687,8 @@
                         if (result.isConfirmed) {
                             if (typeof response.data.inserted_id !== 'undefined'){
                                 $(`#dynamic_code_save_${data_index}`).data('index-action', 'update').html('Change');
+                                console.log(' :>> ', `#delete_code_meta_details_${data_index}`);
+                                $(`#delete_code_meta_details_${data_index}`).removeClass('dynamic').attr('data-code-meta-id', response.data.inserted_id);
                                 $(`#api_code_id_${data_index}`).val(response.data.inserted_id);
                             }
                         }
@@ -715,50 +730,41 @@
             });
         }
     });
+
     function get_section_data(){
         let final_response = true;
         $('.submit-meta-details').each(function (index, element) {
             let dataValue = $(element).data('index-id');
-            let title = $(`#api_title_${dataValue}`).val();
-            let slug = $(`#api_slug_${dataValue}`).val();
-            let add_class = '';
-            let remove_class = '';
-            if(title != '' && slug != ''){
-                final_response = (final_response != false) ? true : false;
-            } else {
+            let data_action = $(element).data('index-action');
+            if(data_action == 'add'){
+                let add_class = 'border border-danger';
+                let remove_class = 'border-success';
                 final_response = false;
-                add_class = 'border border-danger';
-                remove_class = 'border-success';
                 Swal.fire({
-                    title: 'Please Fill Highlighted Secations.',
+                    title: 'Please save highlighted section.',
                     icon: 'warning',
                 });
+                $(`.card_header_${dataValue}`).addClass(add_class).removeClass(remove_class);
             }
-            $(`.card_header_${dataValue}`).addClass(add_class).removeClass(remove_class);
         });
         return final_response;
     }
+    
     function get_meta_section_data(){
         let final_response = true;
         $('.submit-code-details').each(function (index, element) {
             let dataValue = $(element).data('index-id');
-            let title = $(`#api_code_title_${dataValue}`).val();
-            let slug = $(`#api_code_slug_${dataValue}`).val();
-            let add_class = '';
-            let remove_class = '';
-            if(title != '' && slug != ''){
-                final_response = (final_response != false) ? true : false;
-            } else {
+            let data_action = $(element).data('index-action');0
+            if(data_action == 'save'){
+                let add_class = 'border border-danger';
+                let remove_class = 'border-success';
                 final_response = false;
-                add_class = 'border border-danger';
-                remove_class = 'border-success';
                 Swal.fire({
-                    title: 'Please Fill Highlighted Secations.',
+                    title: 'Please save highlighted code meta section.',
                     icon: 'warning',
                 });
+                $(`.header_codemeta_${dataValue}`).addClass(add_class).removeClass(remove_class);
             }
-            console.log('header_codemeta_ :>> ', `.header_codemeta_${dataValue}`);
-            $(`.header_codemeta_${dataValue}`).addClass(add_class).removeClass(remove_class);
         });
         return final_response;
     }

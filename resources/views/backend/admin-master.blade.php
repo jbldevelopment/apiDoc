@@ -243,6 +243,11 @@
             }
         });
 
+        $('body').on('input', 'input[type="number"]', function() {
+            // Allow only numeric input (0-9) and backspace/delete key
+            $(this).val($(this).val().replace(/[^0-9]/g, ''));
+        });
+
     })(jQuery);
 </script>
 </body>
