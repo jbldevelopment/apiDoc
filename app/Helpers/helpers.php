@@ -2793,6 +2793,11 @@ function render_frontend_menu($id)
     $instance = new \App\MenuBuilder\MenuBuilderFrontendRender();
     return $instance->render_frrontend_panel_menu($id);
 }
+function new_render_frontend_menu($id)
+{
+    $instance = new \App\MenuBuilder\MenuBuilderFrontendRender();
+    return $instance->new_render_frrontend_panel_menu($id);
+}
 
 function get_product_variant_list_by_id($id)
 {

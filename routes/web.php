@@ -538,6 +538,7 @@ Route::group(['middleware' => ['setlang:frontend', 'globalVariable', 'HtmlMinifi
     Route::get('/categories', 'FrontendController@api_cat_page')->name('frontend.list.category');
     Route::get('/{slug}', 'FrontendController@dynamic_single_page')->name('frontend.dynamic.page');
     Route::get('/doc/{slug}', 'FrontendController@dynamic_doc_page')->name('frontend.dynamic.doc');
+    Route::get('/apis/{slug}', 'FrontendController@dynamic_doc_page')->name('frontend.dynamic.apis');
     Route::get('/test/doc/{slug}', 'FrontendController@test_dynamic_doc_page')->name('frontend.test.dynamic.doc');
     Route::get('/category/{slug}', 'FrontendController@dynamic_cat_page')->name('frontend.dynamic.category');
     Route::post('/lead/add', 'LeadDumpController@new_lead')->name('frontend.new.lead');
