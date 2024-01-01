@@ -90,6 +90,26 @@ class FrontendController extends Controller
     }
     public function index()
     {
+        $categories = ApiCategory::where('api_category_status', 1)->orderBy('api_category_order')->get();
+        $apis = ApiList::where('api_status', 1)
+            ->join('api_categories', 'api_lists.api_category', '=', 'api_categories.api_category_id')
+            ->inRandomOrder(6)->get();
+        return view('frontend.new-frontend-home', compact('categories', 'apis'));
+    }
+    public function newIndex()
+    {
+        return view('frontend.static-pages.new-frontend-home');
+    }
+    public function allApis()
+    {
+        return view('frontend.static-pages.new-frontend-all-apis');
+    }
+    public function detailPage()
+    {
+        return view('frontend.static-pages.new-frontend-api-details');
+    }
+    public function new_index()
+    {
         $home_page_variant = get_home_variant();
         $lang = LanguageHelper::user_lang_slug();
         //make a function to call all static option by home page
@@ -1942,8 +1962,18 @@ class FrontendController extends Controller
     }
     public function api_cat_page()
     {
-        $api_category_list = ApiCategory::where('api_category_status', 1)->orderBy('api_category_order')->get();
-        return view('frontend.pages.category.category-page')->with([
+        $api_category_list = ApiCategory::where('api_category_status', 1)->orderBy('api_category_order')->limit(6)->get();
+        return view('frontend.pages.category.new-category-page')->with([
+            'api_category_list' => $api_category_list,
+        ]);
+    }
+    public function api_list_page()
+    {
+        $api_category_list = ApiCategory::where('api_category_status', 1)->orderBy('api_category_order')->limit(6)->get();
+        foreach ($api_category_list as $key => $value) {
+            $value->cat_apis = ApiList::where('api_status', 1)->where('api_category', $value->api_category_id)->get()->toArray();
+        }
+        return view('frontend.pages.apis.new-api-list-page')->with([
             'api_category_list' => $api_category_list,
         ]);
     }

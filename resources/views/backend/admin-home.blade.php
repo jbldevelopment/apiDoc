@@ -92,7 +92,8 @@
                                         <th>{{ __('Order ID') }}</th>
                                         <th>{{ __('Lead Info') }}</th>
                                         <th>{{ __('Contact Details') }}</th>
-                                        <th>{{ __('Payment Status') }}</th>
+                                        <th>{{ __('Lead Intrest') }}</th>
+                                        <th>{{ __('FollowUp') }}</th>
                                         <th>{{ __('Date') }}</th>
                                     </thead>
                                     <tbody>

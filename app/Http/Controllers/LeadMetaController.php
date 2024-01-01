@@ -20,7 +20,7 @@ class LeadMetaController extends Controller
             'lead_status' => 'required',
         ]);
         if ($validator->fails()) {
-            return sendResponse(false, $validator->errors(), $data, 400);
+            return sendResponse(false, $validator->errors(), $data, 410);
         }
         $lead_id =  $request->lead_meta_id;
         try {
@@ -40,11 +40,11 @@ class LeadMetaController extends Controller
                             $result = $lead_exists->update();
                         }
                     }
-                    return sendResponse(true, 'Lead Meta Details Update Succesfully', [$is_lead_meta_letest], 200);
+                    return sendResponse(true, 'Lead meta details update succesfully', [$is_lead_meta_letest], 200);
                 }
-                return sendResponse(false, 'Failed To Update Lead Meta Details.', [], 400);
+                return sendResponse(false, 'Failed To update lead meta details.', [], 400);
             }
-            return sendResponse(false, 'Lead Meta Not Found', [], 400);
+            return sendResponse(false, 'Lead meta not found', [], 400);
         } catch (\Throwable $th) {
             return sendResponse(false, $th, [], 401);
         }

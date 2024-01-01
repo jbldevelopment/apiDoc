@@ -41,6 +41,9 @@
     <link rel="stylesheet" href="{{asset('assets/frontend/css/codeblock.css')}}">
 
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    
+    <!-- Include reCAPTCHA v3 API script with your site key -->
+    <script src="https://www.google.com/recaptcha/api.js?render={{ config('app.recaptcha_v3_site_key') }}"></script>
 
     @if (!empty(get_static_option('google_adsense_publisher_id')))
         {{-- <script rel="preload" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{get_static_option('google_adsense_publisher_id')}}" crossorigin="anonymous"></script> --}}

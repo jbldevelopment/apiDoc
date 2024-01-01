@@ -27,7 +27,7 @@ class ApiPlanController extends Controller
             ]);
         }
         return redirect(route('api.list'))->with([
-            'msg' => 'No Api Found',
+            'msg' => 'No API found',
             'type' => 'danger'
         ]);
     }
@@ -47,7 +47,7 @@ class ApiPlanController extends Controller
 
 
         if ($validator->fails()) {
-            return sendResponse(false, $validator->errors(), $data, 400);
+            return sendResponse(false, $validator->errors(), $data, 410);
         }
         try {
             $api_list = new ApiPlan();
@@ -62,9 +62,9 @@ class ApiPlanController extends Controller
             $inserted = $api_list->save();
 
             if ($inserted) {
-                return sendResponse(true, 'Package Inserted Successfully!', [], 200);
+                return sendResponse(true, 'Package inserted successfully!', [], 200);
             } else {
-                return sendResponse(false, 'Failed To Insert Package.', [], 400);
+                return sendResponse(false, 'Failed To insert package.', [], 400);
             }
         } catch (\Throwable $th) {
             return sendResponse(false, $th, [], 400);
@@ -86,7 +86,7 @@ class ApiPlanController extends Controller
             ]);
 
             if ($validator->fails()) {
-                return sendResponse(false, $validator->errors(), $data, 400);
+                return sendResponse(false, $validator->errors(), $data, 410);
             }
 
             try {
@@ -104,9 +104,9 @@ class ApiPlanController extends Controller
                     $inserted = $api_details->update();
 
                     if ($inserted) {
-                        return sendResponse(true, 'Package Inserted Successfully!', [], 200);
+                        return sendResponse(true, 'Package inserted successfully!', [], 200);
                     } else {
-                        return sendResponse(false, 'Failed To Insert Package.', [], 400);
+                        return sendResponse(false, 'Failed to insert package.', [], 400);
                     }
                 }
             } catch (\Throwable $th) {
@@ -124,18 +124,18 @@ class ApiPlanController extends Controller
             $deleted = $api_details->update();
             if ($deleted) {
                 return redirect(route('api.list'))->with([
-                    'msg' => __('Package Deleted successfully!'),
+                    'msg' => __('Package deleted successfully!'),
                     'type' => 'success'
                 ]);
             } else {
                 return redirect()->back()->with([
-                    'msg' => __('Failed to Delete Package!'),
+                    'msg' => __('Failed to delete package!'),
                     'type' => 'danger'
                 ]);
             }
         }
         return redirect()->back()->with([
-            'msg' => 'No Api Found',
+            'msg' => 'No API found',
             'type' => 'danger'
         ]);
     }

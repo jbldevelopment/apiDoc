@@ -32,23 +32,15 @@ class MenuBuilderFrontendRender
         }
         return $output;
     }
-    public function new_render_frrontend_panel_menu($id)
+    public function new_render_frontend_panel_menu($id)
     {
         $output = '';
-        $img_html_1 = '<a href="#home" id="logo">
-                        <img src="' . asset("assets/frontend/img/logos/logo.png") . '" class="w-50" alt="">
-                    </a>';
-        $img_html_2 = '<a href="#home" id="logo2">
-                        <img src="' . asset("assets/frontend/img/logos/logo.png") . '" class="w-50" alt="">
-                    </a>';
-        // $search_html = ' <div><form class="d-flex">
-        //                         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        //                         <button class="btn btn-outline-primary" type="submit">Search</button>
-        //                 </form></div>';
-        // $search_html = ' <form class="d-flex">
-        //                         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        //                         <button class="btn btn-outline-primary" type="submit">Search</button>
-        //                 </form>';
+        $img_html_1 = ' <a class="navbar-brand ms-2 ms-lg-0" href="#">
+                            <img class="img-fluid" src="' . asset("assets/frontend/img/logos/logo.png") . '" alt="Logo" width="100" height="auto" />
+                        </a>';
+        $img_html_2 = ' <a class="navbar-brand ms-2 ms-lg-0" href="#">
+                            <img class="img-fluid" src="' . asset("assets/frontend/img/logos/logo.png") . '" alt="Logo" width="100" height="auto" />
+                        </a>';
         $menu_details_from_db = Menu::find($id);
         if (is_null($menu_details_from_db)) {
             return $output;
@@ -61,11 +53,12 @@ class MenuBuilderFrontendRender
             foreach ($menu_data as $menu_item) {
                 $this->page_id++;
                 if (isset($menu_item->children)) {
-                    $links .= '<div class="dropdown">
-                                    <button class="dropbtn">' . $menu_item->pname . '
-                                        <i class="fa fa-caret-down"></i>
-                                    </button>
-                                    <div class="dropdown-content flex-column">';
+                    $links .= '<li class="nav-item nav_item list-group">
+                                    <div class="dropdown">
+                                        <button class="dropbtn text-center">
+                                        ' . $menu_item->pname . ' <i class="fa fa-caret-down"></i>
+                                        </button>
+                                        <div class="dropdown-content flex-column">';
                     foreach ($menu_item->children as $item) {
                         if (isset($item->pslug)) {
                             if ($item->ptype == 'api_category') {
@@ -74,103 +67,76 @@ class MenuBuilderFrontendRender
                             if ($item->ptype == 'api_product') {
                                 $url = route('frontend.dynamic.doc', ['slug' => $item->pslug]);
                             }
-                            $links .= '<a href="' . $url . '">' . $item->pname . '</a>';
+                            $links .= '<a class="text-center nav_anchor" href="' . $url . '">' . $item->pname . '</a>';
                         }
                     }
-                    $links .= '</div></div>';
+                    $links .= '</div>
+                            </div>
+                        </li>
+                                    ';
                 } else {
                     $active_class = (isset($menu_item->purl)) ? 'active' : '';
                     if ($menu_item->ptype == 'ptype') {
                         $url = route('frontend.dynamic.doc', ['slug' => $menu_item->pslug]);
                     }
                     $url = (isset($menu_item->pslug)) ? '/' . $menu_item->pslug : route('homepage');
-                    $links .= '<a href="' . $url . '" class="' . $active_class . '">' . $menu_item->pname . '</a>';
-                }
-            }
-        }
-
-        $output = '<nav>
-                        <div class="topnav" id="myTopnav">
-                            ' . $img_html_1 . '
-                            ' . $links . '
-                            <a href="javascript:void(0);" style="font-size:15px;" class="icon" onclick="NavBar()">☰</a>
-                        </div>
-                        <div class="scrollview mobile_scroll_nav" id="navbar">
-                            ' . $img_html_2 . '
-                            ' . $links . '
-                            <a href="javascript:void(0);" style="font-size:15px;" class="icon" onclick="NavBar()">☰</a>
-                        </div>
-                    </nav>';
-
-        return $output;
-    }
-    public function new_new_render_frrontend_panel_menu($id)
-    {
-        $output = '';
-        if (empty($id)) {
-            return $output;
-        }
-        $menu_details_from_db = Menu::find($id);
-        if (is_null($menu_details_from_db)) {
-            return $output;
-        }
-        $default_lang = $menu_details_from_db->lang ?? LanguageHelper::default_slug();
-        $menu_data = json_decode($menu_details_from_db->content);
-        $this->page_id = 1;
-        if (count((array)$menu_data) > 0) {
-            foreach ($menu_data as $menu_item) {
-                $page_active_class = '';
-
-                $dropdown = 0;
-                $dropdown_class = '';
-                $dropdown_html = '';
-
-                $dynamic = 0;
-                $dynamic_class = '';
-                $dynamic_html = '';
-
-                $this->page_id++;
-                if (isset($menu_item->children)) {
-                    $dropdown = 1;
-                    $dynamic_html = '<div class="dropdown-content animate">';
-                    foreach ($menu_item->children as $item) {
-                        if (isset($item->pslug)) {
-                            if ($item->ptype == 'api_category') {
-                                $url = route('frontend.dynamic.category', ['slug' => $item->pslug]);
-                            }
-                            if ($item->ptype == 'api_product') {
-                                $url = route('frontend.dynamic.doc', ['slug' => $item->pslug]);
-                            }
-                            $dynamic_html .= '<a href="' . $url . '">' . $item->pname . '</a>';
-                        }
-                    }
-                    $dynamic_html .= '</div>';
-                    // $dynamic_html = '<ul class="dropdown-menu" aria-labelledby="navbarDropdown1"> ';
-                    // foreach ($menu_item->children as $item) {
-                    //     if (isset($item->pslug)) {
-                    //         $dynamic_html .= '<li><a class="dropdown-item" href="' . route('frontend.dynamic.' . strtolower($menu_item->pname), ['slug' => $item->pslug]) . '">' . $item->pname . '</a></li>';
-                    //     }
-                    // }
-                    // $dynamic_html .= '</ul>';
-                }
-                if ($dropdown) {
-                    $output .= '<div class="dropdown">
-                                    <button class="dropbtn">' . $menu_item->pname . '
-                                        <i class="fa fa-caret-down"></i>
-                                    </button>
-                                    ' . $dynamic_html . '
-                                </div';
-                    // $output .= ' <li class="nav-item dropdown"> 
-                    //                 <a class="nav-link dropdown-toggle" href="/' . $menu_item->pslug . '" id="navbarDropdown1" role="button" data-bs-toggle="dropdown" aria-expanded="false"> ' . $menu_item->pname . ' </a> 
-                    //                     ' . $dynamic_html . '
-                    //             </li>';
-                } else {
-                    $output .= ' <li class="nav-item">
-                                    <a class="nav-link" href="#">' . $menu_item->pname . '</a>
+                    // $links .= '<a href="' . $url . '" class="' . $active_class . '">' . $menu_item->pname . '</a>';
+                    $links .= ' <li class="nav-item nav_item list-group">
+                                    <a href="' . $url . '" class="nav_anchor ' . $active_class . '">' . $menu_item->pname . '</a>
                                 </li>';
                 }
             }
         }
+        $form_html = '  <form class="d-flex ms-auto search_form">
+                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
+                            <button class="btn btn-outline-primary" type="submit">Search</button>
+                        </form>';
+        if (auth()->check()) {
+            $route = auth()->guest() == 'admin' ? route('admin.home') : route('user.home');
+            $buttons_html = '<div class="ms-3 d-md-flex d-none">
+                                <div class="me-2"> 
+                                    <a class="fw-bold btn btn-jnm-primary px-lg-2 py-lg-1 fs-6" href="' . $route . '">Dashboard</a>
+                                </div>
+                                <div class=""> 
+                                    <a class="fw-bold btn btn-jnm-outline-primary px-lg-2 py-lg-1 fs-6" href="' . route("user.logout") . '" onclick="event.preventDefault();document.getElementById("userlogout-form").submit();">
+                                        <i class="fa-solid fa-power-off"></i>
+                                    </a>                                
+                                    <form id="userlogout-form" action="' . route("user.logout") . '" method="POST" style="display: none;">
+                                        @csrf
+                                    </form>
+                                </div>
+                            </div>';
+        } else {
+            $buttons_html = '<div class="ms-3 d-md-flex d-none">
+                                <div class="me-2"> 
+                                    <a class="fw-bold btn btn-jnm-outline-primary px-lg-2 py-lg-1 fs-6" href="' . route('user.login') . '">Login</a>
+                                </div>
+                                <div class=""> 
+                                    <a class="fw-bold btn btn-jnm-primary px-lg-2 py-lg-1 fs-6" href="' . route('user.register') . '">Register</a>
+                                </div>
+                            </div>';
+        }
+
+        $output = '<nav class="navbar navbar-expand-lg navbar-light bg-light flex-lg-column px-lg-5">
+                        <div class="d-lg-flex align-items-center w-100 topnav" id="myTopnav">
+                            ' . $img_html_1 . '
+                            <ul class="navbar-nav navbar_nav">
+                            ' . $links . '
+                            </ul>
+                            ' . $form_html . '
+                            ' . $buttons_html . '
+                            <a href="javascript:void(0);" class="fw-bold btn btn-jnm-secondary px-2 py-1 px-lg-3 py-lg-2 fs-6 d-block d-lg-none icon" onclick="NavBar()"><i class="fa-solid fa-bars"></i></a>
+                        </div>
+                        <div class="d-lg-flex align-items-center w-100 scrollview mobile_scroll_nav d-lg-flex px-lg-5" id="navbar">
+                            ' . $img_html_2 . '
+                            <ul class="navbar-nav navbar_nav">
+                            ' . $links . '
+                            </ul>
+                            ' . $form_html . '
+                            ' . $buttons_html . '
+                            <a href="javascript:void(0);" class="fw-bold btn btn-jnm-secondary px-2 py-1 px-lg-3 py-lg-2 fs-6 d-block d-lg-none icon" onclick="NavBar()"><i class="fa-solid fa-bars"></i></a>
+                        </div>
+                    </nav>';
         return $output;
     }
     private function get_attribute_string(array $li_attributes): string

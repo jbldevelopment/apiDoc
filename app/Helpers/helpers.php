@@ -2796,7 +2796,11 @@ function render_frontend_menu($id)
 function new_render_frontend_menu($id)
 {
     $instance = new \App\MenuBuilder\MenuBuilderFrontendRender();
-    return $instance->new_render_frrontend_panel_menu($id);
+    return $instance->new_render_frontend_panel_menu($id);
+}
+function new_render_frontend_footer()
+{
+    return new_render_contact_info_widget();
 }
 
 function get_product_variant_list_by_id($id)
@@ -2855,4 +2859,19 @@ function sendResponse($status = true, $message, $data, $status_code)
             'status_code' => $status_code,
         ]
     );
+}
+function reCaptcha_verification($request)
+{
+    // Verify reCAPTCHA v3 response
+    $recaptchaSecretKey = config('app.recaptcha_v3_secret_key');
+    $recaptchaResponse = $request->input('recaptchaResponse');
+
+    $recaptchaVerification = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=$recaptchaSecretKey&response=$recaptchaResponse");
+    $recaptchaResult = json_decode($recaptchaVerification);
+
+    if ($recaptchaResult->success && $recaptchaResult->action == 'submit' && $recaptchaResult->score >= 0.5) {
+        return true;
+    } else {
+        return false;
+    }
 }

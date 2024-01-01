@@ -68,9 +68,9 @@ class ApiCategoryController extends Controller
             $inserted = $api_list->save();
 
             if ($inserted) {
-                return sendResponse(true, 'Category Inserted Successfully!', [], 200);
+                return sendResponse(true, 'Category inserted successfully!', [], 200);
             } else {
-                return sendResponse(false, 'Failed To Insert Category!', [], 400);
+                return sendResponse(false, 'Failed To insert Category!', [], 400);
             }
         } catch (\Throwable $th) {
             return sendResponse(false, $th, [], 400);
@@ -86,7 +86,7 @@ class ApiCategoryController extends Controller
             ]);
         }
         return redirect()->back()->with([
-            'msg' => 'No Category Found',
+            'msg' => 'No category found',
             'type' => 'danger'
         ]);
     }
@@ -137,12 +137,12 @@ class ApiCategoryController extends Controller
                     $inserted = $api_details->update();
 
                     if ($inserted) {
-                        return sendResponse(true, 'Category Updated Successfully!', [], 200);
+                        return sendResponse(true, 'Category updated successfully!', [], 200);
                     } else {
-                        return sendResponse(false, 'Failed To Update Category!', [], 400);
+                        return sendResponse(false, 'Failed To update category!', [], 400);
                     }
                 }
-                return sendResponse(false, 'Category Not Found!', [], 400);
+                return sendResponse(false, 'Category not found!', [], 400);
             } catch (\Throwable $th) {
                 return sendResponse(false, $th, [], 400);
             }
@@ -159,18 +159,18 @@ class ApiCategoryController extends Controller
             $deleted = $api_details->update();
             if ($deleted) {
                 return redirect(route('category.list'))->with([
-                    'msg' => __('Category Deleted successfully!'),
+                    'msg' => __('Category deleted successfully!'),
                     'type' => 'success'
                 ]);
             } else {
                 return redirect(route('category.list'))->with([
-                    'msg' => __('Failed to Delete API!'),
+                    'msg' => __('Failed to delete API!'),
                     'type' => 'danger'
                 ]);
             }
         }
         return redirect(route('category.list'))->with([
-            'msg' => 'No Category Found',
+            'msg' => 'No category found',
             'type' => 'danger'
         ]);
     }
@@ -185,10 +185,10 @@ class ApiCategoryController extends Controller
                 if ($is_exists_api_details) {
                     $results = ApiCategory::whereIn('api_category_id', $ids)->update(['api_category_status' => $status]);
                     if ($results) {
-                        return sendResponse(true, 'Action Triggred Successfully!', $is_exists_api_details, 200);
+                        return sendResponse(true, 'Action triggred successfully!', $is_exists_api_details, 200);
                     }
                 }
-                return sendResponse(false, 'Failed To Triggred Action.', [], 400);
+                return sendResponse(false, 'Failed to triggred action.', [], 400);
             }
         } catch (\Throwable $th) {
             return sendResponse(false, $th, [], 400);

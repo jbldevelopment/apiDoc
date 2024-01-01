@@ -1,21 +1,21 @@
 @extends('backend.admin-master')
 @section('site-title')
-    {{__('Edit Leads')}}
+{{__('Edit Leads')}}
 @endsection
 @section('style')
-    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
-    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.18/css/dataTables.bootstrap4.min.css">
-    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/responsive/2.2.3/css/responsive.jqueryui.min.css">
-    <style>
-        .dataTables_wrapper .dataTables_paginate .paginate_button{
-            padding: 0 !important;
-        }
-        div.dataTables_wrapper div.dataTables_length select {
-            width: 60px;
-            display: inline-block;
-        }
-    </style>
+<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
+<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.18/css/dataTables.bootstrap4.min.css">
+<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/responsive/2.2.3/css/responsive.jqueryui.min.css">
+<style>
+    .dataTables_wrapper .dataTables_paginate .paginate_button{
+        padding: 0 !important;
+    }
+    div.dataTables_wrapper div.dataTables_length select {
+        width: 60px;
+        display: inline-block;
+    }
+</style>
 @endsection
 @section('content')
 <div class="col-lg-12 col-ml-12 padding-bottom-30">
@@ -34,8 +34,8 @@
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label for="lead_name">{{ __('Lead Name') }} <span class="text-danger">*</span></label>
-                                    <input type="hidden" name="lead_id" id="lead_id" value="{{$lead_details->lead_id}}" class="input-fields">
-                                    <input type="text" class="form-control input-fields" id="lead_name" value="{{$lead_details->lead_name}}" name="lead_name">
+                                    <input type="hidden" name="lead_id" id="lead_id" value="{{ $lead_details->lead_id }}" class="input-fields">
+                                    <input type="text" class="form-control input-fields" id="lead_name" value="{{ $lead_details->lead_name }}" name="lead_name">
                                     <small class="error_lead_name text-danger"></small>
                                 </div>
                             </div>
@@ -67,28 +67,28 @@
                             <div class="col-lg-4">
                                 <div class="form-group">
                                     <label for="lead_email">{{ __('Lead email') }} <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control input-fields" id="lead_email" value="{{$lead_details->lead_email}}" name="lead_email">
+                                    <input type="text" class="form-control input-fields" id="lead_email" value="{{ $lead_details->lead_email }}" name="lead_email">
                                     <small class="error_lead_email text-danger"></small>
                                 </div>
                             </div>
                             <div class="col-lg-4">
                                 <div class="form-group">
                                     <label for="lead_mobile">{{ __('Lead mobile') }} <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control input-fields" id="lead_mobile" value="{{$lead_details->lead_mobile}}" name="lead_mobile">
+                                    <input type="text" class="form-control input-fields" id="lead_mobile" value="{{ $lead_details->lead_mobile }}" name="lead_mobile">
                                     <small class="error_lead_mobile text-danger"></small>
                                 </div>
                             </div>
                             <div class="col-lg-4">
                                 <div class="form-group">
                                     <label for="lead_occupation">{{ __('Lead occupation') }} <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control input-fields" id="lead_occupation" value="{{$lead_details->lead_occupation}}" name="lead_occupation">
+                                    <input type="text" class="form-control input-fields" id="lead_occupation" value="{{ $lead_details->lead_occupation }}" name="lead_occupation">
                                     <small class="error_lead_occupation text-danger"></small>
                                 </div>
                             </div>
                             <div class="col-lg-4">
                                 <div class="form-group">
-                                        <button type="reset" class="btn btn-danger mt-4 pr-4 pl-4">Reset</button>
-                                        <button type="submit" class="btn btn-primary mt-4 pr-4 pl-4" id="submit-api-details">{{ __('Update Lead') }}</button>
+                                    <button type="reset" class="btn btn-danger mt-4 pr-4 pl-4">Reset</button>
+                                    <button type="submit" class="btn btn-primary mt-4 pr-4 pl-4" id="submit-api-details">{{ __('Update Lead') }}</button>
                                 </div>
                             </div>
                             <div class="col-lg-12 mt-3 border-top">
@@ -100,12 +100,12 @@
                                                     <input type="checkbox" class="all-checkbox">
                                                 </div>
                                             </th>
-                                            <th>{{__('Meta ID')}}</th>
-                                            <th>{{__('inquiry For')}} </th>
-                                            <th>{{__('FolllowUp Status')}}</th>
-                                            <th>{{__('Created At')}} </th>
-                                            <th>{{__('Last Status Updated At')}}</th>
-                                            <th>{{__('View')}}</th>
+                                            <th>{{ __('Meta ID') }}</th>
+                                            <th>{{ __('inquiry For') }} </th>
+                                            <th>{{ __('FolllowUp Status') }}</th>
+                                            <th>{{ __('Created At') }} </th>
+                                            <th>{{ __('Last Status Updated At') }}</th>
+                                            <th>{{ __('View') }}</th>
                                         </thead>
                                         <tbody>
                                             @foreach ($lead_meta as $key => $meta)
@@ -120,51 +120,53 @@
                                                     @php
                                                         $status = 'Pending';
                                                         $status_color = 'secondary';
-                                                        if (str_contains($meta->lead_intrest, 'CAT-')) {
-                                                            $new_intrest = str_replace('CAT-', '', $meta->lead_intrest);
-                                                            $lead_meta_intrest = App\ApiCategory::select('api_category_title')->where('api_category_id', $new_intrest)->first()->api_category_title;
-                                                        } else if(str_contains($meta->lead_intrest, 'API-')){
-                                                            $new_intrest = str_replace('API-', '', $meta->lead_intrest);
-                                                            $lead_meta_intrest = App\ApiCategory::select('api_category_title')->where('api_category_id', $new_intrest)->first()->api_category_title;
-                                                        }
-                                                        @endphp
-                                                        {{$lead_meta_intrest }}
+                                                    if (str_contains($meta->lead_intrest, 'CAT-')) {
+                                                        $new_intrest = str_replace('CAT-', '', $meta->lead_intrest);
+                                                        $lead_meta_intrest = App\ApiCategory::select('api_category_title')->where('api_category_id', $new_intrest)->first()->api_category_title;
+                                                    } elseif (str_contains($meta->lead_intrest, 'API-')) {
+                                                        $new_intrest = str_replace('API-', '', $meta->lead_intrest);
+                                                        $lead_meta_intrest = App\ApiList::select('api_title')->where('api_id', $new_intrest)->first()->api_title;
+                                                    }
+                                                    @endphp
+                                                    {{ $lead_meta_intrest }}
                                                 </th>
                                                 <th>
                                                     @php
-                                                        $status = 'Pending';
-                                                        $status_color = 'secondary';
-                                                        if($meta->lead_status == 1){
-                                                            $status_color = 'info';
-                                                            $status = 'Active';
-                                                        } else if($meta->lead_status == 2){
-                                                            $status_color = 'success';
-                                                            $status = 'Completed';
-                                                        } else if($meta->lead_status == 3){
-                                                            $status_color = 'warnign';
-                                                            $status = 'Canceled';
-                                                        } else if($meta->lead_status == 4){
-                                                            $status_color = 'danger';
-                                                            $status = 'Deleted';
-                                                        }
-                                                        
+                                                    $status = 'Pending';
+                                                    $status_color = 'secondary';
+                                                    if ($meta->lead_status == 1) {
+                                                        $status_color = 'info';
+                                                        $status = 'Active';
+                                                    } elseif ($meta->lead_status == 2) {
+                                                        $status_color = 'success';
+                                                        $status = 'Completed';
+                                                    } elseif ($meta->lead_status == 3) {
+                                                        $status_color = 'warnign';
+                                                        $status = 'Canceled';
+                                                    } elseif ($meta->lead_status == 4) {
+                                                        $status_color = 'danger';
+                                                        $status = 'Deleted';
+                                                    }
+
                                                     @endphp
-                                                    <div class="w-75 text-center border border-{{$status_color}} p-1 text-{{$status_color}}" target="_blank">
-                                                        <span>{{$status}}</span>
-                                                    </div>    
+                                                    <div class="w-75 text-center border border-{{ $status_color }} p-1 text-{{ $status_color }}" target="_blank">
+                                                        <span>{{ $status }}</span>
+                                                    </div>
                                                 </th>
                                                 <th>
-                                                    {{$meta->created_at->format('d M,Y H:i A')}}
+                                                    {{ $meta->created_at->format('d M,Y H:i A') }}
                                                 </th>
                                                 <th>
-                                                    {{$meta->updated_at->format('d M,Y H:i A')}}
+                                                    {{ $meta->updated_at->format('d M,Y H:i A') }}
                                                 </th>
                                                 <th>
-                                                    <a href="#" data-lead_meta_id="{{$meta->lead_meta_id}}" data-lead_intrest="{{$meta->lead_intrest}}" data-status="{{$meta->lead_status}}" data-toggle="modal" data-target="#lead_meta_edit_modal" class="btn btn-xs btn-primary btn-sm mb-3 mr-1 lead_meta_edit_btn">
-                                                        <i class="ti-pencil"></i>
-                                                    </a>
+                                                    @if($meta->lead_status != 2 &&  $meta->lead_status != 3 &&  $meta->lead_status != 4)
+                                                        <a href="#" data-lead_meta_id="{{ $meta->lead_meta_id }}" data-lead_intrest="{{ $meta->lead_intrest }}" data-status="{{ $meta->lead_status }}" data-toggle="modal" data-target="#lead_meta_edit_modal" class="btn btn-xs btn-primary btn-sm mb-3 mr-1 lead_meta_edit_btn">
+                                                            <i class="ti-pencil"></i>
+                                                        </a>
+                                                    @endif
                                                 </th>
-                                            </tr> 
+                                            </tr>
                                             @endforeach
                                         </tbody>
                                     </table>
@@ -181,7 +183,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">{{__('Lead Meta Edit')}}</h5>
+                <h5 class="modal-title">{{ __('Lead Meta Edit') }}</h5>
                 <button type="button" class="close" data-dismiss="modal"><span>×</span></button>
             </div>
             <form id="lead_meta_edit_modal_form" method="post" enctype="multipart/form-data">
@@ -195,10 +197,18 @@
                                 <select id="edit_lead_meta_intrest" name="edit_lead_meta_intrest" class="form-control input-fields">
                                     <option value="">{{ __('Please Select Status') }}</option>
                                     @php
-                                        $categoroy_array = App\ApiCategory::where('api_category_status', "!=", 2)->get();
+                                    $categoroy_array = App\ApiCategory::where('api_category_status', '!=', 2)->get();
+                                    $api_array = App\ApiList::where('api_status', '!=', 2)->get();
                                     @endphp
                                     @foreach ($categoroy_array as $key => $cat)
-                                        <option value="{{ 'CAT-' . __($cat->api_category_id) }}">{{ __($cat->api_category_title) }}</option>
+                                    <option value="{{ 'CAT-' . __($cat->api_category_id) }}">
+                                        {{ __($cat->api_category_title) }}
+                                    </option>
+                                    @endforeach
+                                    @foreach ($api_array as $key => $api)
+                                    <option value="{{ 'API-' . __($api->api_id) }}">
+                                        {{ __($api->api_title) }}
+                                    </option>
                                     @endforeach
                                 </select>
                                 <small class="error_edit_lead_meta_intrest text-danger"></small>
@@ -221,8 +231,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('Close')}}</button>
-                    <button type="submit" id="edit-technology" class="btn btn-primary">{{__('Save changes')}}</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('Close') }}</button>
+                    <button type="submit" id="edit-technology" class="btn btn-primary">{{ __('Save changes') }}</button>
                 </div>
             </form>
         </div>
@@ -231,111 +241,123 @@
 @endsection
 
 @section('script')
-    <!-- Start datatable js -->
-    <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
-    <script src="//cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>
-    <script src="//cdn.datatables.net/1.10.18/js/dataTables.bootstrap4.min.js"></script>
-    <script src="//cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
-    <script src="//cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap.min.js"></script>
-    <script>
-        $(document).ready(function() {
+<!-- Start datatable js -->
+<script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+<script src="//cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>
+<script src="//cdn.datatables.net/1.10.18/js/dataTables.bootstrap4.min.js"></script>
+<script src="//cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+<script src="//cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap.min.js"></script>
+<script>
+    $(document).ready(function() {
 
-            $(document).on('click', '.lead_meta_edit_btn', function() {
-                var el = $(this);
-                var form = $('#lead_meta_edit_modal_form');
-                var permission = el.data('permission');
-                form.find('#edit_lead_meta_id').val(el.data('lead_meta_id'));
-                form.find('#edit_lead_meta_intrest').val(el.data('lead_intrest'));
-                // form.find('#edit_lead_meta_intrest_name').val(el.data('intrest_name'));
-                form.find('#edit_lead_meta_status').val(el.data('status'));
+        $(document).on('click', '.lead_meta_edit_btn', function() {
+            var el = $(this);
+            var form = $('#lead_meta_edit_modal_form');
+            var permission = el.data('permission');
+            form.find('#edit_lead_meta_id').val(el.data('lead_meta_id'));
+            form.find('#edit_lead_meta_intrest').val(el.data('lead_intrest'));
+            // form.find('#edit_lead_meta_intrest_name').val(el.data('intrest_name'));
+            form.find('#edit_lead_meta_status').val(el.data('status'));
+        });
+
+        $(document).on('click', '#bulk_delete_btn', function(e) {
+            e.preventDefault();
+
+            var bulkOption = $('#bulk_option').val();
+            var allCheckbox = $('.bulk-checkbox:checked');
+            var allIds = [];
+            allCheckbox.each(function(index, value) {
+                allIds.push($(this).val());
             });
-            
-            $(document).on('click','#bulk_delete_btn',function (e) {
-                e.preventDefault();
-
-                var bulkOption = $('#bulk_option').val();
-                var allCheckbox =  $('.bulk-checkbox:checked');
-                var allIds = [];
-                allCheckbox.each(function(index,value){
-                    allIds.push($(this).val());
-                });
-                if(allIds != '' && bulkOption == 'delete'){
-                    $(this).text('{{__('Deleting...')}}');
-                    $.ajax({
-                        'type' : "POST",
-                        'url' : "{{route('admin.page.bulk.action')}}",
-                        'data' : {
-                            _token: "{{csrf_token()}}",
-                            ids: allIds
-                        },
-                        success:function (data) {
-                            location.reload();
-                        }
-                    });
-                }
-
-            });
-
-            $('.all-checkbox').on('change',function (e) {
-                e.preventDefault();
-                var value = $('.all-checkbox').is(':checked');
-                var allChek =$(this).parent().parent().parent().parent().parent().find('.bulk-checkbox');
-                if( value == true){
-                    allChek.prop('checked',true);
-                }else{
-                    allChek.prop('checked',false);
-                }
-            });
-
-            $('.table-wrap > table').DataTable({
-                "order": [[ 1, "asc" ]],
-                'columnDefs' : [{
-                    'targets' : 'no-sort',
-                    'orderable' : false
-                }]
-            });
-
-            $('#submit-api-details').click(function(e) {
-                e.preventDefault();
-                let submit_url = "{{ route('lead.update') }}";
-                var formData = {};
-                $('.input-fields').each(function (index, element) {
-                    formData[element.name] = element.value;
-                });
+            if (allIds != '' && bulkOption == 'delete') {
+                $(this).text('{{ __('
+                    Deleting...') }}');
                 $.ajax({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                    'type': "POST",
+                    'url': "{{ route('admin.page.bulk.action') }}",
+                    'data': {
+                        _token: "{{ csrf_token() }}",
+                        ids: allIds
                     },
-                    type: "post",
-                    url: submit_url,
-                    data: formData,
-                    dataType: "json",
-                    success: function (response) {
-                        if(response.success){
+                    success: function(data) {
+                        location.reload();
+                    }
+                });
+            }
+
+        });
+
+        $('.all-checkbox').on('change', function(e) {
+            e.preventDefault();
+            var value = $('.all-checkbox').is(':checked');
+            var allChek = $(this).parent().parent().parent().parent().parent().find('.bulk-checkbox');
+            if (value == true) {
+                allChek.prop('checked', true);
+            } else {
+                allChek.prop('checked', false);
+            }
+        });
+
+        $('.table-wrap > table').DataTable({
+            "order": [
+                [1, "asc"]
+            ],
+            'columnDefs': [{
+                'targets': 'no-sort',
+                'orderable': false
+            }]
+        });
+
+        $('#submit-api-details').click(function(e) {
+            e.preventDefault();
+            let submit_url = "{{ route('lead.update') }}";
+            var formData = {};
+            $('.input-fields').each(function(index, element) {
+                formData[element.name] = element.value;
+            });
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                },
+                type: "post",
+                url: submit_url,
+                data: formData,
+                dataType: "json",
+                success: function(response) {
+                    if (response.success) {
+                        Swal.fire({
+                            title: response.message,
+                            icon: 'success',
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                location.reload();
+                            }
+                        });
+                    } else {
+                        if (response.status_code == 410) {
+                            $.each(response.message, function(indexInArray,
+                                valueOfElement) {
+                                console.log(indexInArray, valueOfElement);
+                                $(`.error_${indexInArray}`).html(valueOfElement[0])
+                                    .fadeIn().delay(2000).fadeOut();
+                            });
+                        } else {
                             Swal.fire({
                                 title: response.message,
-                                icon: 'success',
+                                icon: 'error',
                             }).then((result) => {
                                 if (result.isConfirmed) {
                                     location.reload();
                                 }
                             });
-                        } else {
-                            if(response.status_code == 400){
-                                $.each(response.message, function (indexInArray, valueOfElement) { 
-                                    console.log(indexInArray, valueOfElement);
-                                    $(`.error_${indexInArray}`).html(valueOfElement[0]).fadeIn().delay(2000).fadeOut();
-                                });
-                            } else {
-                                location.reload();
-                            }
                         }
                     }
-                });
-
+                }
             });
 
-            $('#edit-technology').click(function(e) {
+        });
+
+        $('#edit-technology').click(function(e) {
             e.preventDefault();
             let submit_url = "{{ route('lead.meta.update') }}";
 
@@ -367,9 +389,22 @@
                             }
                         });
                     } else {
-                        if (response.status_code == 400) {
-                            $.each(response.message, function(indexInArray, valueOfElement) {
-                                $(`.error_edit_${indexInArray}`).html(valueOfElement[0]).fadeIn().delay(5000).fadeOut();
+                        if (response.status_code == 410) {
+                            $.each(response.message, function(indexInArray,
+                                valueOfElement) {
+                                $(`.error_edit_${indexInArray}`).html(
+                                        valueOfElement[0]).fadeIn().delay(5000)
+                                    .fadeOut();
+                            });
+                        
+                        } else {
+                            Swal.fire({
+                                title: response.message,
+                                icon: 'error',
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    location.reload();
+                                }
                             });
                         }
                     }
@@ -377,6 +412,6 @@
             });
 
         });
-        } );
-    </script>
+    });
+</script>
 @endsection

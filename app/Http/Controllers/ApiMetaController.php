@@ -36,7 +36,7 @@ class ApiMetaController extends Controller
             ]);
         }
         return redirect()->back()->with([
-            'msg' => 'No Api Found',
+            'msg' => 'No API found',
             'type' => 'danger'
         ]);
     }
@@ -54,7 +54,7 @@ class ApiMetaController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return sendResponse(false, $validator->errors(), $data, 400);
+            return sendResponse(false, $validator->errors(), $data, 410);
         }
         try {
             if (isset($data['api_meta_id']) && !empty($data['api_meta_id'])) {
@@ -72,11 +72,11 @@ class ApiMetaController extends Controller
                     $inserted = $api_details->update();
 
                     if ($inserted) {
-                        return sendResponse(true,  __('Meta Updated Successfully!'), [], 200);
+                        return sendResponse(true,  __('Meta updated successfully!'), [], 200);
                     } else {
-                        return sendResponse(false,  __('Failed To Update Meta!'), [], 400);
+                        return sendResponse(false,  __('Failed To update Meta!'), [], 400);
                     }
-                    return sendResponse(false,  __('Meta Not Found!'), [], 400);
+                    return sendResponse(false,  __('Meta not found!'), [], 400);
                 }
             } else {
                 // insert
@@ -93,9 +93,9 @@ class ApiMetaController extends Controller
 
                 if ($inserted) {
                     $inserted_id = $api_details->api_meta_id;
-                    return sendResponse(true,  __('Meta Inserted Successfully!'), ['inserted_id' => $inserted_id,], 200);
+                    return sendResponse(true,  __('Meta inserted successfully!'), ['inserted_id' => $inserted_id,], 200);
                 } else {
-                    return sendResponse(false,  __('Failed To Insert Meta!'), [], 400);
+                    return sendResponse(false,  __('Failed to insert meta!'), [], 400);
                 }
             }
         } catch (\Throwable $th) {
@@ -111,9 +111,9 @@ class ApiMetaController extends Controller
             $deleted = $api_details->update();
             // $deleted = $api_details->delete();
             if ($deleted) {
-                return sendResponse(true,  __('Meta Deleted Successfully!'), [], 200);
+                return sendResponse(true,  __('Meta deleted successfully!'), [], 200);
             } else {
-                return sendResponse(false,  __('Failed To Delete Meta!'), [], 400);
+                return sendResponse(false,  __('Failed To delete meta!'), [], 400);
             }
         }
     }

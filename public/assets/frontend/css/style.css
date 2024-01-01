@@ -4584,11 +4584,6 @@ ul.wp-block-latest-posts.is-grid.alignwide {
     cursor: pointer
 }
 
-.submit-btn:hover {
-    background-color: #fff;
-    color: var(--main-color-one)
-}
-
 .back-to-top {
     position: fixed;
     right: 90px;

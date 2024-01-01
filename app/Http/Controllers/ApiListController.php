@@ -49,7 +49,7 @@ class ApiListController extends Controller
 
 
         if ($validator->fails()) {
-            return sendResponse(false, $validator->errors(), $data, 400);
+            return sendResponse(false, $validator->errors(), $data, 410);
         }
 
         try {
@@ -90,7 +90,7 @@ class ApiListController extends Controller
             ]);
         }
         return redirect(route('api.list'))->with([
-            'msg' => 'No Api Found',
+            'msg' => 'No API found',
             'type' => 'danger'
         ]);
     }
@@ -109,7 +109,7 @@ class ApiListController extends Controller
             ]);
 
             if ($validator->fails()) {
-                return sendResponse(false, $validator->errors(), $data, 400);
+                return sendResponse(false, $validator->errors(), $data, 410);
             }
 
             try {
@@ -127,16 +127,16 @@ class ApiListController extends Controller
                     $inserted = $api_details->update();
 
                     if ($inserted) {
-                        return sendResponse(true, 'API Updated successfully!', [], 200);
+                        return sendResponse(true, 'API updated successfully!', [], 200);
                     } else {
-                        return sendResponse(false, 'Failed to Updated API.', [], 400);
+                        return sendResponse(false, 'Failed to updated API.', [], 400);
                     }
                 }
             } catch (\Throwable $th) {
                 return sendResponse(false, $th, [], 400);
             }
         }
-        return sendResponse(false, 'Failed to Updated APIs!', [], 400);
+        return sendResponse(false, 'Failed to updated API!', [], 400);
     }
 
     public function delete_api($id)
@@ -148,18 +148,18 @@ class ApiListController extends Controller
             $deleted = $api_details->update();
             if ($deleted) {
                 return redirect(route('api.list'))->with([
-                    'msg' => __('API Deleted successfully!'),
+                    'msg' => __('API deleted successfully!'),
                     'type' => 'success'
                 ]);
             } else {
                 return redirect()->back()->with([
-                    'msg' => __('Failed to Delete API!'),
+                    'msg' => __('Failed to delete API!'),
                     'type' => 'danger'
                 ]);
             }
         }
         return redirect(route('api.list'))->with([
-            'msg' => 'No Api Found',
+            'msg' => 'API not found',
             'type' => 'danger'
         ]);
     }
@@ -173,10 +173,10 @@ class ApiListController extends Controller
                 if ($is_exists_api_details) {
                     $results = ApiList::whereIn('api_id', $ids)->update(['api_status' => $status]);
                     if ($results) {
-                        return sendResponse(true, 'Action Triggred Successfully!', $is_exists_api_details, 200);
+                        return sendResponse(true, 'Action triggred successfully!', $is_exists_api_details, 200);
                     }
                 }
-                return sendResponse(false, 'Failed To Triggred Action.', [], 400);
+                return sendResponse(false, 'Failed to triggred action.', [], 400);
             }
         } catch (\Throwable $th) {
             return sendResponse(false, $th, [], 400);

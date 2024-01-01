@@ -28,7 +28,7 @@ class ApiCodeMetaController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return sendResponse(false, $validator->errors(), $data, 400);
+            return sendResponse(false, $validator->errors(), $data, 410);
         }
         try {
             if (isset($data['api_code_id']) && !empty($data['api_code_id'])) {
@@ -46,11 +46,11 @@ class ApiCodeMetaController extends Controller
                     $inserted = $api_details->update();
 
                     if ($inserted) {
-                        return sendResponse(true,  __('Code Details Updated Successfully!'), [], 200);
+                        return sendResponse(true,  __('Code details updated successfully!'), [], 200);
                     } else {
-                        return sendResponse(false,  __('Failed To Update Code Details!'), [], 400);
+                        return sendResponse(false,  __('Failed to update code details!'), [], 400);
                     }
-                    return sendResponse(false,  __('Code Details not found!'), [], 400);
+                    return sendResponse(false,  __('Code details not found!'), [], 400);
                 }
             } else {
                 // insert
@@ -66,9 +66,9 @@ class ApiCodeMetaController extends Controller
                 $inserted_id = $api_details->api_code_id;
 
                 if ($inserted) {
-                    return sendResponse(true,  __('Code Details Insert Successfully!'), ['inserted_id' => $inserted_id], 200);
+                    return sendResponse(true,  __('Code details insert successfully!'), ['inserted_id' => $inserted_id], 200);
                 } else {
-                    return sendResponse(false,  __('Failed To Insert Code Details!'), [], 400);
+                    return sendResponse(false,  __('Failed to insert code details!'), [], 400);
                 }
             }
         } catch (\Throwable $th) {
@@ -86,11 +86,11 @@ class ApiCodeMetaController extends Controller
             $deleted = $api_code_details->update();
             // $deleted = $api_code_details->delete();
             if ($deleted) {
-                return sendResponse(true,  __('Code Details Deleted Successfully!'), [], 200);
+                return sendResponse(true,  __('Code details deleted successfully!'), [], 200);
             } else {
-                return sendResponse(false,  __('Failed To Deleted Code Details!'), [], 400);
+                return sendResponse(false,  __('Failed To deleted code details!'), [], 400);
             }
-            return sendResponse(false,  __('Code Details not found!'), [], 400);
+            return sendResponse(false,  __('Code details not found!'), [], 400);
         }
     }
 }

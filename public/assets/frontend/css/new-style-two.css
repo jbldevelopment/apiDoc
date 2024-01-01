@@ -66,7 +66,7 @@
 /*NAVIGATION*/
 .topnav {
     overflow: hidden;
-    background-color: var(--white);
+    /* background-color: var(--white); */
 }
 
 .topnav a {
@@ -74,11 +74,28 @@
     display: block;
     color: #464646;
     text-align: center;
-    /* padding: 14px 16px; */
+    padding: 14px 16px;
     text-decoration: none;
     font-size: 16px;
     text-transform: uppercase;
     font-weight: 600;
+}
+
+.topnav .navbar_nav .nav_item .nav_anchor,
+#navbar .navbar_nav .nav_item .nav_anchor {
+    float: right;
+    display: block;
+    color: #464646;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 16px;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.search_form {
+    display: flex;
 }
 
 .topnav .dropdown,
@@ -107,8 +124,8 @@
 .topnav .icon {
     display: none;
     position: absolute;
-    right: 10px;
-    top: 40px;
+    right: 1rem;
+    top: 1rem;
 }
 
 .dropdown,
@@ -175,8 +192,7 @@
 }
 
 .topnav a:hover,
-.dropdown:hover .dropbtn,
-.sub-dropdown:hover .sub-dropbtn {
+.dropdown:hover .dropbtn {
     color: var(--primary);
 }
 
@@ -281,8 +297,8 @@
 
     .topnav.responsive .icon {
         position: absolute;
-        right: 0;
-        top: 0;
+        right: 1rem;
+        top: 1rem;
     }
 
     .topnav.responsive a {
@@ -347,6 +363,16 @@
         display: flex;
         justify-content: start;
         align-items: center;
+    }
+
+    .search_form,
+    .topnav .navbar_nav,
+    #navbar .navbar_nav {
+        display: none !important;
+    }
+
+    .responsive .navbar_nav {
+        display: block !important;
     }
 }
 

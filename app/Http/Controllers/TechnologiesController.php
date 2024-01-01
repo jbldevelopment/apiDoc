@@ -30,7 +30,7 @@ class TechnologiesController extends Controller
 
 
         if ($validator->fails()) {
-            return sendResponse(false, $validator->errors(), $data, 400);
+            return sendResponse(false, $validator->errors(), $data, 410);
         }
 
         try {
@@ -42,9 +42,9 @@ class TechnologiesController extends Controller
             $inserted = $api_list->save();
 
             if ($inserted) {
-                return sendResponse(true, 'Technology Inserted Successfully!', [], 200);
+                return sendResponse(true, 'Technology inserted successfully!', [], 200);
             } else {
-                return sendResponse(false, 'Failed To Insert technology.', [], 400);
+                return sendResponse(false, 'Failed To insert technology.', [], 400);
             }
         } catch (\Throwable $th) {
             return sendResponse(false, $th, [], 400);
@@ -63,7 +63,7 @@ class TechnologiesController extends Controller
 
 
             if ($validator->fails()) {
-                return sendResponse(false, $validator->errors(), $data, 400);
+                return sendResponse(false, $validator->errors(), $data, 410);
             }
             try {
                 $is_exists_technology = Technologies::where('technology_id', $data['technology_id'])->exists();
@@ -76,16 +76,16 @@ class TechnologiesController extends Controller
                     $inserted = $technology->update();
 
                     if ($inserted) {
-                        return sendResponse(true, 'Technology Updated Successfully!', [], 200);
+                        return sendResponse(true, 'Technology updated successfully!', [], 200);
                     } else {
-                        return sendResponse(false, 'Failed To Update technology.', [], 400);
+                        return sendResponse(false, 'Failed to update technology.', [], 400);
                     }
                 }
-                return sendResponse(false, 'Technology Not Found!', [], 400);
+                return sendResponse(false, 'Technology not found!', [], 400);
             } catch (\Throwable $th) {
                 return sendResponse(false, $th, [], 400);
             }
         }
-        return sendResponse(false, 'Failed To Update Techonlogy!', [], 400);
+        return sendResponse(false, 'Failed to update techonlogy!', [], 400);
     }
 }

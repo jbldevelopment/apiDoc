@@ -332,8 +332,11 @@ Route::group(['middleware' => ['setlang:frontend', 'globalVariable', 'maintains_
 Route::group(['middleware' => ['setlang:frontend', 'globalVariable', 'maintains_mode', 'HtmlMinifier']], function () {
 
     Route::get('/code-page', 'FrontendController@code_page')->name('code_page');
-    Route::get('/', 'FrontendController@index')->name('homepage');
+    Route::get('/', 'FrontendController@newIndex')->name('homepage');
+    Route::get('/all-apis', 'FrontendController@allApis')->name('all.apis');
+    Route::get('/support', 'FrontendController@support')->name('support.page');
     Route::get('/homes', 'FrontendController@new_index')->name('home.page');
+    Route::get('/odin-api', 'FrontendController@detailPage')->name('odin.api.detail');
 
     Route::post('/get-touch', 'FrontendFormController@get_touch')->name('frontend.get.touch');
     Route::post('/appointment-message', 'FrontendFormController@appointment_message')->name('frontend.appointment.message');
@@ -536,6 +539,7 @@ require_once __DIR__ . '/admin.php';
 -------------------------------------*/
 Route::group(['middleware' => ['setlang:frontend', 'globalVariable', 'HtmlMinifier']], function () {
     Route::get('/categories', 'FrontendController@api_cat_page')->name('frontend.list.category');
+    Route::get('/apis', 'FrontendController@api_list_page')->name('frontend.list.apis');
     Route::get('/{slug}', 'FrontendController@dynamic_single_page')->name('frontend.dynamic.page');
     Route::get('/doc/{slug}', 'FrontendController@dynamic_doc_page')->name('frontend.dynamic.doc');
     Route::get('/apis/{slug}', 'FrontendController@dynamic_doc_page')->name('frontend.dynamic.apis');

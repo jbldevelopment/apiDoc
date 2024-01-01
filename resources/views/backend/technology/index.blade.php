@@ -230,9 +230,19 @@
                             }
                         });
                     } else {
-                        if (response.status_code == 400) {
+                        if (response.status_code == 410) {
                             $.each(response.message, function(indexInArray, valueOfElement) {
                                 $(`.error_${indexInArray}`).html(valueOfElement[0]).fadeIn().delay(5000).fadeOut();
+                            });
+                        
+                        } else {
+                            Swal.fire({
+                                title: response.message,
+                                icon: 'error',
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    location.reload();
+                                }
                             });
                         }
                     }
@@ -278,9 +288,19 @@
                             }
                         });
                     } else {
-                        if (response.status_code == 400) {
+                        if (response.status_code == 410) {
                             $.each(response.message, function(indexInArray, valueOfElement) {
                                 $(`.error_edit_${indexInArray}`).html(valueOfElement[0]).fadeIn().delay(5000).fadeOut();
+                            });
+                        
+                        } else {
+                            Swal.fire({
+                                title: response.message,
+                                icon: 'error',
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    location.reload();
+                                }
                             });
                         }
                     }

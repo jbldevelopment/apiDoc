@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Lead;
 use App\LeadMeta;
 use App\LeadDump;
+use App\ApiList;
 use App\ApiCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -22,10 +23,14 @@ class LeadController extends Controller
         foreach ($lead_list as $lkey => $leads) {
             $lead_meta = LeadMeta::where('lead_id', $leads->lead_id)->orderBy('created_at', 'DESC')->limit(1)->get()->toArray();
             foreach ($lead_meta as $mkey => $meta) {
-                $lead_meta_intrest = '';
+                $lead_meta_intrest = 'ENQUIRY';
                 if (str_contains($meta['lead_intrest'], 'CAT-')) {
                     $new_intrest = str_replace('CAT-', '', $meta['lead_intrest']);
                     $lead_meta_intrest = ApiCategory::select('api_category_title')->where('api_category_id', $new_intrest)->first()->api_category_title;
+                }
+                if (str_contains($meta['lead_intrest'], 'API-')) {
+                    $new_intrest = str_replace('API-', '', $meta['lead_intrest']);
+                    $lead_meta_intrest = ApiList::select('api_title')->where('api_id', $new_intrest)->first()->api_title;
                 }
                 $lead_meta[$mkey]['intrest'] = $lead_meta_intrest;
             }
@@ -47,7 +52,7 @@ class LeadController extends Controller
             'lead_status' => 'required',
         ]);
         if ($validator->fails()) {
-            return sendResponse(false, $validator->errors(), $data, 400);
+            return sendResponse(false, $validator->errors(), $data, 410);
         }
         $lead_id =  $request->lead_id;
         try {
@@ -62,9 +67,9 @@ class LeadController extends Controller
                 $lead_exists->lead_verified = $request->lead_verified;
                 $result = $lead_exists->update();
                 if ($result) {
-                    return sendResponse(true, 'Lead Details Update Succesfully', [], 200);
+                    return sendResponse(true, 'Lead details update succesfully', [], 200);
                 }
-                return sendResponse(false, 'Failed To Update Lead Details.', [], 400);
+                return sendResponse(false, 'Failed to update lead details.', [], 400);
             }
             return sendResponse(false, 'Lead Not Found', [], 400);
         } catch (\Throwable $th) {
@@ -83,7 +88,7 @@ class LeadController extends Controller
             ]);
         }
         return redirect(route('leads'))->with([
-            'msg' => 'No Api Found',
+            'msg' => 'No API found',
             'type' => 'danger'
         ]);
     }

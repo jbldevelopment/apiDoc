@@ -15,6 +15,10 @@ return [
 
     'name' => env('APP_NAME', 'Laravel'),
 
+    // reCAPTCHA
+    'recaptcha_v3_secret_key' => env('RECAPTCHA_V3_SECRET_KEY'),
+    'recaptcha_v3_site_key' => env('RECAPTCHA_V3_SITE_KEY'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Environment
@@ -161,18 +165,19 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
+        Anhskohbo\NoCaptcha\NoCaptchaServiceProvider::class,
 
         /*
          * Package Service Providers...
          */
         // KingFlamez\Rave\RaveServiceProvider::class,
-        Anand\LaravelPaytmWallet\PaytmWalletServiceProvider::class,
+        // Anand\LaravelPaytmWallet\PaytmWalletServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
-        Unicodeveloper\Paystack\PaystackServiceProvider::class,
+        // Unicodeveloper\Paystack\PaystackServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
         SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
 
-        \Paytabscom\Laravel_paytabs\PaypageServiceProvider::class,
+        // \Paytabscom\Laravel_paytabs\PaypageServiceProvider::class,
         /*
          * Application Service Providers...
          */
@@ -245,7 +250,8 @@ return [
         'PaytmWallet' => Anand\LaravelPaytmWallet\Facades\PaytmWallet::class,
         'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class,
         "Purifier" =>  Mews\Purifier\Facades\Purifier::class,
-        'Socialite' => Laravel\Socialite\Facades\Socialite::class
+        'Socialite' => Laravel\Socialite\Facades\Socialite::class,
+        'NoCaptcha' => Anhskohbo\NoCaptcha\Facades\NoCaptcha::class
     ],
 
 ];

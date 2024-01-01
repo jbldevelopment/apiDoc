@@ -78,11 +78,25 @@
                                                 <span class="font-weight-bold">{{$intrest}}</span>
                                             </td>
                                             <td>
-                                                @if($data->lead_status === 1)
-                                                    <span class="alert alert-success p-1">{{__('Active')}}</span>
-                                                @else
-                                                    <span class="alert alert-danger p-1">{{__('Deactive')}}</span>
-                                                @endif
+                                                @php
+                                                        $status = 'Pending';
+                                                        $status_color = 'secondary';
+                                                        if($data->lead_status == 1){
+                                                            $status_color = 'info';
+                                                            $status = 'Active';
+                                                        } else if($data->lead_status == 2){
+                                                            $status_color = 'success';
+                                                            $status = 'Completed';
+                                                        } else if($data->lead_status == 3){
+                                                            $status_color = 'warnign';
+                                                            $status = 'Canceled';
+                                                        } else if($data->lead_status == 4){
+                                                            $status_color = 'danger';
+                                                            $status = 'Deleted';
+                                                        }
+                                                        
+                                                    @endphp
+                                                    <span class="badge badge-{{$status_color}} p-1">{{__($status)}}</span>
                                             </td>
                                             <td>{{$data->created_at->format('d M,Y H:i A')}} <br> {{$data->updated_at->format('d M,Y H:i A')}}</td>
                                             <td>
