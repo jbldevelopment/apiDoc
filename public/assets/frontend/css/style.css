@@ -4584,11 +4584,6 @@ ul.wp-block-latest-posts.is-grid.alignwide {
     cursor: pointer
 }
 
-.submit-btn:hover {
-    background-color: #fff;
-    color: var(--main-color-one)
-}
-
 .back-to-top {
     position: fixed;
     right: 90px;
@@ -5967,16 +5962,24 @@ ul.wp-block-latest-posts.is-grid.alignwide {
     border: 1px solid #e5e5e5
 }
 
-.single-what-we-cover-item-02:hover .content {
-    background-color: var(--main-color-one)
+.single-what-we-cover-item-02 {
+    background-color: #fff;
 }
 
+.single-what-we-cover-item-02:hover {
+    background-color: var(--main-color-one);
+}
+
+/* .single-what-we-cover-item-02:hover .content {
+    background-color: var(--main-color-one);
+} */
+
 .single-what-we-cover-item-02:hover .content .title {
-    color: #fff
+    color: #fff;
 }
 
 .single-what-we-cover-item-02:hover .content p {
-    color: #fff
+    color: #fff;
 }
 
 .single-what-we-cover-item-02 .icon-02,

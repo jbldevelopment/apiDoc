@@ -1,7 +1,6 @@
 @include('frontend.partials.homesupportbar')
 @include('frontend.partials.navbar')
-<div class="header-slider-one global-carousel-init" data-loop="true" data-desktopitem="1" data-mobileitem="1"
-    data-tabletitem="1" data-nav="true" data-autoplay="true" data-margin="0">
+<div class="header-slider-one global-carousel-init" data-loop="true" data-desktopitem="1" data-mobileitem="1" data-tabletitem="1" data-nav="true" data-autoplay="true" data-margin="0">
     @foreach ($all_header_slider as $data)
         <div class="header-area style-04 header-bg-04" {!! render_background_image_markup_by_attachment_id($data->image) !!}>
             <div class="container">
@@ -149,9 +148,7 @@
     </section>
 @endif
 @if (!empty(filter_static_option_value('home_page_service_section_status', $static_field_data)))
-    <section class="what-we-cover bg-image padding-top-110 padding-bottom-90" {!! render_background_image_markup_by_attachment_id(
-        filter_static_option_value('home_page_01_service_area_background_image', $static_field_data),
-    ) !!}>
+    <section class="what-we-cover bg-image padding-top-110 padding-bottom-90" {!! render_background_image_markup_by_attachment_id(filter_static_option_value('home_page_01_service_area_background_image', $static_field_data),) !!}>
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-8">

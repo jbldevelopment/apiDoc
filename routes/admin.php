@@ -17,6 +17,7 @@ Route::prefix('admin-home')->middleware(['setlang:backend'])->group(function () 
         Route::get('/edit-api/{slug}', 'ApiListController@edit_api')->name('api.edit');
         Route::post('/update-api', 'ApiListController@update_api')->name('api.update');
         Route::post('/delete-api/{id}', 'ApiListController@delete_api')->name('api.delete');
+        Route::post('/bulk-action', 'ApiListController@bulk_api_action')->name('api.bulk.action');
     });
     Route::prefix('apicategory')->middleware(['adminPermissionCheck:Category Manage', 'moduleCheck:product_module_status'])->group(function () {
         Route::get('/', 'ApiCategoryController@index')->name('category.list');
@@ -25,18 +26,35 @@ Route::prefix('admin-home')->middleware(['setlang:backend'])->group(function () 
         Route::get('/edit-category/{slug}', 'ApiCategoryController@edit_category')->name('category.edit');
         Route::post('/update-category', 'ApiCategoryController@update_category')->name('category.update');
         Route::post('/delete-category/{id}', 'ApiCategoryController@delete_category')->name('category.delete');
+        Route::post('/bulk-action', 'ApiCategoryController@bulk_category_action')->name('category.bulk.action');
     });
     Route::prefix('apimeta')->middleware(['adminPermissionCheck:Api Meta Manage', 'moduleCheck:product_module_status'])->group(function () {
         Route::get('/new-api-meta/{slug}', 'ApiMetaController@create_api_meta')->name('api.meta.create');
         Route::post('/add-api-meta', 'ApiMetaController@add_api_meta')->name('api.meta.add');
+        Route::get('/delete/{id}', 'ApiMetaController@delete_api_meta')->name('api.meta.delete');
     });
     Route::prefix('apicode')->middleware(['adminPermissionCheck:Api Meta Manage', 'moduleCheck:product_module_status'])->group(function () {
         Route::post('/add-api-code', 'ApiCodeMetaController@add_api_code')->name('api.code.add');
+        Route::get('/delete/{id}', 'ApiCodeMetaController@delete_api_meta_code')->name('api.code.delete');
+    });
+    Route::prefix('leads')->middleware(['adminPermissionCheck:Lead Manage', 'moduleCheck:product_module_status'])->group(function () {
+        Route::get('/', 'LeadController@index')->name('leads');
+        Route::get('/edit-lead/{id}', 'LeadController@edit_lead')->name('lead.edit');
+        Route::post('/update-lead', 'LeadController@update_lead')->name('lead.update');
+    });
+    Route::prefix('leadsmeta')->middleware(['adminPermissionCheck:Lead Manage', 'moduleCheck:product_module_status'])->group(function () {
+        Route::post('/update-lead-meta', 'LeadMetaController@update_lead_meta')->name('lead.meta.update');
     });
     Route::prefix('apitechnology')->middleware(['adminPermissionCheck:Category Manage', 'moduleCheck:product_module_status'])->group(function () {
         Route::get('/', 'TechnologiesController@index')->name('techonlogy.list');
         Route::post('/add-techonlogy', 'TechnologiesController@add_techonlogy')->name('techonlogy.add');
         Route::post('/edit-techonlogy', 'TechnologiesController@edit_techonlogy')->name('techonlogy.edit');
+    });
+    Route::prefix('apipackage')->middleware(['adminPermissionCheck:Apis Package Manage', 'moduleCheck:product_module_status'])->group(function () {
+        Route::get('/{slug}', 'ApiPlanController@index')->name('api.plan.list');
+        Route::post('/add-api-package', 'ApiPlanController@add_api_package')->name('api.package.add');
+        Route::post('/edit-api-package', 'ApiPlanController@edit_api_package')->name('api.package.edit');
+        Route::post('/delete-api-package/{id}', 'ApiPlanController@delete_api_package')->name('api.package.delete');
     });
 
     /* --------------------------

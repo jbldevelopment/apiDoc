@@ -43,13 +43,13 @@ class ApiListController extends Controller
             'api_slug' => 'required|unique:api_lists',
             'api_status' => 'required|in:0,1',
             'api_type' => 'required|in:0,1',
-            'api_category' => 'required|in:0,1,2,3,4',
+            'api_category' => 'required',
             'api_order' => 'required|numeric',
         ]);
 
 
         if ($validator->fails()) {
-            return sendResponse(false, $validator->errors(), $data, 400);
+            return sendResponse(false, $validator->errors(), $data, 410);
         }
 
         try {
@@ -65,24 +65,16 @@ class ApiListController extends Controller
             $inserted = $api_list->save();
 
             if ($inserted) {
-                // return sendResponse(true, 'APi inserted successfully!', [], 200);
-                return redirect()->back()->with([
-                    'msg' => __('API inserted successfully!'),
-                    'type' => 'success'
-                ]);
+                return sendResponse(true, 'API inserted successfully!', [], 200);
             } else {
-                // return sendResponse(false, 'Failed to insert APi.', [], 400);
-                return redirect(route('api.list'))->with([
-                    'msg' => __('Failed to insert API!'),
-                    'type' => 'danger'
-                ]);
+                return sendResponse(false, 'Failed to insert API.', [], 400);
             }
         } catch (\Throwable $th) {
-            return redirect(route('api.list'))->with([
-                'msg' => $th,
-                'type' => 'danger'
-            ]);
-            // return sendResponse(false, $th, [], 400);
+            // return redirect(route('api.list'))->with([
+            //     'msg' => $th,
+            //     'type' => 'danger'
+            // ]);
+            return sendResponse(false, $th, [], 400);
         }
     }
 
@@ -98,7 +90,7 @@ class ApiListController extends Controller
             ]);
         }
         return redirect(route('api.list'))->with([
-            'msg' => 'No Api Found',
+            'msg' => 'No API found',
             'type' => 'danger'
         ]);
     }
@@ -112,12 +104,12 @@ class ApiListController extends Controller
                 'api_slug' => 'required',
                 'api_status' => 'required|in:0,1',
                 'api_type' => 'required|in:0,1',
-                'api_category' => 'required|in:0,1,2,3,4',
+                'api_category' => 'required',
                 'api_order' => 'required|numeric',
             ]);
 
             if ($validator->fails()) {
-                return sendResponse(false, $validator->errors(), $data, 400);
+                return sendResponse(false, $validator->errors(), $data, 410);
             }
 
             try {
@@ -135,32 +127,16 @@ class ApiListController extends Controller
                     $inserted = $api_details->update();
 
                     if ($inserted) {
-                        return redirect(route('api.list'))->with([
-                            'msg' => __('API updated successfully!'),
-                            'type' => 'success'
-                        ]);
+                        return sendResponse(true, 'API updated successfully!', [], 200);
                     } else {
-                        return redirect()->back()->with([
-                            'msg' => __('Failed to insert API!'),
-                            'type' => 'danger'
-                        ]);
+                        return sendResponse(false, 'Failed to updated API.', [], 400);
                     }
                 }
-                return redirect(route('api.list'))->with([
-                    'msg' => __('API not found!'),
-                    'type' => 'danger'
-                ]);
             } catch (\Throwable $th) {
-                return redirect(route('api.list'))->with([
-                    'msg' => $th,
-                    'type' => 'danger'
-                ]);
+                return sendResponse(false, $th, [], 400);
             }
         }
-        return redirect(route('api.list'))->with([
-            'msg' => __('Failed to insert API!'),
-            'type' => 'danger'
-        ]);
+        return sendResponse(false, 'Failed to updated API!', [], 400);
     }
 
     public function delete_api($id)
@@ -172,19 +148,38 @@ class ApiListController extends Controller
             $deleted = $api_details->update();
             if ($deleted) {
                 return redirect(route('api.list'))->with([
-                    'msg' => __('API Deleted successfully!'),
+                    'msg' => __('API deleted successfully!'),
                     'type' => 'success'
                 ]);
             } else {
                 return redirect()->back()->with([
-                    'msg' => __('Failed to Delete API!'),
+                    'msg' => __('Failed to delete API!'),
                     'type' => 'danger'
                 ]);
             }
         }
         return redirect(route('api.list'))->with([
-            'msg' => 'No Api Found',
+            'msg' => 'API not found',
             'type' => 'danger'
         ]);
+    }
+    public function bulk_api_action(Request $request)
+    {
+        try {
+            if (isset($request->ids) && !empty(isset($request->ids))) {
+                $ids = $request->ids;
+                $status = $request->action;
+                $is_exists_api_details = ApiList::whereIn('api_id', $ids)->exists();
+                if ($is_exists_api_details) {
+                    $results = ApiList::whereIn('api_id', $ids)->update(['api_status' => $status]);
+                    if ($results) {
+                        return sendResponse(true, 'Action triggred successfully!', $is_exists_api_details, 200);
+                    }
+                }
+                return sendResponse(false, 'Failed to triggred action.', [], 400);
+            }
+        } catch (\Throwable $th) {
+            return sendResponse(false, $th, [], 400);
+        }
     }
 }

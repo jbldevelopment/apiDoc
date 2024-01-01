@@ -21,58 +21,71 @@
                     <div class="header-wrap d-flex justify-content-between">
                         <h4 class="header-title">{{ __('Edit Api : ') }}<span id="code_title">{{ $api_details->api_title }}</span></h4>
                     </div>
-                    <form action="{{ route('api.update') }}" method="post" enctype="multipart/form-data">
+                    <form id="api_details" enctype="multipart/form-data">
                         @csrf
                         <div class="row">
                             <div class="col-lg-8">
                                 <div class="form-group">
-                                    <label for="title">{{ __('Title') }}</label>
-                                    <input type="hidden" name="api_id" value="{{$api_details->api_id}}">
-                                    <input type="text" class="form-control title-input" data-title-id="#code_title" data-slug-id="#api_slug" id="api_title" value="{{$api_details->api_title}}" name="api_title" placeholder="{{ __('Title') }}">
+                                    <label for="title">{{ __('Title') }} <span class="text-danger">*</span></label>
+                                    <input type="hidden" name="api_id" id="api_id" value="{{$api_details->api_id}}" class="input-fields">
+                                    <input type="text" class="form-control input-fields title-input" data-title-id="#code_title" data-slug-id="#api_slug" id="api_title" value="{{$api_details->api_title}}" name="api_title" placeholder="{{ __('Title') }}">
+                                    <small class="error_api_title text-danger"></small>
                                 </div>
                                 <div class="form-group">
-                                    <label>{{__('Content')}}</label>
-                                    <input type="hidden" name="api_description" value="{{$api_details->api_description}}">
+                                    <label>{{__('Content')}} <span class="text-danger">*</span></label>
+                                    <input type="hidden" name="api_description" value="{{$api_details->api_description}}" class="input-fields">
                                     <div class="summernote" data-content='{{$api_details->api_description}}'></div>
+                                    <small class="error_api_description text-danger"></small>
                                 </div>
                             </div>
                             <div class="col-lg-4">
                                 <div class="form-group">
-                                    <label for="slug">{{ __('Slug') }}</label>
-                                    <input type="text" class="form-control" id="api_slug" value="{{$api_details->api_slug}}" name="api_slug" placeholder="{{ __('slug') }}">
+                                    <label for="slug">{{ __('Slug') }} <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control input-fields" id="api_slug" value="{{$api_details->api_slug}}" name="api_slug" placeholder="{{ __('slug') }}">
+                                    <small class="error_api_slug text-danger"></small>
                                 </div>
                                 <div class="form-group">
-                                    <label>{{ __('Status') }}</label>
-                                    <select name="api_status" id="api_status" class="form-control">
+                                    <label>{{ __('Status') }} <span class="text-danger">*</span></label>
+                                    <select name="api_status" id="api_status" class="form-control input-fields">
+                                        <option value="">{{ __('Please Select Status') }}</option>
                                         <option {{ ($api_details->api_status == 0) ? "selected" : "" }} value="0">{{ __('Deactive') }}</option>
                                         <option {{ ($api_details->api_status == 1) ? "selected" : "" }} value="1">{{ __('Active') }}</option>
                                     </select>
+                                    <small class="error_api_status text-danger"></small>
                                 </div>
                                 <div class="form-group">
-                                    <label>{{ __('Type') }}</label>
-                                    <select id="api_type" name="api_type" class="form-control">
+                                    <label>{{ __('Type') }} <span class="text-danger">*</span></label>
+                                    <select id="api_type" name="api_type" class="form-control input-fields">
+                                        <option value="">{{ __('Please Select Type') }}</option>
                                         <option {{ ($api_details->api_type == 1) ? "selected" : "" }} value="1">{{ __('Paid') }}</option>
                                         <option {{ ($api_details->api_type == 0) ? "selected" : "" }} value="0">{{ __('Free') }}</option>
                                     </select>
+                                    <small class="error_api_type text-danger"></small>
                                 </div>
                                 <div class="form-group">
-                                    <label>{{ __('Category') }}</label>
-                                    <select id="api_category" name="api_category" class="form-control">
+                                    <label>{{ __('Category') }} <span class="text-danger">*</span></label>
+                                    <select id="api_category" name="api_category" class="form-control input-fields">
                                         <option>{{ __('Please Select Category') }}</option>
                                         @foreach ($active_category as $item)
                                             <option {{ ($api_details->api_category == $item->api_category_id) ? "selected" : "" }} value="{{$item->api_category_id}}">{{$item->api_category_title}}</option>
                                         @endforeach
                                     </select>
+                                    <small class="error_api_category text-danger"></small>
                                 </div>
                                 <div class="form-group">
-                                    <label for="title">{{ __('Order') }}</label>
-                                    <input type="number" class="form-control" id="api_order" value="{{$api_details->api_order}}" name="api_order" placeholder="{{ __('Ex: 1,2,3..') }}">
+                                    <label for="title">{{ __('Order') }} <span class="text-danger">*</span></label>
+                                    <input type="number" class="form-control input-fields" id="api_order" value="{{$api_details->api_order}}" name="api_order" placeholder="{{ __('Ex: 1,2,3..') }}">
+                                    <small class="error_api_order text-danger"></small>
                                 </div>
                                 <div class="form-group">
                                     <label for="title">{{ __('Source Code Link') }}</label>
-                                    <input type="text" class="form-control" id="api_link" value="{{$api_details->api_link}}" name="api_link" placeholder="{{ __('https://github.com/') }}">
+                                    <input type="text" class="form-control input-fields" id="api_link" value="{{$api_details->api_link}}" name="api_link" placeholder="{{ __('https://github.com/') }}">
+                                    <small class="error_api_link text-danger"></small>
                                 </div>
-                                <button type="submit" class="btn btn-primary mt-4 pr-4 pl-4">{{ __('Update Changes') }}</button>
+                                <div class="d-flex justify-content-between">
+                                    <button type="reset" class="btn btn-danger mt-4 pr-4 pl-4">Reset</button>
+                                    <button type="submit" id="submit-api-details" class="btn btn-primary mt-4 pr-4 pl-4">{{ __('Update Changes') }}</button>
+                                </div>
                             </div>
                         </div>
                     </form>
@@ -88,6 +101,9 @@
     <x-backend.auto-slug-js :url="route('admin.page.slug.check')" :type="'update'"/>
     <script>
         $(document).ready(function () {
+            $("form").submit(function(e){
+                e.preventDefault();
+            });
             $('.summernote').summernote({
                 height: 400,   //set editable area's height
                 codemirror: { // codemirror options
@@ -104,6 +120,46 @@
                     $(this).summernote('code', $(this).data('content'));
                 });
             }
+            $('#submit-api-details').click(function(e) {
+                e.preventDefault();
+                let submit_url = "{{ route('api.update') }}";
+
+                var formData = {};
+                $('.input-fields').each(function (index, element) {
+                    formData[element.name] = element.value;
+                });
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                    },
+                    type: "post",
+                    url: submit_url,
+                    data: formData,
+                    dataType: "json",
+                    success: function (response) {
+                        if(response.success){
+                            Swal.fire({
+                                title: response.message,
+                                icon: 'success',
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    location.replace("{{route('api.list')}}");
+                                }
+                            });
+                        } else {
+                            if(response.status_code == 400){
+                                $.each(response.message, function (indexInArray, valueOfElement) { 
+                                    console.log(indexInArray, valueOfElement);
+                                    $(`.error_${indexInArray}`).html(valueOfElement[0]).fadeIn().delay(2000).fadeOut();
+                                });
+                            } else {
+                                location.replace("{{route('api.list')}}");
+                            }
+                        }
+                    }
+                });
+
+            });
         });
     </script>
     <script src="{{asset('assets/backend/js/dropzone.js')}}"></script>

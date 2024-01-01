@@ -36,6 +36,11 @@ use App\TeamMember;
 use App\Testimonial;
 use App\Works;
 use App\User;
+use App\ApiList;
+use App\Lead;
+use App\LeadMeta;
+use Carbon\Carbon;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -73,23 +78,29 @@ class AdminDashboardController extends Controller
         $total_Faq = Faq::where('lang', $default_lang)->count();
         $total_brand = Brand::all()->count();
         $total_product_order = \App\ProductOrder::all()->count();
-        $total_donated_log = DonationLogs::where('status','complete')->count();
-        $total_event_attendance = EventAttendance::where('status','complete')->count();
+        $total_donated_log = DonationLogs::where('status', 'complete')->count();
+        $total_event_attendance = EventAttendance::where('status', 'complete')->count();
 
         $total_courses = Course::count();
-        $total_courses_enroll = CourseEnroll::where('payment_status' ,'complete')->count();
-        
+        $total_courses_enroll = CourseEnroll::where('payment_status', 'complete')->count();
+
         $total_appointments = Appointment::count();
-        $total_appointment_booking = AppointmentBooking::where('payment_status' ,'complete')->count();
-        
-         
+        $total_appointment_booking = AppointmentBooking::where('payment_status', 'complete')->count();
+
+
         //recent 5 order of product order
-        $product_recent_order = \App\ProductOrder::orderBy('id','desc')->take(5)->get();
-        $package_recent_order = Order::orderBy('id','desc')->take(5)->get();
-        $event_attendance_recent_order = EventAttendance::orderBy('id','desc')->take(5)->get();
-        $donation_recent = DonationLogs::orderBy('id','desc')->take(5)->get();
+        $product_recent_order = \App\ProductOrder::orderBy('id', 'desc')->take(5)->get();
+        $package_recent_order = Order::orderBy('id', 'desc')->take(5)->get();
+        $event_attendance_recent_order = EventAttendance::orderBy('id', 'desc')->take(5)->get();
+        $donation_recent = DonationLogs::orderBy('id', 'desc')->take(5)->get();
 
         $this->update_script_info();
+        $today = Carbon::today();
+        $apiList = ApiList::where('api_status', 1)->limit(10)->get();
+        $Leads = LeadMeta::select('lead_metas.*', 'leads.*', 'lead_metas.lead_status as lead_meta_status')->Join('leads', 'lead_metas.lead_id', '=', 'leads.lead_id')
+            ->orderBy('lead_metas.created_at', 'DESC')
+            ->limit(10)
+            ->get();
 
         return view('backend.admin-home')->with([
             'blog_count' => $all_blogs,
@@ -112,18 +123,21 @@ class AdminDashboardController extends Controller
             'total_courses_enroll' => $total_courses_enroll,
             'total_appointments' => $total_appointments,
             'total_appointment_booking' => $total_appointment_booking,
+            'apiList' => $apiList,
+            'Leads' => $Leads,
         ]);
     }
-    
-    private function update_script_info(){
-        update_static_option('site_install_path',url('/'));
-        update_static_option('site_admin_path',route('admin.home'));
-        update_static_option('site_frontend_path',route('homepage'));
+
+    private function update_script_info()
+    {
+        update_static_option('site_install_path', url('/'));
+        update_static_option('site_admin_path', route('admin.home'));
+        update_static_option('site_frontend_path', route('homepage'));
         \Illuminate\Support\Facades\Cache::forget('site_script_version');
         setEnvValue([
             'XGENIOUS_NEXELIT_VERSION' => get_static_option('site_script_version')
         ]);
-        update_static_option('site_script_unique_key',getenv('XGENIOUS_API_KEY'));
+        update_static_option('site_script_unique_key', getenv('XGENIOUS_API_KEY'));
     }
 
     public function admin_settings()
@@ -233,7 +247,7 @@ class AdminDashboardController extends Controller
                 'blog_page_' . $lang->slug . '_recent_post_widget_title',
                 'blog_page_' . $lang->slug . '_recent_post_widget_item'
             ];
-            foreach ($fields as $field){
+            foreach ($fields as $field) {
                 update_static_option($field, $request->$field);
             }
         }
@@ -259,17 +273,17 @@ class AdminDashboardController extends Controller
 
     public function admin_set_static_option(Request $request)
     {
-        $this->validate($request,[
-           'static_option' => 'required|string',
-           'static_option_value' => 'required|string',
+        $this->validate($request, [
+            'static_option' => 'required|string',
+            'static_option_value' => 'required|string',
         ]);
-        set_static_option($request->static_option,$request->static_option_value);
+        set_static_option($request->static_option, $request->static_option_value);
         return 'ok';
     }
 
     public function admin_get_static_option(Request $request)
     {
-        $this->validate($request,[
+        $this->validate($request, [
             'static_option' => 'required|string'
         ]);
         $data = get_static_option($request->static_option);
@@ -278,23 +292,26 @@ class AdminDashboardController extends Controller
 
     public function admin_update_static_option(Request $request)
     {
-        $this->validate($request,[
+        $this->validate($request, [
             'static_option' => 'required|string',
             'static_option_value' => 'required|string',
         ]);
-        update_static_option($request->static_option,$request->static_option_value);
+        update_static_option($request->static_option, $request->static_option_value);
         return 'ok';
     }
 
-    public function navbar_settings(){
+    public function navbar_settings()
+    {
         return view('backend.pages.navbar-settings');
     }
-    public function breadcrumb_settings(){
+    public function breadcrumb_settings()
+    {
         return view('backend.pages.breadcrumb-settings');
     }
 
-    public function update_breadcrumb_settings(Request $request){
-        $this->validate($request,[
+    public function update_breadcrumb_settings(Request $request)
+    {
+        $this->validate($request, [
             'site_breadcrumb_bg' => 'nullable'
         ]);
 
@@ -308,24 +325,26 @@ class AdminDashboardController extends Controller
             'breadcrumb_padding_bottom',
         ];
 
-        foreach($fields as $field){
-            update_static_option($field,$request->$field);
+        foreach ($fields as $field) {
+            update_static_option($field, $request->$field);
         }
 
         return redirect()->back()->with(NexelitHelpers::item_update());
     }
 
-    public function update_navbar_settings(Request $request){
-        $this->validate($request,[
+    public function update_navbar_settings(Request $request)
+    {
+        $this->validate($request, [
             'navbar_variant' => 'required'
         ]);
-        update_static_option('navbar_variant',$request->navbar_variant);
-        update_static_option('navbar_search_icon_status',$request->navbar_search_icon_status);
+        update_static_option('navbar_variant', $request->navbar_variant);
+        update_static_option('navbar_search_icon_status', $request->navbar_search_icon_status);
         return redirect()->back()->with(NexelitHelpers::item_update());
     }
 
-    public function update_navbar_color_settings(Request $request){
-        $this->validate($request,[
+    public function update_navbar_color_settings(Request $request)
+    {
+        $this->validate($request, [
             'navbar_background_color' => 'nullable|string|max:191',
             'navbar_text_color' => 'nullable|string|max:191',
             'navbar_text_hover_color' => 'nullable|string|max:191',
@@ -375,18 +394,20 @@ class AdminDashboardController extends Controller
             'topbar_info_icon_color',
             'navbar_search_icon_status',
         ];
-        foreach ($fields as $field){
-            update_static_option($field,$request->$field);
+        foreach ($fields as $field) {
+            update_static_option($field, $request->$field);
         }
         return redirect()->back()->with(NexelitHelpers::item_update());
     }
 
-    public function footer_settings(){
+    public function footer_settings()
+    {
         return view('backend.pages.footer-color-settings');
     }
 
-    public function update_footer_settings(Request $request){
-        $this->validate($request,[
+    public function update_footer_settings(Request $request)
+    {
+        $this->validate($request, [
             'footer_widget_title_color' => 'nullable|string|max:191',
             'footer_widget_text_color' => 'nullable|string|max:191',
             'footer_widget_text_hover_color' => 'nullable|string|max:191',
@@ -405,12 +426,9 @@ class AdminDashboardController extends Controller
             'footer_copyright_area_text_color',
             'footer_background_color',
         ];
-        foreach ($fields as $field){
-            update_static_option($field,$request->$field);
+        foreach ($fields as $field) {
+            update_static_option($field, $request->$field);
         }
         return redirect()->back()->with(NexelitHelpers::item_update());
     }
-
 }
-
-

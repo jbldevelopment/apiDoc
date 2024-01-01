@@ -1,0 +1,519 @@
+/* X-Small devices (portrait phones, less than 576px) */
+/* No media query for `xs` since this is the default in Bootstrap */
+
+/* Phone Style Css */
+.title {
+    font-size: var(--fs-20);
+}
+
+.subTitle {
+    font-size: var(--fs-12);
+}
+
+.offer-box .title {
+    font-size: var(--fs-32);
+    font-weight: 600;
+    color: var(--color22);
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.choose-api.title{
+    font-size: var(--fs-36);
+    font-weight: 600;
+    color: var(--color23);
+    text-align: center;
+}
+
+.support-language.title{
+    font-size: var(--fs-36);
+    font-weight: 600;
+    color: var(--color22);
+    text-align: center;
+}
+
+.support-language.sub-title{
+    font-size: var(--fs-14);
+    font-weight: 500;
+    color: var(--color9);
+    text-align: center;
+}
+
+.choose-title{
+    font-size: var(--fs-20);
+    font-weight: 600;
+    color: var(--color22);
+}
+
+.choose-sub-title{
+    font-size: var(--fs-12);
+    font-weight: 400;
+    color: var(--color23);
+}
+
+.language-text{
+    font-size: var(--fs-24);
+    font-weight: 600;
+    color: var(--color24);
+}
+
+.feature-title{
+    font-size: var(--fs-20);
+    font-weight: 700;
+    color: var(--color3);
+}
+
+.feature-sub-title{
+    font-size: var(--fs-16);
+    font-weight: 400;
+    color: var(--color24);
+}
+
+.detail-nav-link {
+    font-size: var(--fs-16);
+    font-weight: 500;
+    color: var(--color20) !important;
+}
+
+.detail-nav-link:hover,
+.detail-nav-link.active {
+    font-weight: 600 !important;
+    color: var(--color22) !important;
+}
+
+.about-text {
+    font-size: var(--fs-16);
+    font-weight: 400;
+    color: var(--color7) !important;
+    text-align: justify;
+
+}
+
+.offer-box {
+    border: 1px solid var(--color21) !important;
+    border-radius: 10px;
+}
+
+.width-80 {
+    font-size: var(--fs-18);
+    font-weight: 500;
+    color: var(--color23) !important;
+}
+
+.api-box{
+    background-color: var(--defualt-white);
+    border-radius: 10px;
+}
+
+.tech-border-end.mobile-tech{
+    border-right: 1px solid var(--color25);
+}
+
+.tech-border-end.tab-tech{
+    border-right: 1px solid var(--color25);
+}
+
+.month-text{
+    font-size: var(--fs-12);
+    font-weight: 500;
+}
+
+.price-text{
+    font-size: var(--fs-20);
+    font-weight: 700;
+    color: #FFF !important;
+}
+
+.terms-condition{
+    font-size: var(--fs-14);
+    font-weight: 500;
+    color: var(--color8) !important;
+}
+
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) {
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+    .title {
+        font-size: var(--fs-32);
+    }
+    
+    .subTitle {
+        font-size: var(--fs-18);
+    }
+    
+    .offer-box .title {
+        font-size: var(--fs-32);
+        font-weight: 600;
+        color: var(--color22);
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+    
+    .choose-api.title{
+        font-size: var(--fs-36);
+        font-weight: 600;
+        color: var(--color23);
+        text-align: center;
+    }
+    
+    .support-language.title{
+        font-size: var(--fs-36);
+        font-weight: 600;
+        color: var(--color22);
+        text-align: center;
+    }
+    
+    .support-language.sub-title{
+        font-size: var(--fs-14);
+        font-weight: 500;
+        color: var(--color9);
+        text-align: center;
+    }
+    
+    .choose-title{
+        font-size: var(--fs-20);
+        font-weight: 600;
+        color: var(--color22);
+    }
+    
+    .choose-sub-title{
+        font-size: var(--fs-12);
+        font-weight: 400;
+        color: var(--color23);
+    }
+    
+    .language-text{
+        font-size: var(--fs-24);
+        font-weight: 600;
+        color: var(--color24);
+    }
+    
+    .feature-title{
+        font-size: var(--fs-20);
+        font-weight: 700;
+        color: var(--color3);
+    }
+    
+    .feature-sub-title{
+        font-size: var(--fs-16);
+        font-weight: 400;
+        color: var(--color24);
+    }
+    
+    .detail-nav-link {
+        font-size: var(--fs-16);
+        font-weight: 500;
+        color: var(--color20) !important;
+    }
+    
+    .detail-nav-link:hover,
+    .detail-nav-link.active {
+        font-weight: 600 !important;
+        color: var(--color22) !important;
+    }
+    
+    .about-text {
+        font-size: var(--fs-16);
+        font-weight: 400;
+        color: var(--color7) !important;
+        text-align: justify;
+    
+    }
+    
+    .offer-box {
+        border: 1px solid var(--color21) !important;
+        border-radius: 10px;
+    }
+    
+    .width-80 {
+        font-size: var(--fs-18);
+        font-weight: 500;
+        color: var(--color23) !important;
+    }
+    
+    .api-box{
+        background-color: var(--defualt-white);
+        border-radius: 10px;
+    }
+    
+    .tech-border-end.mobile-tech{
+        border-right: 1px solid var(--color25);
+    }
+
+    .month-text{
+        font-size: var(--fs-16);
+        font-weight: 500;
+    }
+    
+    .price-text{
+        font-size: var(--fs-24);
+        font-weight: 700;
+        color: #FFF !important;
+    }
+
+    .terms-condition{
+        font-size: var(--fs-16);
+        font-weight: 500;
+        color: var(--color8) !important;
+    }
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+    .title {
+        font-size: var(--fs-44);
+    }
+
+    .subTitle {
+        font-size: var(--fs-16);
+    }
+
+    .offer-box .title {
+        font-size: var(--fs-36);
+        font-weight: 600;
+        color: var(--color22);
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+
+    .choose-api.title{
+        font-size: var(--fs-36);
+        font-weight: 600;
+        color: var(--color23);
+        text-align: center;
+    }
+
+    .support-language.title{
+        font-size: var(--fs-36);
+        font-weight: 600;
+        color: var(--color22);
+        text-align: center;
+    }
+
+    .support-language.sub-title{
+        font-size: var(--fs-14);
+        font-weight: 500;
+        color: var(--color9);
+        text-align: center;
+    }
+
+    .choose-title{
+        font-size: var(--fs-20);
+        font-weight: 600;
+        color: var(--color22);
+    }
+
+    .choose-sub-title{
+        font-size: var(--fs-12);
+        font-weight: 400;
+        color: var(--color23);
+    }
+
+    .language-text{
+        font-size: var(--fs-24);
+        font-weight: 600;
+        color: var(--color24);
+    }
+
+    .feature-title{
+        font-size: var(--fs-20);
+        font-weight: 700;
+        color: var(--color3);
+    }
+
+    .feature-sub-title{
+        font-size: var(--fs-16);
+        font-weight: 400;
+        color: var(--color24);
+    }
+
+    .detail-nav-link {
+        font-size: var(--fs-16);
+        font-weight: 500;
+        color: var(--color20) !important;
+    }
+    
+    .detail-nav-link:hover,
+    .detail-nav-link.active {
+        font-weight: 600 !important;
+        color: var(--color22) !important;
+    }
+    
+    .about-text {
+        font-size: var(--fs-16);
+        font-weight: 400;
+        color: var(--color7) !important;
+        text-align: justify;
+    
+    }
+    
+    .offer-box {
+        border: 1px solid var(--color21) !important;
+        border-radius: 10px;
+    }
+    
+    .width-80 {
+        font-size: var(--fs-18);
+        font-weight: 500;
+        color: var(--color23) !important;
+    }
+    
+    .api-box{
+        background-color: var(--defualt-white);
+        border-radius: 10px;
+    }
+
+    .tech-border-end{
+        border-right: 1px solid var(--color25);
+    }
+
+    .month-text{
+        font-size: var(--fs-16);
+        font-weight: 500;
+    }
+    
+    .price-text{
+        font-size: var(--fs-24);
+        font-weight: 700;
+        color: #FFF !important;
+    }
+
+    .terms-condition{
+        font-size: var(--fs-16);
+        font-weight: 500;
+        color: var(--color8) !important;
+    }
+}
+
+/* X-Large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+    .title {
+        font-size: var(--fs-44);
+    }
+
+    .subTitle {
+        font-size: var(--fs-16);
+    }
+
+    .offer-box .title {
+        font-size: var(--fs-36);
+        font-weight: 600;
+        color: var(--color22);
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+
+    .choose-api.title{
+        font-size: var(--fs-36);
+        font-weight: 600;
+        color: var(--color23);
+        text-align: center;
+    }
+
+    .support-language.title{
+        font-size: var(--fs-36);
+        font-weight: 600;
+        color: var(--color22);
+        text-align: center;
+    }
+
+    .support-language.sub-title{
+        font-size: var(--fs-14);
+        font-weight: 500;
+        color: var(--color9);
+        text-align: center;
+    }
+
+    .choose-title{
+        font-size: var(--fs-20);
+        font-weight: 600;
+        color: var(--color22);
+    }
+
+    .choose-sub-title{
+        font-size: var(--fs-12);
+        font-weight: 400;
+        color: var(--color23);
+    }
+
+    .language-text{
+        font-size: var(--fs-24);
+        font-weight: 600;
+        color: var(--color24);
+    }
+
+    .feature-title{
+        font-size: var(--fs-20);
+        font-weight: 700;
+        color: var(--color3);
+    }
+
+    .feature-sub-title{
+        font-size: var(--fs-16);
+        font-weight: 400;
+        color: var(--color24);
+    }
+
+    .detail-nav-link {
+        font-size: var(--fs-16);
+        font-weight: 500;
+        color: var(--color20) !important;
+    }
+    
+    .detail-nav-link:hover,
+    .detail-nav-link.active {
+        font-weight: 600 !important;
+        color: var(--color22) !important;
+    }
+    
+    .about-text {
+        font-size: var(--fs-16);
+        font-weight: 400;
+        color: var(--color7) !important;
+        text-align: justify;
+    
+    }
+    
+    .offer-box {
+        border: 1px solid var(--color21) !important;
+        border-radius: 10px;
+    }
+    
+    .width-80 {
+        font-size: var(--fs-18);
+        font-weight: 500;
+        color: var(--color23) !important;
+    }
+    
+    .api-box{
+        background-color: var(--defualt-white);
+        border-radius: 10px;
+    }
+
+    .tech-border-end{
+        border-right: 1px solid var(--color25);
+    }
+
+    .month-text{
+        font-size: var(--fs-16);
+        font-weight: 500;
+    }
+    
+    .price-text{
+        font-size: var(--fs-24);
+        font-weight: 700;
+        color: #FFF !important;
+    }
+
+    .terms-condition{
+        font-size: var(--fs-16);
+        font-weight: 500;
+        color: var(--color8) !important;
+    }
+}
+
+/* XX-Large devices (larger desktops, 1400px and up) */
+@media (min-width: 1400px) {}

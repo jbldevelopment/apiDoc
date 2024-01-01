@@ -1,0 +1,144 @@
+.bg-hero-section-img {
+    background-image: url(../img/home/hero-section.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.rectangle-box {
+    height: 80px;
+    width: 80px;
+    background: var(--color4);
+    z-index: 999;
+}
+
+.rectangle-circle {
+    position: absolute;
+    border-radius: 50%;
+    height: 10px;
+    width: 10px;
+    background: var(--color4);
+    z-index: 999;
+    left: 40%;
+}
+
+.vertical-tb {
+    border-left: 2px solid var(--color4);
+    position: absolute;
+    left: 45%;
+    top: 55%;
+}
+
+.vertical-bt {
+    border-left: 2px solid var(--color4);
+    position: absolute;
+    left: 45%;
+    bottom: 55%;
+}
+
+.vertical-nobox {
+    border-left: 2px solid var(--color4);
+    height: 100%;
+    position: absolute;
+    left: 45%;
+}
+
+.horizontal-ltr {
+    border-top: 2px solid var(--color4);
+    width: 100%;
+    position: absolute;
+    left: 50%;
+    bottom: 50%;
+}
+
+.horizontal-nobox {
+    border-top: 2px solid var(--color4);
+    width: 100%;
+    position: absolute;
+    left: 1rem;
+    bottom: 50%;
+}
+
+.horizontal-rtl {
+    border-top: 2px solid var(--color4);
+    width: 10rem;
+    position: absolute;
+    right: 50%;
+    bottom: 50%;
+    /* margin-left: -3px; */
+}
+
+.faq-accordion-item {
+    border: 2px solid var(--color1) !important;
+    border-radius: 0.5rem;
+}
+
+.faq-accordion-item .faq-accordion-button {
+    color: var(--color1) !important;
+}
+
+.faq-accordion-item .faq-accordion-button:not(.collapsed) {
+    background-color: var(--transparent);
+    border-color: var(--transparent);
+    box-shadow: var(--transparent);
+}
+
+.faq-accordion-item .faq-accordion-button:focus {
+    box-shadow: unset !important;
+}
+
+.faq-accordion-item .faq-accordion-button::after {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%232B948F'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e")
+}
+
+
+@media (min-width: 0px) and (max-width: 767.98px) {
+
+    .vertical-tb,
+    .vertical-bt {
+        height: 25rem;
+    }
+
+    .vertical-tb {
+        top: 0%;
+    }
+
+    .vertical-bt {
+        bottom: 0%;
+    }
+
+    .vertical-nobox {
+        height: 25rem;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 991.98px) {
+
+    .vertical-tb,
+    .vertical-bt {
+        height: 10rem;
+    }
+}
+
+@media (min-width: 992px) and (max-width: 1199.98px) {
+
+    .vertical-tb,
+    .vertical-bt {
+        height: 10rem;
+    }
+}
+
+@media (min-width: 1200px) and (max-width: 1399.98px) {
+
+    .vertical-tb,
+    .vertical-bt {
+        height: 10rem;
+    }
+}
+
+@media (min-width: 1400px) {
+
+    .vertical-tb,
+    .vertical-bt {
+        height: 10rem;
+    }
+}

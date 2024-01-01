@@ -5,12 +5,12 @@
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>
-        {{get_static_option('site_'.get_user_lang().'_title')}} -
-        @if(request()->path() == 'admin-home')
+        jainam {{get_static_option('site_'.get_user_lang().'_title')}} -
+        {{-- @if(request()->path() == 'admin-home')
             {{get_static_option('site_'.get_user_lang().'_tag_line')}}
-        @else
+        @else --}}
             @yield('site-title')
-        @endif
+        {{-- @endif --}}
     </title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -241,6 +241,11 @@
                 let slug = title.toLowerCase().replace(/[^a-zA-Z0-9]+/g, '-');
                 $(slug_id).val(slug);
             }
+        });
+
+        $('body').on('input', 'input[type="number"]', function() {
+            // Allow only numeric input (0-9) and backspace/delete key
+            $(this).val($(this).val().replace(/[^0-9]/g, ''));
         });
 
     })(jQuery);

@@ -12,6 +12,8 @@ use App\MediaUpload;
 use App\Page;
 use Illuminate\Support\Facades\Session;
 
+use App\ApiCategory;
+use App\ApiList;
 
 function active_menu($url)
 {
@@ -2746,6 +2748,30 @@ function render_pages_list($lang = null)
     $instance = new \App\MenuBuilder\MenuBuilderHelpers();
     return $instance->get_static_pages_list($lang);
 }
+function render_categories_list($lang = null)
+{
+    $categories = ApiCategory::where('api_category_status', 1)->orderBy('api_category_order')->get();
+    $html = "";
+    foreach ($categories as $key => $category) {
+        $html .= "<li data-ptype='api_category' data-pslug='" . $category->api_category_slug . "' data-proute='" . route('frontend.dynamic.category', ['slug' => $category->api_category_slug]) . "' data-purl='category/" . $category->api_category_slug . "' data-pname='$category->api_category_title'>
+                    <label class='menu-item-title'>
+                    <input type='checkbox' class='menu-item-checkbox'> $category->api_category_title</label>
+                </li>";
+    }
+    return $html;
+}
+function render_apis_list($lang = null)
+{
+    $categories = ApiList::where('api_status', 1)->orderBy('api_order')->get();
+    $html = "";
+    foreach ($categories as $key => $category) {
+        $html .= "<li data-ptype='api_product' data-pslug='" . $category->api_slug . "' data-proute='" . route('frontend.dynamic.doc', ['slug' => $category->api_slug]) . "' data-purl='doc/" . $category->api_slug . "' data-pname='$category->api_title'>
+                    <label class='menu-item-title'>
+                    <input type='checkbox' class='menu-item-checkbox'> $category->api_title</label>
+                </li>";
+    }
+    return $html;
+}
 function render_dynamic_pages_list($lang = null)
 {
     $instance = new \App\MenuBuilder\MenuBuilderHelpers();
@@ -2766,6 +2792,15 @@ function render_frontend_menu($id)
 {
     $instance = new \App\MenuBuilder\MenuBuilderFrontendRender();
     return $instance->render_frrontend_panel_menu($id);
+}
+function new_render_frontend_menu($id)
+{
+    $instance = new \App\MenuBuilder\MenuBuilderFrontendRender();
+    return $instance->new_render_frontend_panel_menu($id);
+}
+function new_render_frontend_footer()
+{
+    return new_render_contact_info_widget();
 }
 
 function get_product_variant_list_by_id($id)
@@ -2814,14 +2849,29 @@ function array_flatten($array)
     return $result;
 }
 
-function sendResponse($status = true, $message, $data, $staus_code)
+function sendResponse($status = true, $message, $data, $status_code)
 {
     return response()->json(
         [
             'success' => $status,
             'message' => $message,
             'data' => $data,
-            'staus_code' => $staus_code,
+            'status_code' => $status_code,
         ]
     );
+}
+function reCaptcha_verification($request)
+{
+    // Verify reCAPTCHA v3 response
+    $recaptchaSecretKey = config('app.recaptcha_v3_secret_key');
+    $recaptchaResponse = $request->input('recaptchaResponse');
+
+    $recaptchaVerification = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=$recaptchaSecretKey&response=$recaptchaResponse");
+    $recaptchaResult = json_decode($recaptchaVerification);
+
+    if ($recaptchaResult->success && $recaptchaResult->action == 'submit' && $recaptchaResult->score >= 0.5) {
+        return true;
+    } else {
+        return false;
+    }
 }

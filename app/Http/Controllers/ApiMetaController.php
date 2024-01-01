@@ -21,13 +21,13 @@ class ApiMetaController extends Controller
         $is_exists_api_details = ApiList::where('api_slug', $slug)->exists();
         if ($is_exists_api_details) {
             $api_details = ApiList::where('api_slug', $slug)->first();
-            $technlogies = Technologies::where('technolgy_status', 1)->orderBy('technolgy_order')->get();
-            $api_meta_list = ApiMeta::where('api_id', $api_details->api_id)->orderBy('api_meta_order')->get();
+            $technlogies = Technologies::where('technology_status', 1)->orderBy('technology_order')->get();
+            $api_meta_list = ApiMeta::where('api_id', $api_details->api_id)->where('api_meta_status', '!=', 2)->orderBy('api_meta_order')->get();
             $meta_array = [];
             foreach ($api_meta_list as $key => $value) {
                 $meta_array[] = $value->api_meta_id;
             }
-            $api_code_meta_list = ApiCodeMeta::whereIn('api_meta_id', $meta_array)->orderBy('api_code_order')->orderBy('api_technology')->get();
+            $api_code_meta_list = ApiCodeMeta::whereIn('api_meta_id', $meta_array)->where('api_code_status', '!=', 2)->orderBy('api_meta_id')->orderBy('api_code_order')->orderBy('api_technology')->get();
             return view('backend.apis.meta.edit')->with([
                 'api_details' => $api_details,
                 'api_meta_list' => $api_meta_list,
@@ -36,7 +36,7 @@ class ApiMetaController extends Controller
             ]);
         }
         return redirect()->back()->with([
-            'msg' => 'No Api Found',
+            'msg' => 'No API found',
             'type' => 'danger'
         ]);
     }
@@ -54,7 +54,7 @@ class ApiMetaController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return sendResponse(false, $validator->errors(), $data, 400);
+            return sendResponse(false, $validator->errors(), $data, 410);
         }
         try {
             if (isset($data['api_meta_id']) && !empty($data['api_meta_id'])) {
@@ -72,11 +72,11 @@ class ApiMetaController extends Controller
                     $inserted = $api_details->update();
 
                     if ($inserted) {
-                        return sendResponse($status = true,  __('API updated successfully!'), [], 200);
+                        return sendResponse(true,  __('Meta updated successfully!'), [], 200);
                     } else {
-                        return sendResponse($status = false,  __('Failed to insert API!'), [], 400);
+                        return sendResponse(false,  __('Failed To update Meta!'), [], 400);
                     }
-                    return sendResponse($status = false,  __('API not found!'), [], 400);
+                    return sendResponse(false,  __('Meta not found!'), [], 400);
                 }
             } else {
                 // insert
@@ -92,13 +92,29 @@ class ApiMetaController extends Controller
                 $inserted = $api_details->save();
 
                 if ($inserted) {
-                    return sendResponse($status = true,  __('API updated successfully!'), [], 200);
+                    $inserted_id = $api_details->api_meta_id;
+                    return sendResponse(true,  __('Meta inserted successfully!'), ['inserted_id' => $inserted_id,], 200);
                 } else {
-                    return sendResponse($status = false,  __('Failed to insert API!'), [], 400);
+                    return sendResponse(false,  __('Failed to insert meta!'), [], 400);
                 }
             }
         } catch (\Throwable $th) {
-            return sendResponse($status = false,  $th, [], 400);
+            return sendResponse(false,  $th, [], 400);
+        }
+    }
+    public function delete_api_meta($id)
+    {
+        $is_exists_api_details = ApiMeta::where('api_meta_id', $id)->exists();
+        if ($is_exists_api_details) {
+            $api_details = ApiMeta::where('api_meta_id', $id)->first();
+            $api_details->api_meta_status = 2;
+            $deleted = $api_details->update();
+            // $deleted = $api_details->delete();
+            if ($deleted) {
+                return sendResponse(true,  __('Meta deleted successfully!'), [], 200);
+            } else {
+                return sendResponse(false,  __('Failed To delete meta!'), [], 400);
+            }
         }
     }
 }

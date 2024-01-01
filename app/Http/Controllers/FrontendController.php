@@ -79,6 +79,7 @@ use App\ApiCategory;
 use App\ApiMeta;
 use App\ApiCodeMeta;
 use App\Technologies;
+use App\ApiPlan;
 
 class FrontendController extends Controller
 {
@@ -88,6 +89,26 @@ class FrontendController extends Controller
         return view('frontend.code-page');
     }
     public function index()
+    {
+        $categories = ApiCategory::where('api_category_status', 1)->orderBy('api_category_order')->get();
+        $apis = ApiList::where('api_status', 1)
+            ->join('api_categories', 'api_lists.api_category', '=', 'api_categories.api_category_id')
+            ->inRandomOrder(6)->get();
+        return view('frontend.new-frontend-home', compact('categories', 'apis'));
+    }
+    public function newIndex()
+    {
+        return view('frontend.static-pages.new-frontend-home');
+    }
+    public function allApis()
+    {
+        return view('frontend.static-pages.new-frontend-all-apis');
+    }
+    public function detailPage()
+    {
+        return view('frontend.static-pages.new-frontend-api-details');
+    }
+    public function new_index()
     {
         $home_page_variant = get_home_variant();
         $lang = LanguageHelper::user_lang_slug();
@@ -1883,14 +1904,16 @@ class FrontendController extends Controller
         $is_exists_api_details = ApiList::where('api_slug', $slug)->exists();
         if ($is_exists_api_details) {
             $api_details = ApiList::where('api_slug', $slug)->first();
-            $technlogies = Technologies::where('technolgy_status', 1)->orderBy('technolgy_order')->get();
+            $technlogies = Technologies::where('technology_status', 1)->orderBy('technology_order')->get();
             $api_meta_list = ApiMeta::where('api_id', $api_details->api_id)
                 ->where('api_meta_status', 1)
                 ->orderBy('api_meta_order', 'asc')
                 ->get();
+            $all_package = ApiPlan::where('api_id', $api_details->api_id)->where('api_plane_status', 1)->get();
             $meta_array = [];
             foreach ($api_meta_list as $key => $value) {
                 $meta_array[] = $value->api_meta_id;
+                $value->code_metas = ApiCodeMeta::where('api_meta_id', $value->api_meta_id)->where('api_code_status', 1)->orderBy('api_code_order')->orderBy('api_technology')->get()->toArray();
             }
             $api_code_meta_list = ApiCodeMeta::whereIn('api_meta_id', $meta_array)->where('api_code_status', 1)->orderBy('api_code_order')->orderBy('api_technology')->get();
             return view('frontend.code-page')->with([
@@ -1898,20 +1921,73 @@ class FrontendController extends Controller
                 'api_meta_list' => $api_meta_list,
                 'api_code_meta_list' => $api_code_meta_list,
                 'technlogies' => $technlogies,
+                'all_package' => $all_package,
             ]);
         }
         return redirect()->back()->with([
             'msg' => 'No Api Found',
             'type' => 'danger'
+        ]);
+    }
+    public function test_dynamic_doc_page($slug)
+    {
+        $is_exists_api_details = ApiList::where('api_slug', $slug)->exists();
+        if ($is_exists_api_details) {
+            $api_details = ApiList::where('api_slug', $slug)->first();
+            $technlogies = Technologies::where('technology_status', 1)->orderBy('technology_order')->get();
+            $api_meta_list = ApiMeta::where('api_id', $api_details->api_id)
+                ->where('api_meta_status', 1)
+                ->orderBy('api_meta_order', 'asc')
+                ->get();
+            $all_package = ApiPlan::where('api_id', $api_details->api_id)->where('api_plane_status', 1)->get();
+            $meta_array = [];
+            foreach ($api_meta_list as $key => $value) {
+                $meta_array[] = $value->api_meta_id;
+                $value->code_metas = ApiCodeMeta::where('api_meta_id', $value->api_meta_id)->where('api_code_status', 1)->orderBy('api_code_order')->orderBy('api_technology')->get()->toArray();
+            }
+            $api_code_meta_list = ApiCodeMeta::whereIn('api_meta_id', $meta_array)->where('api_code_status', 1)->orderBy('api_code_order')->orderBy('api_technology')->get();
+            // dd($api_meta_list);
+            return view('frontend.code-page-new')->with([
+                'api_details' => $api_details,
+                'api_meta_list' => $api_meta_list,
+                'api_code_meta_list' => $api_code_meta_list,
+                'technlogies' => $technlogies,
+                'all_package' => $all_package,
+            ]);
+        }
+        return redirect()->back()->with([
+            'msg' => 'No Api Found',
+            'type' => 'danger'
+        ]);
+    }
+    public function api_cat_page()
+    {
+        $api_category_list = ApiCategory::where('api_category_status', 1)->orderBy('api_category_order')->limit(6)->get();
+        return view('frontend.pages.category.new-category-page')->with([
+            'api_category_list' => $api_category_list,
+        ]);
+    }
+    public function api_list_page()
+    {
+        $api_category_list = ApiCategory::where('api_category_status', 1)->orderBy('api_category_order')->limit(6)->get();
+        foreach ($api_category_list as $key => $value) {
+            $value->cat_apis = ApiList::where('api_status', 1)->where('api_category', $value->api_category_id)->get()->toArray();
+        }
+        return view('frontend.pages.apis.new-api-list-page')->with([
+            'api_category_list' => $api_category_list,
         ]);
     }
     public function dynamic_cat_page($slug)
     {
-        $is_exists_api_details = ApiCategory::where('api_category_slug', $slug)->exists();
-        if ($is_exists_api_details) {
-            $api_details = ApiCategory::where('api_category_slug', $slug)->first();
-            return view('frontend.code-page')->with([
-                'api_details' => $api_details,
+        $is_exists_api_category_details = ApiCategory::where('api_category_slug', $slug)->exists();
+        if ($is_exists_api_category_details) {
+            $api_category_details = ApiCategory::where('api_category_slug', $slug)->first();
+            $suggested_category_details = ApiCategory::where('api_category_slug', '!=', $slug)->inRandomOrder()->limit(5)->get();
+            $api_list = ApiList::where('api_category', $api_category_details->api_category_id)->where('api_status', 1)->orderBy('api_order')->get();
+            return view('frontend.pages.category.category-single')->with([
+                'api_category_details' => $api_category_details,
+                'api_list' => $api_list,
+                'suggested_category_details' => $suggested_category_details,
             ]);
         }
         return redirect()->back()->with([
@@ -1919,4 +1995,5 @@ class FrontendController extends Controller
             'type' => 'danger'
         ]);
     }
-}//end class
+}
+//end class

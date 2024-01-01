@@ -5,5 +5,14 @@
 bootstrap
 *old*.*
 .env
-/database/migrations/New folder
-database/migrations/New folder
+# /database/migrations/New folder
+/public/storage/image/category
+/public/assets/uploads/media-uploader
+/app/Exceptions
+/app/Exceptions/Handler.php
+/bootstrap/cache
+/bootstrap/cache/routes-v7.php
+/bootstrap/cache/config.php
+/public/storage/image/category/icon
+public/storage/image/category/icon
+public/storage/*

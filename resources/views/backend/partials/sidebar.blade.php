@@ -23,13 +23,20 @@
                             <span>@lang('dashboard')</span>
                         </a>
                     </li>
-
+                    @if (check_page_permission_by_string('Lead Manage'))
+                        <li class="{{ active_menu('admin-home/leads') }}">
+                            <a href="{{ route('leads') }}" aria-expanded="true">
+                                <i class="ti-dashboard"></i>
+                                <span>@lang('Leads')</span>
+                            </a>
+                        </li>
+                    @endif
                     @if (check_page_permission_by_string('APIs Manage'))
-                        <li class="main_dropdown @if (request()->is(['admin-home/apilist/*', 'admin-home/apilist'])) active @endif">
+                        <li class="main_dropdown @if (request()->is(['admin-home/apilist/*', 'admin-home/apilist','admin-home/apimeta/*','admin-home/apipackage/*'])) active @endif">
                             <a href="javascript:void(0)" aria-expanded="true"><i class="ti-write"></i>
                                 <span>{{ __('APIs') }}</span></a>
                             <ul class="collapse">
-                                <li class="{{ active_menu('admin-home/apilist') }}"><a href="{{ route('api.list') }}">{{ __('All APIs') }}</a></li>
+                                <li class="{{ active_menu('admin-home/apilist') }} @if (request()->is(['admin-home/apipackage/*', 'admin-home/apimeta/*'])) active @endif"><a href="{{ route('api.list') }}">{{ __('All APIs') }}</a></li>
                                 <li class="{{ active_menu('admin-home/apilist/new-api') }}"><a href="{{ route('api.create') }}">{{ __('Add New API') }}</a></li>
                             </ul>
                         </li>
@@ -47,9 +54,9 @@
                     @if (check_page_permission_by_string('Technology Manage'))
                         <li class="main_dropdown @if (request()->is(['admin-home/apitechnology/*', 'admin-home/apitechnology'])) active @endif">
                             <a href="javascript:void(0)" aria-expanded="true"><i class="ti-write"></i>
-                                <span>{{ __('Technolgy') }}</span></a>
+                                <span>{{ __('technology') }}</span></a>
                             <ul class="collapse">
-                                <li class="{{ active_menu('admin-home/apitechnology/') }}"><a href="{{ route('techonlogy.list') }}">{{ __('All Technolgy') }}</a></li>
+                                <li class="{{ active_menu('admin-home/apitechnology/') }}"><a href="{{ route('techonlogy.list') }}">{{ __('All technology') }}</a></li>
                             </ul>
                         </li>
                     @endif
@@ -81,7 +88,7 @@
                     @endif
 
                     @if (check_page_permission_by_string('Services'))
-                        <li class="main_dropdown @if (request()->is(['admin-home/services/*', 'admin-home/services'])) active @endif">
+                        <li class="d-none main_dropdown @if (request()->is(['admin-home/services/*', 'admin-home/services'])) active @endif">
                             <a href="javascript:void(0)" aria-expanded="true">
                                 <i class="ti-layout"></i>
                                 <span>{{ __('Services') }}</span>
@@ -141,11 +148,7 @@
                     @endif
 
                     @if (check_page_permission_by_string('Gallery Page'))
-                        <li
-                            class="main_dropdown
-                        {{ active_menu('admin-home/gallery-page') }}
-                        @if (request()->is('admin-home/gallery-page/*')) active @endif
-                                ">
+                        <li class="d-none main_dropdown {{ active_menu('admin-home/gallery-page') }} @if (request()->is('admin-home/gallery-page/*')) active @endif">
                             <a href="javascript:void(0)" aria-expanded="true"><i class="ti-write"></i>
                                 <span>{{ __('Image Gallery') }}</span></a>
                             <ul class="collapse">
@@ -163,11 +166,7 @@
                     @endif
 
                     @if (check_page_permission_by_string('Video Gallery'))
-                        <li
-                            class="main_dropdown
-                        {{ active_menu('admin-home/video-gallery') }}
-                        @if (request()->is('admin-home/video-gallery/*')) active @endif
-                                ">
+                        <li class="d-none main_dropdown {{ active_menu('admin-home/video-gallery') }} @if (request()->is('admin-home/video-gallery/*')) active @endif">
                             <a href="javascript:void(0)" aria-expanded="true"><i class="ti-write"></i>
                                 <span>{{ __('Video Gallery') }}</span></a>
                             <ul class="collapse">
@@ -182,10 +181,7 @@
                     @endif
 
                     @if (check_page_permission_by_string('Price Plan'))
-                        <li
-                            class="main_dropdown {{ active_menu('admin-home/price-plan') }}
-                        @if (request()->is('admin-home/price-plan/*')) active @endif
-                                ">
+                        <li class="d-none main_dropdown {{ active_menu('admin-home/price-plan') }} @if (request()->is('admin-home/price-plan/*')) active @endif">
                             <a href="javascript:void(0)" aria-expanded="true"><i class="ti-write"></i>
                                 <span>{{ __('Price Plan') }}</span></a>
                             <ul class="collapse">
@@ -711,8 +707,7 @@
                                         'admin-home/header',
                                         'admin-home/keyfeatures',
                                         'admin-home/page-builder/home-page',
-                                    ])) active @endif
-                                ">
+                                    ])) active @endif">
                                     <a href="javascript:void(0)" aria-expanded="true">
                                         {{ __('Home Page Manage') }}
                                     </a>

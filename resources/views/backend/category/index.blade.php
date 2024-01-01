@@ -1,6 +1,6 @@
 @extends('backend.admin-master')
 @section('site-title')
-    {{__('All APIs')}}
+    {{__('All Categories')}}
 @endsection
 @section('style')
     <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
@@ -41,7 +41,9 @@
                                 <div class="select-box-wrap">
                                     <select name="bulk_option" id="bulk_option">
                                         <option value="">{{{__('Bulk Action')}}}</option>
-                                        <option value="delete">{{{__('Delete')}}}</option>
+                                        <option value="0">{{{__('Deactive')}}}</option>
+                                        <option value="1">{{{__('Active')}}}</option>
+                                        <option value="2">{{{__('Delete')}}}</option>
                                     </select>
                                     <button class="btn btn-primary btn-sm" id="bulk_delete_btn">{{__('Apply')}}</button>
                                 </div>
@@ -61,6 +63,7 @@
                                         </th>
                                         <th>{{__('ID')}}</th>
                                         <th>{{__('Title')}} </th>
+                                        <th>{{__('IMG')}} </th>
                                         <th>{{__('Order')}}</th>
                                         <th>{{__('Status')}}</th>
                                         <th>{{__('Created At & Updated At')}}</th>
@@ -68,6 +71,10 @@
                                     </thead>
                                     <tbody>
                                     @foreach($all_page as $key => $data)
+                                    @php
+                                    $api_category_icon = asset('storage/image/category/icon/'.$data->api_category_icon);
+                                    $api_bg_img_url = asset('storage/image/category/'.$data->api_bg_img_url);
+                                    @endphp
                                         <tr>
                                             <td>
                                                 <div class="bulk-checkbox-wrapper">
@@ -76,7 +83,13 @@
                                             </td>
                                             <td>{{ $data->api_category_id }}</td>
                                             <td>
-                                                <span class="font-weight-bold">{{$data->api_category_title}} </span><br> 
+                                                <span class="font-weight-bold">{{$data->api_category_title}} </span>
+                                            </td>
+                                            <td>
+                                                @if (!file_exists($api_category_icon))
+                                                    <img class="img-fluid" width="50" height="50" src="{{$api_category_icon}}" alt="{{$data->api_category_icon}}">
+                                                    <img class="img-fluid" width="50" height="50" src="{{$api_bg_img_url}}" alt="{{$data->api_bg_img_url}}">
+                                                @endif
                                             </td>
                                             <td>
                                                 <span class="badge badge-success">{{$data->api_category_order}}</span>
@@ -130,21 +143,30 @@
                 allCheckbox.each(function(index,value){
                     allIds.push($(this).val());
                 });
-                if(allIds != '' && bulkOption == 'delete'){
-                    $(this).text('{{__('Deleting...')}}');
+                if(allIds != '' && bulkOption != ''){
+                    $(this).text("{{__('Proccessing...')}}");
                     $.ajax({
                         'type' : "POST",
-                        'url' : "{{route('admin.page.bulk.action')}}",
+                        'url' : "{{route('category.bulk.action')}}",
                         'data' : {
                             _token: "{{csrf_token()}}",
-                            ids: allIds
+                            ids: allIds,
+                            action: bulkOption
                         },
-                        success:function (data) {
-                            location.reload();
+                        success:function (response) {
+                            Swal.fire({
+                                title: response.message,
+                                icon: (response.success) ? 'success' : 'error',
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    if(response.success){
+                                        location.reload();
+                                    }
+                                }
+                            });
                         }
                     });
                 }
-
             });
 
             $('.all-checkbox').on('change',function (e) {
@@ -160,7 +182,7 @@
 
 
             $('.table-wrap > table').DataTable( {
-                "order": [[ 1, "desc" ]],
+                "order": [[ 1, "asc" ]],
                 'columnDefs' : [{
                     'targets' : 'no-sort',
                     'orderable' : false

@@ -41,9 +41,11 @@
                                 <div class="select-box-wrap">
                                     <select name="bulk_option" id="bulk_option">
                                         <option value="">{{{__('Bulk Action')}}}</option>
-                                        <option value="delete">{{{__('Delete')}}}</option>
+                                        <option value="0">{{{__('Deactive')}}}</option>
+                                        <option value="1">{{{__('Active')}}}</option>
+                                        <option value="2">{{{__('Delete')}}}</option>
                                     </select>
-                                    <button class="btn btn-primary btn-sm" id="bulk_delete_btn">{{__('Apply')}}</button>
+                                    <button class="btn btn-primary btn-sm" data-route id="bulk_delete_btn">{{__('Apply')}}</button>
                                 </div>
                             </div>
                             <a class="btn btn-primary" href="{{route('api.create')}}">
@@ -68,6 +70,7 @@
                                         <th>{{__('Action')}}</th>
                                     </thead>
                                     <tbody>
+                                    @php $sr = 0; @endphp
                                     @foreach($all_page as $key => $data)
                                         <tr>
                                             <td>
@@ -75,7 +78,7 @@
                                                     <input type="checkbox" class="bulk-checkbox" name="bulk_delete[]" value="{{ $data->api_id }}">
                                                 </div>
                                             </td>
-                                            <td>{{ $data->api_id }}</td>
+                                            <td>{{ ++$sr }}</td>
                                             <td>
                                                 <span class="font-weight-bold">{{$data->api_title}} </span>
                                             </td>
@@ -98,16 +101,9 @@
                                             </td>
                                             <td> 
                                                 @php
-                                                    $category_color = 'info';
-                                                    if($data->api_category == 2){
-                                                        $category_color = 'warning';
-                                                    }elseif ($data->api_category == 3) {
-                                                        $category_color = 'success';
-                                                    }elseif ($data->api_category == 4) {
-                                                        $category_color = 'danger';
-                                                    }
+                                                    $category_Name = App\ApiCategory::select('api_category_title')->where('api_category_id', $data->api_category)->first()->api_category_title;
                                                 @endphp
-                                                <span class="font-weight-normal">{{$data->api_category_title}}</span>
+                                                <span class="font-weight-normal">{{$category_Name}}</span>
                                                 @if (isset($data->api_link) && !empty($data->api_link))
                                                     <br>
                                                     <a href="{{$data->api_link}}">
@@ -126,6 +122,9 @@
                                                 </a>
                                                 <a class="btn btn-xs btn-success btn-sm mb-3 mr-1" target="_blank" href="{{route('api.meta.create',['slug' => $data->api_slug ])}}">
                                                     <i class="ti-plus"></i>
+                                                </a>
+                                                <a class="btn btn-xs btn-secondary btn-sm mb-3 mr-1" target="_blank" href="{{route('api.plan.list',['slug' => $data->api_slug ])}}">
+                                                    <i class="ti-money"></i>
                                                 </a>
                                             </td>
                                         </tr>
@@ -160,21 +159,30 @@
                 allCheckbox.each(function(index,value){
                     allIds.push($(this).val());
                 });
-                if(allIds != '' && bulkOption == 'delete'){
-                    $(this).text('{{__('Deleting...')}}');
+                if(allIds != '' && bulkOption != ''){
+                    $(this).text("{{__('Proccessing...')}}");
                     $.ajax({
                         'type' : "POST",
-                        'url' : "{{route('admin.page.bulk.action')}}",
+                        'url' : "{{route('api.bulk.action')}}",
                         'data' : {
                             _token: "{{csrf_token()}}",
-                            ids: allIds
+                            ids: allIds,
+                            action: bulkOption
                         },
-                        success:function (data) {
-                            location.reload();
+                        success:function (response) {
+                            Swal.fire({
+                                title: response.message,
+                                icon: (response.success) ? 'success' : 'error',
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    if(response.success){
+                                        location.reload();
+                                    }
+                                }
+                            });
                         }
                     });
                 }
-
             });
 
             $('.all-checkbox').on('change',function (e) {
@@ -190,7 +198,7 @@
 
 
             $('.table-wrap > table').DataTable( {
-                "order": [[ 1, "desc" ]],
+                "order": [[ 1, "asc" ]],
                 'columnDefs' : [{
                     'targets' : 'no-sort',
                     'orderable' : false

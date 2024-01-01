@@ -1,0 +1,490 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@100;200;300;400;500;600;700&family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+:root {
+    --defualt-white: #FFFFFF;
+    --defualt-blacK: #000000;
+    --transparent: transparent;
+    --color1: #2B948F;
+    --color2: #A5DD88;
+    --color3: #404341;
+    --color4: #FDF884;
+    --color5: #404341;
+    --color6: #959595;
+    --color7: #3E4040;
+    --color8: #DFEFEE;
+    --color9: #6B7280;
+    --color10: #F7F7F7;
+    --color11: #CDD3D3;
+    --color12: #CEF4E3;
+    --color13: #202121;
+    --color20: #404040;
+    --color21: #3ABDB7;
+    --color22: #1D6D69;
+    --color23: #5F6262;
+    --color24: #052624;
+    --color25: #EEF1F1;
+    --width10: 0.1rem;
+    --width20: 0.2rem;
+    --width30: 0.3rem;
+    --width40: 0.4rem;
+    --width60: 0.6rem;
+    --width70: 0.7rem;
+    --width80: 0.8rem;
+    --width90: 0.9rem;
+    --widthp10: 10%;
+    --widthp20: 20%;
+    --widthp30: 30%;
+    --widthp40: 40%;
+    --widthp60: 60%;
+    --widthp70: 70%;
+    --widthp80: 80%;
+    --widthp90: 90%;
+    --fs-12: 0.75rem;
+    --fs-14: 0.875rem;
+    --fs-16: 1rem;
+    --fs-18: 1.125rem;
+    --fs-20: 1.25rem;
+    --fs-24: 1.5rem;
+    --fs-26: 1.625rem;
+    --fs-28: 1.75rem;
+    --fs-30: 1.875rem;
+    --fs-32: 2rem;
+    --fs-34: 2.125rem;
+    --fs-36: 2.25rem;
+    --fs-38: 2.375rem;
+    --fs-40: 2.5rem;
+    --fs-44: 2.75rem;
+    --fs-48: 3rem;
+    --fs-52: 3.25rem;
+    --fs-56: 3.5rem;
+}
+
+body {
+    font-family: 'IBM Plex Serif', serif;
+    font-family: 'Inter', sans-serif;
+}
+
+.cp {
+    cursor: pointer;
+}
+
+/* font-weigth classes */
+fw-exlight {
+    font-weight: 100;
+}
+
+fw-exbold {
+    font-weight: 800;
+}
+
+fw-drkbold {
+    font-weight: 900;
+}
+
+/* color classes */
+.color1 {
+    color: var(--color1);
+}
+
+.color2 {
+    color: var(--color2);
+}
+
+.color3 {
+    color: var(--color3);
+}
+
+.color4 {
+    color: var(--color4);
+}
+
+.color5 {
+    color: var(--color5);
+}
+
+.color6 {
+    color: var(--color6);
+}
+
+.color7 {
+    color: var(--color7);
+}
+
+.color8 {
+    color: var(--color8);
+}
+
+.color9 {
+    color: var(--color9);
+}
+
+.color10 {
+    color: var(--color10);
+}
+
+.color11 {
+    color: var(--color11);
+}
+
+.color12 {
+    color: var(--color12);
+}
+
+.color13 {
+    color: var(--color13);
+}
+
+.color9 {
+    color: var(--color9);
+}
+
+.color20 {
+    color: var(--color20);
+}
+
+.color21 {
+    color: var(--color21);
+}
+
+.color22 {
+    color: var(--color22);
+}
+
+.color23 {
+    color: var(--color23);
+}
+
+.color24 {
+    color: var(--color24);
+}
+
+/* BgColor classes */
+.bg-color1 {
+    background-color: var(--color1);
+}
+
+.bg-color2 {
+    background-color: var(--color2);
+}
+
+.bg-color3 {
+    background-color: var(--color3);
+}
+
+.bg-color4 {
+    background-color: var(--color4);
+}
+
+.bg-color5 {
+    background-color: var(--color5);
+}
+
+.bg-color6 {
+    background-color: var(--color6);
+}
+
+.bg-color7 {
+    background-color: var(--color7);
+}
+
+.bg-color8 {
+    background-color: var(--color8);
+}
+
+.bg-color9 {
+    background-color: var(--color9);
+}
+
+.bg-color10 {
+    background-color: var(--color10);
+}
+
+.bg-color11 {
+    background-color: var(--color11);
+}
+
+.bg-color12 {
+    background-color: var(--color12);
+}
+
+.bg-color22 {
+    background-color: var(--color22);
+}
+
+/* border classes */
+.border-color1 {
+    border-color: var(--color1);
+}
+
+.border-color2 {
+    border-color: var(--color2);
+}
+
+.border-color3 {
+    border-color: var(--color3);
+}
+
+.border-color4 {
+    border-color: var(--color4);
+}
+
+.border-color5 {
+    border-color: var(--color5);
+}
+
+.border-color6 {
+    border-color: var(--color6);
+}
+
+.border-color8 {
+    border-color: var(--color8);
+}
+
+.border-color11 {
+    border-color: var(--color11);
+}
+
+/* button classes */
+.btn-jnm-primary {
+    color: var(--defualt-white) !important;
+    border: 1px solid var(--color1) !important;
+    background-color: var(--color1) !important;
+}
+
+.btn-jnm-primary:hover {
+    color: var(--color1) !important;
+    border: 1px solid var(--color1) !important;
+    background-color: var(--transparent) !important;
+}
+
+.btn-jnm-outline-primary {
+    color: var(--color1) !important;
+    border: 1px solid var(--color1) !important;
+    background-color: var(--transparent) !important;
+}
+
+.btn-jnm-outline-primary:hover {
+    color: var(--defualt-white) !important;
+    border: 1px solid var(--color1) !important;
+    background-color: var(--color1) !important;
+}
+
+.btn-jnm-secondary {
+    color: var(--color1);
+    border: 1px solid var(--color4);
+    background-color: var(--color4);
+}
+
+.btn-jnm-secondary:hover {
+    color: var(--color4);
+    border: 1px solid var(--color1);
+    background-color: var(--color1);
+}
+
+.btn-jnm-third {
+    color: var(--defualt-blacK);
+    border: 2px solid var(--color1);
+    background-color: var(--transparent);
+}
+
+.btn-jnm-third:hover {
+    color: var(--defualt-white);
+    border: 2px solid var(--color1);
+    background-color: var(--color1);
+}
+
+/* main classes */
+.text-justify {
+    text-align: justify;
+}
+
+/* width classes */
+
+.w-10 {
+    width: var(--width10);
+}
+
+.w-20 {
+    width: var(--width20);
+}
+
+.w-30 {
+    width: var(--width30);
+}
+
+.w-40 {
+    width: var(--width40);
+}
+
+.w-60 {
+    width: var(--width60);
+}
+
+.w-70 {
+    width: var(--width70);
+}
+
+.w-80 {
+    width: var(--width80);
+}
+
+.w-90 {
+    width: var(--width90);
+}
+
+.fs-14 {
+    font-size: var(--fs-14);
+}
+
+.fs-16 {
+    font-size: var(--fs-16);
+}
+
+.fs-18 {
+    font-size: var(--fs-18);
+}
+
+.header-nav-link {
+    font-size: var(--fs-18);
+    font-weight: 500;
+    color: var(--color3);
+}
+
+.header-nav-link.active {
+    font-weight: 600;
+    color: var(--color1) !important;
+}
+
+.footer-single-links {
+    font-weight: 500;
+    font-size: var(--fs-14);
+}
+
+.populer-pricing-badge-success {
+    font-family: Inter;
+    font-size: var(--fs-14);
+    color: var(--color1);
+    font-weight: 500;
+    line-height: 20px;
+    letter-spacing: 0em;
+    text-align: center;
+    background: rgba(43, 148, 143, 0.1);
+
+
+}
+
+/* X-Small devices (portrait phones, less than 576px) */
+@media (max-width: 575.98px) {}
+
+/* Small devices (landscape phones, less than 768px) */
+@media (max-width: 767.98px) {
+    .header-nav-link {
+        font-size: var(--fs-14);
+    }
+}
+
+/* Medium devices (tablets, less than 992px) */
+@media (max-width: 991.98px) {
+    .w-md-10 {
+        width: var(--width10);
+    }
+
+    .w-md-20 {
+        width: var(--width20);
+    }
+
+    .w-md-30 {
+        width: var(--width30);
+    }
+
+    .w-md-40 {
+        width: var(--width40);
+    }
+
+    .w-md-60 {
+        width: var(--width60);
+    }
+
+    .w-md-70 {
+        width: var(--width70);
+    }
+
+    .w-md-80 {
+        width: var(--width80);
+    }
+
+    .w-md-90 {
+        width: var(--width90);
+    }
+
+    .w-md-p-10 {
+        width: var(--widthp10);
+    }
+
+    .w-md-p-20 {
+        width: var(--widthp20);
+    }
+
+    .w-md-p-30 {
+        width: var(--widthp30);
+    }
+
+    .w-md-p-40 {
+        width: var(--widthp40);
+    }
+
+    .w-md-p-60 {
+        width: var(--widthp60);
+    }
+
+    .w-md-p-70 {
+        width: var(--widthp70);
+    }
+
+    .w-md-p-80 {
+        width: var(--widthp80);
+    }
+
+    .w-md-p-90 {
+        width: var(--widthp90);
+    }
+}
+
+/* Large devices (desktops, less than 1200px) */
+@media (max-width: 1199.98px) {
+    .w-lg-10 {
+        width: var(--width10);
+    }
+
+    .w-lg-20 {
+        width: var(--width20);
+    }
+
+    .w-lg-30 {
+        width: var(--width30);
+    }
+
+    .w-lg-40 {
+        width: var(--width40);
+    }
+
+    .w-lg-60 {
+        width: var(--width60);
+    }
+
+    .w-lg-70 {
+        width: var(--width70);
+    }
+
+    .w-lg-80 {
+        width: var(--width80);
+    }
+
+    .w-lg-90 {
+        width: var(--width90);
+    }
+
+}
+
+/* X-Large devices (large desktops, less than 1400px) */
+@media (max-width: 1399.98px) {}

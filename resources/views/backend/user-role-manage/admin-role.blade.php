@@ -10,7 +10,9 @@
 @php
     $all_permission_list = array(
         "Api Meta Manage",
+        "Lead Manage",
         "Apis Manage",
+        "Apis Package Manage",
         "Category Manage",
         "Technology Manage",
         "Video Gallery",
@@ -139,7 +141,7 @@
     </div>
 
     <div class="modal fade" id="user_edit_modal" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">{{__('Admin Role Edit')}}</h5>
